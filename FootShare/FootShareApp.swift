@@ -13,5 +13,6 @@ struct FootShareApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: Game.self)
     }
 }
