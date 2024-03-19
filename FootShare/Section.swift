@@ -10,9 +10,13 @@ import Foundation
 
 @Model
 class Section {
-    var score: Int
+    var points: [Point]
     
-    init(score: Int) {
-        self.score = score
+    init(points: [Point]) {
+        self.points = points
+    }
+    
+    var score: Int {
+        return points.count
     }
 }

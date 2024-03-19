@@ -19,14 +19,14 @@ struct ContentView: View {
                     NavigationLink(value: game) {
                         HStack {
                             VStack {
-                                Text(game.participations.first!.team.name)
+                                Text(game.participations.home.team.name)
                                     .font(.title2)
                                 Text("\(game.homeTeamScore)")
                             }
 
                             Spacer()
                             VStack {
-                                Text(game.participations.last!.team.name)
+                                Text(game.participations.out.team.name)
                                     .font(.title2)
                                 Text("\(game.outTeamScore)")
                             }
@@ -73,8 +73,11 @@ func makeFakeData() -> [Game] {
     let teamWesterlo = Team(name: "Westerlo", isYourTeam: true)
     let teamGeel = Team(name: "Geel", isYourTeam: false)
     
-    let sectionsWesterlo = [Section(score: 5)]
-    let sectionsGeel = [Section(score: 3)]
+    let goalsWesterlo = [Point(date: .now), Point(date: .now), Point(date: .now), Point(date: .now), Point(date: .now)]
+    let goalsGeel = [Point(date: .now)]
+    
+    let sectionsWesterlo = [Section(points: goalsWesterlo)]
+    let sectionsGeel = [Section(points: goalsGeel)]
     
     let participationWesterlo = Participation(team: teamWesterlo, isHomeTeam: true, sections: sectionsWesterlo)
     let participationGeel = Participation(team: teamGeel, isHomeTeam: false, sections: sectionsGeel)
@@ -85,29 +88,3 @@ func makeFakeData() -> [Game] {
     return [game]
 }
 
-func makeFakeDataInContext(in context: ModelContext) -> [Game] {
-    
-    let teamWesterlo = Team(name: "Westerlo", isYourTeam: true)
-    let teamGeel = Team(name: "Geel", isYourTeam: false)
-    context.insert(teamWesterlo)
-    context.insert(teamGeel)
-    
-    let sectionsWesterlo = [Section(score: 5)]
-    let sectionsGeel = [Section(score: 3)]
-    context.insert(teamWesterlo)
-    context.insert(teamGeel)
-    
-    let participationWesterlo = Participation(team: teamWesterlo, isHomeTeam: true, sections: sectionsWesterlo)
-    let participationGeel = Participation(team: teamGeel, isHomeTeam: false, sections: sectionsGeel)
-    context.insert(participationWesterlo)
-    context.insert(participationGeel)
-    
-    
-    let participations = [participationWesterlo, participationGeel]
-    
-    
-    let game = Game(date: .now, participations: participations)
-    
-    context.insert(game)
-    return [game]
-}

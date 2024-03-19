@@ -13,10 +13,10 @@ struct GameView: View {
     @Bindable var game: Game
     
     var body: some View {
-        
-        VStack {
+
+        HStack {
+            Spacer()
             VStack {
-//
                 Text("\(game.participations.home.team.name)").font(.headline)
                 Text("\(game.participations.home.score)").font(.largeTitle)
             }
@@ -25,7 +25,10 @@ struct GameView: View {
                 Text(game.participations.out.team.name).font(.headline)
                 Text("\(game.participations.out.score)").font(.largeTitle)
             }
-        }
+            Spacer()
+        }.padding(.horizontal)
+            .navigationTitle("\(game.participations.home.team.name) - \(game.participations.out.team.name)")
+            .navigationBarTitleDisplayMode(.inline)
     }
 }
 
@@ -39,6 +42,10 @@ struct GameView: View {
 //    let games = makeFakeData()
 //    debugPrint("\(games.first!.participations.count)")
 
-    return GameView(game: games.first!).modelContainer(container)
+    
+        return NavigationStack {
+        GameView(game: games.first!).modelContainer(container)
+    }
+    
     
 }
