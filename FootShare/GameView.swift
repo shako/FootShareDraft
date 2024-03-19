@@ -9,26 +9,38 @@ import SwiftData
 import SwiftUI
 
 struct GameView: View {
-//    @Environment(\.modelContext) var modelContext
     @Bindable var game: Game
     
     var body: some View {
 
         HStack {
             Spacer()
-            VStack {
-                Text("\(game.participations.home.team.name)").font(.headline)
-                Text("\(game.participations.home.score)").font(.largeTitle)
-            }
+            Button(action: {addPoint(participation: game.participations.home)}, label: {
+                VStack {
+                    Text("\(game.participations.home.team.name)").font(.headline)
+                    Text("\(game.participations.home.score)").font(.largeTitle)
+                }
+            })
+            
+
             Spacer()
-            VStack {
-                Text(game.participations.out.team.name).font(.headline)
-                Text("\(game.participations.out.score)").font(.largeTitle)
-            }
+            Button(action: {addPoint(participation: game.participations.out)}, label: {
+                VStack {
+                    Text("\(game.participations.out.team.name)").font(.headline)
+                    Text("\(game.participations.out.score)").font(.largeTitle)
+                }
+            })
             Spacer()
         }.padding(.horizontal)
             .navigationTitle("\(game.participations.home.team.name) - \(game.participations.out.team.name)")
             .navigationBarTitleDisplayMode(.inline)
+    }
+    
+    func addPoint(participation: Participation) {
+//        
+//        debugPrint(participation.sections.count)
+//        debugPrint(participation.sections.last?.points.count ?? 0)
+        participation.sections.last?.points.append(Point(date: .now))
     }
 }
 

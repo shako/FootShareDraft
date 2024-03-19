@@ -15,9 +15,7 @@
 		B03D105A2BA4F52C00BB1715 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03D10592BA4F52C00BB1715 /* Game.swift */; };
 		B03D105C2BA4F59400BB1715 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03D105B2BA4F59400BB1715 /* Team.swift */; };
 		B03D105E2BA4F5DA00BB1715 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03D105D2BA4F5DA00BB1715 /* Section.swift */; };
-		B03D10602BA50D2400BB1715 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03D105F2BA50D2400BB1715 /* ScoreView.swift */; };
 		B03D10622BA50E5700BB1715 /* Participation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03D10612BA50E5700BB1715 /* Participation.swift */; };
-		B03D10642BA58BA500BB1715 /* TestClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03D10632BA58BA500BB1715 /* TestClass.swift */; };
 		B07253E12BA8AE4900429710 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07253E02BA8AE4900429710 /* Point.swift */; };
 /* End PBXBuildFile section */
 
@@ -31,9 +29,7 @@
 		B03D10592BA4F52C00BB1715 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		B03D105B2BA4F59400BB1715 /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
 		B03D105D2BA4F5DA00BB1715 /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
-		B03D105F2BA50D2400BB1715 /* ScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
 		B03D10612BA50E5700BB1715 /* Participation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Participation.swift; sourceTree = "<group>"; };
-		B03D10632BA58BA500BB1715 /* TestClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestClass.swift; sourceTree = "<group>"; };
 		B07253E02BA8AE4900429710 /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -70,8 +66,6 @@
 				B03D10472BA4F3A600BB1715 /* FootShareApp.swift */,
 				B03D10492BA4F3A600BB1715 /* ContentView.swift */,
 				B03D10572BA4F52200BB1715 /* GameView.swift */,
-				B03D105F2BA50D2400BB1715 /* ScoreView.swift */,
-				B03D10632BA58BA500BB1715 /* TestClass.swift */,
 				B03D10592BA4F52C00BB1715 /* Game.swift */,
 				B03D10612BA50E5700BB1715 /* Participation.swift */,
 				B03D105B2BA4F59400BB1715 /* Team.swift */,
@@ -162,11 +156,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				B03D104A2BA4F3A600BB1715 /* ContentView.swift in Sources */,
-				B03D10642BA58BA500BB1715 /* TestClass.swift in Sources */,
 				B03D10582BA4F52200BB1715 /* GameView.swift in Sources */,
 				B03D10482BA4F3A600BB1715 /* FootShareApp.swift in Sources */,
 				B03D105E2BA4F5DA00BB1715 /* Section.swift in Sources */,
-				B03D10602BA50D2400BB1715 /* ScoreView.swift in Sources */,
 				B07253E12BA8AE4900429710 /* Point.swift in Sources */,
 				B03D10622BA50E5700BB1715 /* Participation.swift in Sources */,
 				B03D105C2BA4F59400BB1715 /* Team.swift in Sources */,
