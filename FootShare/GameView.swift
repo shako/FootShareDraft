@@ -13,26 +13,66 @@ struct GameView: View {
     
     var body: some View {
 
-        HStack {
-            Text("\(game.date.formatted(date: .abbreviated, time: .omitted))")
-            Spacer()
-            Button(action: {addPoint(participation: game.participations.home)}, label: {
+        VStack {
+            
+        }
+        ZStack() {
+
+            HStack {
+                Image("soccer-field")
+//                    .scaledToFill()
+//                    .scaledToFit()
+                    .scaleEffect(CGSize(width: 0.6, height: 1.0))
+            }
+            
+            HStack(spacing: 0) {
+                
                 VStack {
-                    Text("\(game.participations.home.team.name)").font(.headline)
-                    Text("\(game.participations.home.score)").font(.largeTitle)
+                    Text("\(game.participations.home.team.name)").font(.largeTitle)
+                    VStack {
+                        Text("\(game.participations.home.score)").font(.system(size: 100))
+                    }
+//                    .foregroundStyle(.white)
+                    
+                    Button(action: {addPoint(participation: game.participations.home)}, label: {
+
+                        Image(systemName: "soccerball.inverse")
+                            .font(.system(size: CGFloat(50)))
+                    })
                 }
-            })
+                .foregroundStyle(.white)
+//                .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                .background(.regularMaterial)
+                
+                VStack {
+                    Text("\(game.participations.out.team.name)").font(.largeTitle)
+                    VStack {
+                        Text("\(game.participations.out.score)").font(.system(size: 100))
+                    }
+//                    .foregroundStyle(.white)
+                    
+                    Button(action: {addPoint(participation: game.participations.out)}, label: {
+                        Image(systemName: "soccerball.inverse")
+                            .font(.system(size: CGFloat(50)))
+                    })
+                }
+                .foregroundStyle(.white)
+//                .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                .background(.blue.opacity(0.5))
+                
+                
+            }
+        
+            
+            
+            VStack() {
+                Text("\(game.date.formatted(date: .abbreviated, time: .omitted))")
+                Spacer()
+            }
             
 
-            Spacer()
-            Button(action: {addPoint(participation: game.participations.out)}, label: {
-                VStack {
-                    Text("\(game.participations.out.team.name)").font(.headline)
-                    Text("\(game.participations.out.score)").font(.largeTitle)
-                }
-            })
-            Spacer()
-        }.padding(.horizontal)
+            
+        }
             .navigationTitle("\(game.participations.home.team.name) - \(game.participations.out.team.name)")
             .navigationBarTitleDisplayMode(.inline)
     }
@@ -44,6 +84,8 @@ struct GameView: View {
         participation.sections.last?.points.append(Point(date: .now))
         game.date = game.date
     }
+    
+    
 }
 
 #Preview {
