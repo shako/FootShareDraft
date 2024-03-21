@@ -8,7 +8,7 @@
 import SwiftData
 import SwiftUI
 
-struct ContentView: View {
+struct GameListView: View {
     @Query var games: [Game]
     @Environment(\.modelContext) var modelContext
     
@@ -65,7 +65,7 @@ struct ContentView: View {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Game.self, configurations: config)
     makeFakeData().forEach({data in container.mainContext.insert(data)})
-    return ContentView().modelContainer(container)
+    return GameListView().modelContainer(container)
 
 }
 

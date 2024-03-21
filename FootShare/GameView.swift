@@ -14,6 +14,7 @@ struct GameView: View {
     var body: some View {
 
         HStack {
+            Text("\(game.date.formatted(date: .abbreviated, time: .omitted))")
             Spacer()
             Button(action: {addPoint(participation: game.participations.home)}, label: {
                 VStack {
@@ -41,6 +42,7 @@ struct GameView: View {
 //        debugPrint(participation.sections.count)
 //        debugPrint(participation.sections.last?.points.count ?? 0)
         participation.sections.last?.points.append(Point(date: .now))
+        game.date = game.date
     }
 }
 
