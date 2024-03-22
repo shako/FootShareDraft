@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B01A372B2BAD7D9A003DF4BC /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01A372A2BAD7D9A003DF4BC /* TestView.swift */; };
 		B03D10482BA4F3A600BB1715 /* FootShareApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03D10472BA4F3A600BB1715 /* FootShareApp.swift */; };
-		B03D104A2BA4F3A600BB1715 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03D10492BA4F3A600BB1715 /* ContentView.swift */; };
+		B03D104A2BA4F3A600BB1715 /* GameListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03D10492BA4F3A600BB1715 /* GameListView.swift */; };
 		B03D104C2BA4F3A700BB1715 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B03D104B2BA4F3A700BB1715 /* Assets.xcassets */; };
 		B03D104F2BA4F3A700BB1715 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B03D104E2BA4F3A700BB1715 /* Preview Assets.xcassets */; };
 		B03D10582BA4F52200BB1715 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03D10572BA4F52200BB1715 /* GameView.swift */; };
@@ -21,9 +22,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B01A372A2BAD7D9A003DF4BC /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		B03D10442BA4F3A600BB1715 /* FootShare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FootShare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B03D10472BA4F3A600BB1715 /* FootShareApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootShareApp.swift; sourceTree = "<group>"; };
-		B03D10492BA4F3A600BB1715 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B03D10492BA4F3A600BB1715 /* GameListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameListView.swift; sourceTree = "<group>"; };
 		B03D104B2BA4F3A700BB1715 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B03D104E2BA4F3A700BB1715 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B03D10572BA4F52200BB1715 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
@@ -66,7 +68,7 @@
 			isa = PBXGroup;
 			children = (
 				B03D10472BA4F3A600BB1715 /* FootShareApp.swift */,
-				B03D10492BA4F3A600BB1715 /* ContentView.swift */,
+				B03D10492BA4F3A600BB1715 /* GameListView.swift */,
 				B03D10572BA4F52200BB1715 /* GameView.swift */,
 				B0D7EB632BAC6F0A00E89E80 /* PointSubView.swift */,
 				B03D10592BA4F52C00BB1715 /* Game.swift */,
@@ -76,6 +78,7 @@
 				B07253E02BA8AE4900429710 /* Point.swift */,
 				B03D104B2BA4F3A700BB1715 /* Assets.xcassets */,
 				B03D104D2BA4F3A700BB1715 /* Preview Content */,
+				B01A372A2BAD7D9A003DF4BC /* TestView.swift */,
 			);
 			path = FootShare;
 			sourceTree = "<group>";
@@ -158,12 +161,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B03D104A2BA4F3A600BB1715 /* ContentView.swift in Sources */,
+				B03D104A2BA4F3A600BB1715 /* GameListView.swift in Sources */,
 				B03D10582BA4F52200BB1715 /* GameView.swift in Sources */,
 				B03D10482BA4F3A600BB1715 /* FootShareApp.swift in Sources */,
 				B03D105E2BA4F5DA00BB1715 /* Section.swift in Sources */,
 				B0D7EB642BAC6F0A00E89E80 /* PointSubView.swift in Sources */,
 				B07253E12BA8AE4900429710 /* Point.swift in Sources */,
+				B01A372B2BAD7D9A003DF4BC /* TestView.swift in Sources */,
 				B03D10622BA50E5700BB1715 /* Participation.swift in Sources */,
 				B03D105C2BA4F59400BB1715 /* Team.swift in Sources */,
 				B03D105A2BA4F52C00BB1715 /* Game.swift in Sources */,

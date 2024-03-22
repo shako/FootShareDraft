@@ -14,67 +14,67 @@ struct GameView: View {
     var body: some View {
 
         VStack {
-            
-        }
-        ZStack() {
-
-            HStack {
-                Image("soccer-field")
-//                    .scaledToFill()
-//                    .scaledToFit()
-                    .scaleEffect(CGSize(width: 0.6, height: 1.0))
-            }
-            
-            HStack(spacing: 0) {
-                
-                VStack {
-                    Text("\(game.participations.home.team.name)").font(.largeTitle)
-                    VStack {
-                        Text("\(game.participations.home.score)").font(.system(size: 100))
-                    }
-//                    .foregroundStyle(.white)
-                    
-                    Button(action: {addPoint(participation: game.participations.home)}, label: {
-
-                        Image(systemName: "soccerball.inverse")
-                            .font(.system(size: CGFloat(50)))
-                    })
-                }
-                .foregroundStyle(.white)
-//                .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                .background(.regularMaterial)
-                
-                VStack {
-                    Text("\(game.participations.out.team.name)").font(.largeTitle)
-                    VStack {
-                        Text("\(game.participations.out.score)").font(.system(size: 100))
-                    }
-//                    .foregroundStyle(.white)
-                    
-                    Button(action: {addPoint(participation: game.participations.out)}, label: {
-                        Image(systemName: "soccerball.inverse")
-                            .font(.system(size: CGFloat(50)))
-                    })
-                }
-                .foregroundStyle(.white)
-//                .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                .background(.blue.opacity(0.5))
-                
-                
-            }
-        
-            
-            
             VStack() {
-                Text("\(game.date.formatted(date: .abbreviated, time: .omitted))")
-                Spacer()
-            }
-            
+                ZStack{
+                    VStack(alignment: .leading) {
+                        VStack(alignment: .leading) {
+                            Text("\(game.participations.home.team.name)").font(.largeTitle).foregroundStyle(.blue)
+                            VStack {
+                                Text("\(game.participations.home.score)").font(.system(size: 100))
+                            }
+                            //                    .foregroundStyle(.white)
+                            
+                            Button(action: {addPoint(participation: game.participations.home)}, label: {
+                                
+                                Image(systemName: "soccerball.inverse")
+                                    .font(.system(size: CGFloat(50))).foregroundStyle(.blue)
+                            })
+                        }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading).border(.red)
+                        
+                        Rectangle().frame(height: 40).opacity(0)
+                        
+                        VStack(alignment: .leading) {
+                            Button(action: {addPoint(participation: game.participations.out)}, label: {
+                                Image(systemName: "soccerball.inverse")
+                                    .font(.system(size: CGFloat(50))).foregroundStyle(.yellow)
+                            })
+                            
+                            VStack {
+                                Text("\(game.participations.out.score)").font(.system(size: 100))
+                            }
+                            
+                            Text("\(game.participations.out.team.name)").font(.largeTitle).foregroundStyle(.yellow)
 
-            
-        }
-            .navigationTitle("\(game.participations.home.team.name) - \(game.participations.out.team.name)")
+                            //                    .foregroundStyle(.white)
+                            
+
+                        }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading).border(.red)
+                        
+                    }.frame(maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).border(.green)
+                    
+                    
+                    VStack() {
+                        Text("\(game.date.formatted(date: .abbreviated, time: .omitted))").foregroundStyle(.black)
+                        Spacer()
+                    }
+                    
+                }.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).border(.black)
+                
+                .padding()
+            }
+            .foregroundStyle(.white)
+            .background() {
+                Image("soccer-field")
+                    .rotationEffect(.degrees(90))
+    //                    .scaledToFit()
+                    
+                    .scaleEffect(CGSize(width: 0.4, height: 0.4))
+                    .opacity(0.9)
+            }
+                .navigationTitle("\(game.participations.home.team.name) - \(game.participations.out.team.name)")
             .navigationBarTitleDisplayMode(.inline)
+        }
+//            .padding()
     }
     
     func addPoint(participation: Participation) {
