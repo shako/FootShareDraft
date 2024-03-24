@@ -10,7 +10,8 @@ import Foundation
 
 @Model
 class Section {
-    var points: [Point]
+    @Relationship(inverse: \Point.section) var points: [Point]
+    var participation: Participation?
     
     init(points: [Point]) {
         self.points = points

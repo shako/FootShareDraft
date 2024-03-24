@@ -12,6 +12,7 @@ import Foundation
 class Game {
     var date: Date
     var participations: [Participation]
+    var dummyScore: Int = 0
     
     init(date: Date, participations: [Participation]) {
         self.date = date
@@ -24,6 +25,14 @@ class Game {
     
     var outTeamScore: Int {
         participations.filter({participation in !participation.isHomeTeam}).first!.score
+    }
+
+    var points: [Point] {
+        participations.flatMap { participation in
+            participation.sections.flatMap { section in
+                section.points
+            }
+        }
     }
     
 }

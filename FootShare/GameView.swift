@@ -11,69 +11,114 @@ import SwiftUI
 struct GameView: View {
     @Bindable var game: Game
     
+    
     var body: some View {
 
-        VStack {
-            VStack() {
-                ZStack{
-                    VStack(alignment: .leading) {
-                        VStack(alignment: .leading) {
-                            Text("\(game.participations.home.team.name)").font(.largeTitle).foregroundStyle(.blue)
-                            VStack {
-                                Text("\(game.participations.home.score)").font(.system(size: 100))
-                            }
-                            //                    .foregroundStyle(.white)
-                            
-                            Button(action: {addPoint(participation: game.participations.home)}, label: {
-                                
-                                Image(systemName: "soccerball.inverse")
-                                    .font(.system(size: CGFloat(50))).foregroundStyle(.blue)
-                            })
-                        }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading).border(.red)
-                        
-                        Rectangle().frame(height: 40).opacity(0)
-                        
-                        VStack(alignment: .leading) {
-                            Button(action: {addPoint(participation: game.participations.out)}, label: {
-                                Image(systemName: "soccerball.inverse")
-                                    .font(.system(size: CGFloat(50))).foregroundStyle(.yellow)
-                            })
-                            
-                            VStack {
-                                Text("\(game.participations.out.score)").font(.system(size: 100))
-                            }
-                            
-                            Text("\(game.participations.out.team.name)").font(.largeTitle).foregroundStyle(.yellow)
-
-                            //                    .foregroundStyle(.white)
-                            
-
-                        }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading).border(.red)
-                        
-                    }.frame(maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).border(.green)
-                    
-                    
-                    VStack() {
-                        Text("\(game.date.formatted(date: .abbreviated, time: .omitted))").foregroundStyle(.black)
-                        Spacer()
-                    }
-                    
-                }.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).border(.black)
-                
-                .padding()
-            }
-            .foregroundStyle(.white)
-            .background() {
-                Image("soccer-field")
-                    .rotationEffect(.degrees(90))
-    //                    .scaledToFit()
-                    
-                    .scaleEffect(CGSize(width: 0.4, height: 0.4))
-                    .opacity(0.9)
-            }
-                .navigationTitle("\(game.participations.home.team.name) - \(game.participations.out.team.name)")
-            .navigationBarTitleDisplayMode(.inline)
+        var gridColumns = [
+            GridItem(.flexible()),
+            GridItem(.flexible()),
+        ]
+        VStack() {
+            Text("\(game.date.formatted(date: .abbreviated, time: .omitted))").foregroundStyle(.black)
         }
+        HStack {
+            LazyVGrid(columns: gridColumns, alignment: .center) {
+                VStack {
+                    Text("\(game.participations.home.team.name)").font(.largeTitle).foregroundStyle(.blue)
+                    VStack {
+                        Text("\(game.participations.home.score)").font(.system(size: 100))
+                    }
+                    Button(action: {addPoint(participation: game.participations.home)}, label: {
+
+                        Image(systemName: "soccerball.inverse")
+                            .font(.system(size: CGFloat(50))).foregroundStyle(.blue)
+                    })
+                }.border(.red)
+                VStack {
+                    Text("\(game.participations.out.team.name)").font(.largeTitle).foregroundStyle(.yellow)
+                    VStack {
+                        Text("\(game.participations.out.score)").font(.system(size: 100))
+                    }
+                    Button(action: {addPoint(participation: game.participations.out)}, label: {
+                        Image(systemName: "soccerball.inverse")
+                            .font(.system(size: CGFloat(50))).foregroundStyle(.yellow)
+                    })
+                }.border(.red)
+            }
+        }
+//        debugPrint("\(game.participations.first!.sections.count)")
+            List {
+                ForEach(game.points.sorted(by: { pointl, pointr in
+                    pointl.date > pointr.date
+                }), id: \.id) { point in
+                    Text("\(point.date.formatted(date: .omitted, time: .shortened)) - \(point.section?.participation?.team.name ?? "unknwn")")
+                }
+                    
+                
+            }.foregroundStyle(.black).border(.black)
+            
+//        
+//        VStack {
+//            VStack() {
+//                ZStack{
+//                    VStack(alignment: .leading) {
+//                        VStack(alignment: .leading) {
+//                            Text("\(game.participations.home.team.name)").font(.largeTitle).foregroundStyle(.blue)
+//                            VStack {
+//                                Text("\(game.participations.home.score)").font(.system(size: 100))
+//                            }
+//                            //                    .foregroundStyle(.white)
+//                            
+//                            Button(action: {addPoint(participation: game.participations.home)}, label: {
+//                                
+//                                Image(systemName: "soccerball.inverse")
+//                                    .font(.system(size: CGFloat(50))).foregroundStyle(.blue)
+//                            })
+//                        }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading).border(.red)
+//                        
+//                        Rectangle().frame(height: 40).opacity(0)
+//                        
+//                        VStack(alignment: .leading) {
+//                            Button(action: {addPoint(participation: game.participations.out)}, label: {
+//                                Image(systemName: "soccerball.inverse")
+//                                    .font(.system(size: CGFloat(50))).foregroundStyle(.yellow)
+//                            })
+//                            
+//                            VStack {
+//                                Text("\(game.participations.out.score)").font(.system(size: 100))
+//                            }
+//                            
+//                            Text("\(game.participations.out.team.name)").font(.largeTitle).foregroundStyle(.yellow)
+//
+//                            //                    .foregroundStyle(.white)
+//                            
+//
+//                        }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading).border(.red)
+//                        
+//                    }.frame(maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).border(.green)
+//                    
+//                    
+//                    VStack() {
+//                        Text("\(game.date.formatted(date: .abbreviated, time: .omitted))").foregroundStyle(.black)
+//                        Spacer()
+//                    }
+//                    
+//                }.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).border(.black)
+//                
+//                .padding()
+//            }
+//            .foregroundStyle(.white)
+//            .background() {
+//                Image("soccer-field")
+//                    .rotationEffect(.degrees(90))
+//    //                    .scaledToFit()
+//                    
+//                    .scaleEffect(CGSize(width: 0.4, height: 0.4))
+//                    .opacity(0.9)
+//            }
+////                .navigationTitle("\(game.participations.home.team.name) - \(game.participations.out.team.name)")
+////            .navigationBarTitleDisplayMode(.inline)
+//        }
 //            .padding()
     }
     
@@ -82,9 +127,9 @@ struct GameView: View {
 //        debugPrint(participation.sections.count)
 //        debugPrint(participation.sections.last?.points.count ?? 0)
         participation.sections.last?.points.append(Point(date: .now))
+        game.dummyScore = game.dummyScore + 0
         game.date = game.date
     }
-    
     
 }
 
