@@ -12,16 +12,16 @@ import Foundation
 class Participation {
     var team: Team
     var isHomeTeam: Bool
-    @Relationship(inverse: \Section.participation) var sections: [Section]
+    @Relationship(inverse: \Point.participation) var points: [Point]
     
-    init(team: Team, isHomeTeam: Bool, sections: [Section]) {
+    init(team: Team, isHomeTeam: Bool, points: [Point]) {
         self.team = team
         self.isHomeTeam = isHomeTeam
-        self.sections = sections
+        self.points = points
     }
     
     var score : Int {
-        sections.map({$0.score}).reduce(0, +)
+        points.count
     }
 }
 

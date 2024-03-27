@@ -21,7 +21,8 @@ struct PointSubView: View {
             LazyVGrid(columns: columns, spacing: 0) {
                 ForEach(points, id: \.self.id) { point in
                     Image(systemName: "soccerball")
-                                .font(.system(size: CGFloat(50)))
+                        .font(.system(size: CGFloat(50)))
+                    Text("Dag Bert").fontWeight(.bold)
                 }
             }
 //        }

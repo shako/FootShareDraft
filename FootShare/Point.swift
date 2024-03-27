@@ -11,7 +11,7 @@ import Foundation
 @Model
 class Point {
     var date: Date
-    var section: Section?
+    var participation: Participation?
     
     init(date: Date) {
         self.date = date

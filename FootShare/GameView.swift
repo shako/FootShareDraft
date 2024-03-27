@@ -9,6 +9,7 @@ import SwiftData
 import SwiftUI
 
 struct GameView: View {
+    @Environment(\.modelContext) var modelContext
     @Bindable var game: Game
     
     
@@ -18,117 +19,73 @@ struct GameView: View {
             GridItem(.flexible()),
             GridItem(.flexible()),
         ]
-        VStack() {
-            Text("\(game.date.formatted(date: .abbreviated, time: .omitted))").foregroundStyle(.black)
-        }
-        HStack {
-            LazyVGrid(columns: gridColumns, alignment: .center) {
-                VStack {
-                    Text("\(game.participations.home.team.name)").font(.largeTitle).foregroundStyle(.blue)
+        VStack {
+//            Text().foregroundStyle(.black)
+            HStack {
+                LazyVGrid(columns: gridColumns, alignment: .center) {
                     VStack {
-                        Text("\(game.participations.home.score)").font(.system(size: 100))
-                    }
-                    Button(action: {addPoint(participation: game.participations.home)}, label: {
+                        Text("\(game.participations.home.team.name)").font(.largeTitle).foregroundStyle(.blue)
+                        VStack {
+                            Text("\(game.participations.home.score)").font(.system(size: 100))
+                        }
+                        Button(action: {addPoint(participation: game.participations.home)}, label: {
 
-                        Image(systemName: "soccerball.inverse")
-                            .font(.system(size: CGFloat(50))).foregroundStyle(.blue)
-                    })
-                }.border(.red)
-                VStack {
-                    Text("\(game.participations.out.team.name)").font(.largeTitle).foregroundStyle(.yellow)
-                    VStack {
-                        Text("\(game.participations.out.score)").font(.system(size: 100))
+                            Image(systemName: "soccerball.inverse")
+                                .font(.system(size: CGFloat(50))).foregroundStyle(.blue)
+                        })
                     }
-                    Button(action: {addPoint(participation: game.participations.out)}, label: {
-                        Image(systemName: "soccerball.inverse")
-                            .font(.system(size: CGFloat(50))).foregroundStyle(.yellow)
-                    })
-                }.border(.red)
-            }
-        }
-//        debugPrint("\(game.participations.first!.sections.count)")
-            List {
-                ForEach(game.points.sorted(by: { pointl, pointr in
-                    pointl.date > pointr.date
-                }), id: \.id) { point in
-                    Text("\(point.date.formatted(date: .omitted, time: .shortened)) - \(point.section?.participation?.team.name ?? "unknwn")")
+//                    .border(.red)
+                    VStack {
+                        Text("\(game.participations.out.team.name)").font(.largeTitle).foregroundStyle(.yellow)
+                        VStack {
+                            Text("\(game.participations.out.score)").font(.system(size: 100))
+                        }
+                        Button(action: {addPoint(participation: game.participations.out)}, label: {
+                            Image(systemName: "soccerball.inverse")
+                                .font(.system(size: CGFloat(50))).foregroundStyle(.yellow)
+                        })
+                    }
+//                    .border(.red)
                 }
-                    
+            }
+    //        debugPrint("\(game.participations.first!.sections.count)")
+                List {
+                    ForEach(pointsSorted(), id: \.id) { point in
+                        Text("\(point.date.formatted(date: .omitted, time: .shortened)) - \(point.participation?.team.name ?? "unknown")")
+                    }.onDelete(perform: removePoint)
+                        
+                }.foregroundStyle(.black).border(.black)
                 
-            }.foregroundStyle(.black).border(.black)
-            
-//        
-//        VStack {
-//            VStack() {
-//                ZStack{
-//                    VStack(alignment: .leading) {
-//                        VStack(alignment: .leading) {
-//                            Text("\(game.participations.home.team.name)").font(.largeTitle).foregroundStyle(.blue)
-//                            VStack {
-//                                Text("\(game.participations.home.score)").font(.system(size: 100))
-//                            }
-//                            //                    .foregroundStyle(.white)
-//                            
-//                            Button(action: {addPoint(participation: game.participations.home)}, label: {
-//                                
-//                                Image(systemName: "soccerball.inverse")
-//                                    .font(.system(size: CGFloat(50))).foregroundStyle(.blue)
-//                            })
-//                        }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading).border(.red)
-//                        
-//                        Rectangle().frame(height: 40).opacity(0)
-//                        
-//                        VStack(alignment: .leading) {
-//                            Button(action: {addPoint(participation: game.participations.out)}, label: {
-//                                Image(systemName: "soccerball.inverse")
-//                                    .font(.system(size: CGFloat(50))).foregroundStyle(.yellow)
-//                            })
-//                            
-//                            VStack {
-//                                Text("\(game.participations.out.score)").font(.system(size: 100))
-//                            }
-//                            
-//                            Text("\(game.participations.out.team.name)").font(.largeTitle).foregroundStyle(.yellow)
-//
-//                            //                    .foregroundStyle(.white)
-//                            
-//
-//                        }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading).border(.red)
-//                        
-//                    }.frame(maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).border(.green)
-//                    
-//                    
-//                    VStack() {
-//                        Text("\(game.date.formatted(date: .abbreviated, time: .omitted))").foregroundStyle(.black)
-//                        Spacer()
-//                    }
-//                    
-//                }.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).border(.black)
-//                
-//                .padding()
-//            }
-//            .foregroundStyle(.white)
-//            .background() {
-//                Image("soccer-field")
-//                    .rotationEffect(.degrees(90))
-//    //                    .scaledToFit()
-//                    
-//                    .scaleEffect(CGSize(width: 0.4, height: 0.4))
-//                    .opacity(0.9)
-//            }
-////                .navigationTitle("\(game.participations.home.team.name) - \(game.participations.out.team.name)")
-////            .navigationBarTitleDisplayMode(.inline)
-//        }
-//            .padding()
+        } .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("\(game.date.formatted(date: .abbreviated, time: .omitted))")
     }
     
     func addPoint(participation: Participation) {
 //        
 //        debugPrint(participation.sections.count)
 //        debugPrint(participation.sections.last?.points.count ?? 0)
-        participation.sections.last?.points.append(Point(date: .now))
-        game.dummyScore = game.dummyScore + 0
+        participation.points.append(Point(date: .now))
+        refreshScore()
+    }
+    
+    func refreshScore() {
         game.date = game.date
+    }
+    
+    func removePoint(indexSet: IndexSet) {
+
+        for index in indexSet {
+            let point = pointsSorted()[index]
+            modelContext.delete(point)
+            refreshScore()
+        }
+
+    }
+    
+    func pointsSorted() -> [Point] {
+        game.points.sorted(by: { pointl, pointr in
+            pointl.date > pointr.date
+        })
     }
     
 }

@@ -73,14 +73,17 @@ func makeFakeData() -> [Game] {
     let teamWesterlo = Team(name: "Westerlo", isYourTeam: true)
     let teamGeel = Team(name: "Geel", isYourTeam: false)
     
-    let goalsWesterlo = [Point(date: .now), Point(date: .now), Point(date: .now), Point(date: .now), Point(date: .now)]
+    var participationWesterlo: Participation
+    
+    let point1 = Point(date: .now)
+    let goalsWesterlo = [point1, Point(date: .now), Point(date: .now), Point(date: .now), Point(date: .now)]
     let goalsGeel = [Point(date: .now)]
+
     
-    let sectionsWesterlo = [Section(points: goalsWesterlo)]
-    let sectionsGeel = [Section(points: goalsGeel)]
+    participationWesterlo = Participation(team: teamWesterlo, isHomeTeam: true, points: goalsWesterlo)
+//    point1.participation = participationWesterlo
     
-    let participationWesterlo = Participation(team: teamWesterlo, isHomeTeam: true, sections: sectionsWesterlo)
-    let participationGeel = Participation(team: teamGeel, isHomeTeam: false, sections: sectionsGeel)
+    let participationGeel = Participation(team: teamGeel, isHomeTeam: false, points: goalsGeel)
     
     let participations = [participationWesterlo, participationGeel]
     

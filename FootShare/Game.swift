@@ -12,7 +12,6 @@ import Foundation
 class Game {
     var date: Date
     var participations: [Participation]
-    var dummyScore: Int = 0
     
     init(date: Date, participations: [Participation]) {
         self.date = date
@@ -29,9 +28,7 @@ class Game {
 
     var points: [Point] {
         participations.flatMap { participation in
-            participation.sections.flatMap { section in
-                section.points
-            }
+            participation.points
         }
     }
     
