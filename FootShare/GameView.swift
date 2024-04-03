@@ -14,7 +14,7 @@ struct GameView: View {
     
     @State private var showingSelectTeam = false
     @State private var selectedTeam: Team? = Team.emptyTeam
-    @State private var selectedParticipation : Participation = Participation.emptyParticipation
+    @State private var participationToSelectTeamFor : Participation = Participation.emptyParticipation
 
     var body: some View {
 
@@ -41,7 +41,7 @@ struct GameView: View {
                         } else {
                             VStack {
                                 Button("Select team") {
-                                    selectedParticipation = participation
+                                    participationToSelectTeamFor = participation
                                     selectedTeam = nil
                                     showingSelectTeam = true
                                 }
@@ -69,7 +69,7 @@ struct GameView: View {
                     .toolbar {
                         ToolbarItem(placement: .topBarTrailing) {
                             Button("Select") {
-                                selectedParticipation.team = selectedTeam
+                                participationToSelectTeamFor.team = selectedTeam
                                 showingSelectTeam = false
                             }
 //                            .disabled(selectedTeam == nil)
