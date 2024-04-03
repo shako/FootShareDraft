@@ -16,6 +16,9 @@
 		B03D105A2BA4F52C00BB1715 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03D10592BA4F52C00BB1715 /* Game.swift */; };
 		B03D105C2BA4F59400BB1715 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03D105B2BA4F59400BB1715 /* Team.swift */; };
 		B03D10622BA50E5700BB1715 /* Participation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03D10612BA50E5700BB1715 /* Participation.swift */; };
+		B0552ECA2BB476500096D311 /* SelectTeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0552EC92BB476500096D311 /* SelectTeamView.swift */; };
+		B0552ECC2BB479580096D311 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0552ECB2BB479580096D311 /* Color.swift */; };
+		B0552ECE2BB4AC8F0096D311 /* AddTeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0552ECD2BB4AC8F0096D311 /* AddTeamView.swift */; };
 		B07253E12BA8AE4900429710 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07253E02BA8AE4900429710 /* Point.swift */; };
 		B0D7EB642BAC6F0A00E89E80 /* PointSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D7EB632BAC6F0A00E89E80 /* PointSubView.swift */; };
 /* End PBXBuildFile section */
@@ -31,6 +34,9 @@
 		B03D10592BA4F52C00BB1715 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		B03D105B2BA4F59400BB1715 /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
 		B03D10612BA50E5700BB1715 /* Participation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Participation.swift; sourceTree = "<group>"; };
+		B0552EC92BB476500096D311 /* SelectTeamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTeamView.swift; sourceTree = "<group>"; };
+		B0552ECB2BB479580096D311 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		B0552ECD2BB4AC8F0096D311 /* AddTeamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTeamView.swift; sourceTree = "<group>"; };
 		B07253E02BA8AE4900429710 /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		B0D7EB632BAC6F0A00E89E80 /* PointSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointSubView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -68,6 +74,8 @@
 				B03D10472BA4F3A600BB1715 /* FootShareApp.swift */,
 				B03D10492BA4F3A600BB1715 /* GameListView.swift */,
 				B03D10572BA4F52200BB1715 /* GameView.swift */,
+				B0552EC92BB476500096D311 /* SelectTeamView.swift */,
+				B0552ECD2BB4AC8F0096D311 /* AddTeamView.swift */,
 				B0D7EB632BAC6F0A00E89E80 /* PointSubView.swift */,
 				B03D10592BA4F52C00BB1715 /* Game.swift */,
 				B03D10612BA50E5700BB1715 /* Participation.swift */,
@@ -76,6 +84,7 @@
 				B03D104B2BA4F3A700BB1715 /* Assets.xcassets */,
 				B03D104D2BA4F3A700BB1715 /* Preview Content */,
 				B01A372A2BAD7D9A003DF4BC /* TestView.swift */,
+				B0552ECB2BB479580096D311 /* Color.swift */,
 			);
 			path = FootShare;
 			sourceTree = "<group>";
@@ -160,9 +169,12 @@
 			files = (
 				B03D104A2BA4F3A600BB1715 /* GameListView.swift in Sources */,
 				B03D10582BA4F52200BB1715 /* GameView.swift in Sources */,
+				B0552ECC2BB479580096D311 /* Color.swift in Sources */,
 				B03D10482BA4F3A600BB1715 /* FootShareApp.swift in Sources */,
+				B0552ECA2BB476500096D311 /* SelectTeamView.swift in Sources */,
 				B0D7EB642BAC6F0A00E89E80 /* PointSubView.swift in Sources */,
 				B07253E12BA8AE4900429710 /* Point.swift in Sources */,
+				B0552ECE2BB4AC8F0096D311 /* AddTeamView.swift in Sources */,
 				B01A372B2BAD7D9A003DF4BC /* TestView.swift in Sources */,
 				B03D10622BA50E5700BB1715 /* Participation.swift in Sources */,
 				B03D105C2BA4F59400BB1715 /* Team.swift in Sources */,

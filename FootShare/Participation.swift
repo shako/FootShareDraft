@@ -10,12 +10,12 @@ import Foundation
 
 @Model
 class Participation {
-    var team: Team
+    var team: Team?
     var isHomeTeam: Bool
-    @Relationship(inverse: \Point.participation) var points: [Point]
+    @Relationship(deleteRule: .cascade, inverse: \Point.participation) var points: [Point]
+    var game: Game?
     
-    init(team: Team, isHomeTeam: Bool, points: [Point]) {
-        self.team = team
+    init(isHomeTeam: Bool, points: [Point]) {
         self.isHomeTeam = isHomeTeam
         self.points = points
     }
@@ -26,11 +26,11 @@ class Participation {
 }
 
 extension Array where Element : Participation {
-    var home: Participation {
-        return self.filter({participation in participation.isHomeTeam}).first!
+    var home: Participation? {
+        return self.filter({participation in participation.isHomeTeam}).first
     }
     
-    var out: Participation {
-        return self.filter({participation in !participation.isHomeTeam}).first!
+    var out: Participation? {
+        return self.filter({participation in !participation.isHomeTeam}).first
     }
 }

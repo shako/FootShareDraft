@@ -14,8 +14,132 @@
             filePath = "FootShare/GameView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "43C1C0C5-0B4A-49EB-A6F8-D488B6F00471"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FootShare/Participation.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
+            landmarkName = "home"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "43C1C0C5-0B4A-49EB-A6F8-D488B6F00471 - 8a88d8b219a72036"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Swift.Array&lt;&#x3c4;_0_0 where &#x3c4;_0_0: FootShare.Participation&gt;.home.getter : FootShare.Participation"
+                  moduleName = "FootShare"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/steven/Documents/clients/MXConsultancy/FootShare/FootShare/Participation.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "31"
+                  endingLineNumber = "31"
+                  offsetFromSymbolStart = "84">
+               </Location>
+               <Location
+                  uuid = "43C1C0C5-0B4A-49EB-A6F8-D488B6F00471 - a02672f9cd9da7e1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (&#x3c4;_0_0) -&gt; Swift.Bool in Swift.Array&lt;&#x3c4;_0_0 where &#x3c4;_0_0: FootShare.Participation&gt;.home.getter : FootShare.Participation"
+                  moduleName = "FootShare"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/steven/Documents/clients/MXConsultancy/FootShare/FootShare/Participation.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "31"
+                  endingLineNumber = "31"
+                  offsetFromSymbolStart = "44">
+               </Location>
+               <Location
+                  uuid = "43C1C0C5-0B4A-49EB-A6F8-D488B6F00471 - daaea823ac2eb45"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Swift.Array&lt;&#x3c4;_0_0 where &#x3c4;_0_0: FootShare.Participation&gt;.home.getter : Swift.Optional&lt;FootShare.Participation&gt;"
+                  moduleName = "FootShare"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/steven/Documents/clients/MXConsultancy/FootShare/FootShare/Participation.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "31"
+                  endingLineNumber = "31"
+                  offsetFromSymbolStart = "48">
+               </Location>
+               <Location
+                  uuid = "43C1C0C5-0B4A-49EB-A6F8-D488B6F00471 - c3065b3e8ca62491"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (&#x3c4;_0_0) -&gt; Swift.Bool in Swift.Array&lt;&#x3c4;_0_0 where &#x3c4;_0_0: FootShare.Participation&gt;.home.getter : Swift.Optional&lt;FootShare.Participation&gt;"
+                  moduleName = "FootShare"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/steven/Documents/clients/MXConsultancy/FootShare/FootShare/Participation.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "31"
+                  endingLineNumber = "31"
+                  offsetFromSymbolStart = "44">
+               </Location>
+               <Location
+                  uuid = "43C1C0C5-0B4A-49EB-A6F8-D488B6F00471 - daaea823ac2e8a6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Swift.Array&lt;&#x3c4;_0_0 where &#x3c4;_0_0: FootShare.Participation&gt;.home.getter : Swift.Optional&lt;FootShare.Participation&gt;"
+                  moduleName = "FootShare"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/steven/Documents/clients/MXConsultancy/FootShare/FootShare/Participation.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "30"
+                  endingLineNumber = "30"
+                  offsetFromSymbolStart = "48">
+               </Location>
+               <Location
+                  uuid = "43C1C0C5-0B4A-49EB-A6F8-D488B6F00471 - c3065b3e8ca62772"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (&#x3c4;_0_0) -&gt; Swift.Bool in Swift.Array&lt;&#x3c4;_0_0 where &#x3c4;_0_0: FootShare.Participation&gt;.home.getter : Swift.Optional&lt;FootShare.Participation&gt;"
+                  moduleName = "FootShare"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/steven/Documents/clients/MXConsultancy/FootShare/FootShare/Participation.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "30"
+                  endingLineNumber = "30"
+                  offsetFromSymbolStart = "44">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "988BB970-B7F8-4899-BDD4-0A2E21952413"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../../../var/folders/l0/vq4qbn411ld02x8cpz9d1m6r0000gn/T/swift-generated-sources/@__swiftmacro_9FootShare4TeamC5color18_PersistedPropertyfMa_.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1"
+            endingLineNumber = "1"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>

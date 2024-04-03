@@ -16,4 +16,8 @@ class Point {
     init(date: Date) {
         self.date = date
     }
+    
+    func secondsSindsGameStart() -> Double {
+        return date.timeIntervalSinceReferenceDate - (participation?.game?.date.timeIntervalSinceReferenceDate ?? date.timeIntervalSinceReferenceDate)
+    }
 }

@@ -11,19 +11,11 @@ import Foundation
 @Model
 class Game {
     var date: Date
-    var participations: [Participation]
+    @Relationship(deleteRule: .cascade, inverse: \Participation.game)  var participations: [Participation]
     
     init(date: Date, participations: [Participation]) {
         self.date = date
         self.participations = participations
-    }
-    
-    var homeTeamScore: Int {
-        participations.filter({participation in participation.isHomeTeam}).first!.score
-    }
-    
-    var outTeamScore: Int {
-        participations.filter({participation in !participation.isHomeTeam}).first!.score
     }
 
     var points: [Point] {

@@ -12,27 +12,21 @@ struct GameListView: View {
     @Query var games: [Game]
     @Environment(\.modelContext) var modelContext
     
+    @State private var path = NavigationPath()
+    
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             List {
                 ForEach(games) { game in
                     NavigationLink(value: game) {
-                        HStack {
+                        ForEach(game.participations) {participation in
                             VStack {
-                                Text(game.participations.home.team.name)
+                                Text(participation.team?.name ?? "")
                                     .font(.title2)
-                                Text("\(game.homeTeamScore)")
-                            }
-
-                            Spacer()
-                            VStack {
-                                Text(game.participations.out.team.name)
-                                    .font(.title2)
-                                Text("\(game.outTeamScore)")
+                                Text("\(participation.score)")
                             }
                         }
                     }
-
                 }
                 .onDelete(perform: deleteGames)
                 
@@ -43,7 +37,9 @@ struct GameListView: View {
             }
             .toolbar {
                 Button("Add") {
-                    makeFakeData().forEach({data in modelContext.container.mainContext.insert(data)})
+                    let game = Game(date: .now, participations: [Participation(isHomeTeam: true, points: []), Participation(isHomeTeam: false, points: [])])
+                    modelContext.container.mainContext.insert(game)
+                    path.append(game)
                 }
             }
                 
@@ -75,15 +71,17 @@ func makeFakeData() -> [Game] {
     
     var participationWesterlo: Participation
     
-    let point1 = Point(date: .now)
-    let goalsWesterlo = [point1, Point(date: .now), Point(date: .now), Point(date: .now), Point(date: .now)]
-    let goalsGeel = [Point(date: .now)]
+    let point1 = Point(date: .now + 1000)
+    let goalsWesterlo = [point1, Point(date: .now + 10), Point(date: .now + 20), Point(date: .now + 60), Point(date: .now + 61)]
+    let goalsGeel = [Point(date: .now + 200)]
 
     
-    participationWesterlo = Participation(team: teamWesterlo, isHomeTeam: true, points: goalsWesterlo)
+    participationWesterlo = Participation(isHomeTeam: true, points: goalsWesterlo)
+    participationWesterlo.team = teamWesterlo
 //    point1.participation = participationWesterlo
     
-    let participationGeel = Participation(team: teamGeel, isHomeTeam: false, points: goalsGeel)
+    let participationGeel = Participation(isHomeTeam: false, points: goalsGeel)
+    participationGeel.team = teamGeel
     
     let participations = [participationWesterlo, participationGeel]
     

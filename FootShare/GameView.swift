@@ -11,11 +11,10 @@ import SwiftUI
 struct GameView: View {
     @Environment(\.modelContext) var modelContext
     @Bindable var game: Game
-    
-    
+
     var body: some View {
 
-        var gridColumns = [
+        let gridColumns = [
             GridItem(.flexible()),
             GridItem(.flexible()),
         ]
@@ -23,35 +22,33 @@ struct GameView: View {
 //            Text().foregroundStyle(.black)
             HStack {
                 LazyVGrid(columns: gridColumns, alignment: .center) {
-                    VStack {
-                        Text("\(game.participations.home.team.name)").font(.largeTitle).foregroundStyle(.blue)
-                        VStack {
-                            Text("\(game.participations.home.score)").font(.system(size: 100))
+                    ForEach($game.participations, id: \.id) { $participation in
+                        if participation.team != nil {
+                            VStack {
+                                Text("\(participation.team?.name ?? "")").font(.largeTitle).foregroundStyle(.blue)
+                                VStack {
+                                    Text("\(participation.score)").font(.system(size: 100))
+                                }
+                                Button(action: {addPoint(participation: participation)}, label: {
+                                    Image(systemName: "soccerball.inverse")
+                                        .font(.system(size: CGFloat(50))).foregroundStyle(.blue)
+                                })
+                            }
+                        } else {
+                            VStack {
+                                NavigationLink("Select team") {
+                                    SelectTeamView(participation: $participation)
+                                }
+                            }
+                        
                         }
-                        Button(action: {addPoint(participation: game.participations.home)}, label: {
-
-                            Image(systemName: "soccerball.inverse")
-                                .font(.system(size: CGFloat(50))).foregroundStyle(.blue)
-                        })
                     }
-//                    .border(.red)
-                    VStack {
-                        Text("\(game.participations.out.team.name)").font(.largeTitle).foregroundStyle(.yellow)
-                        VStack {
-                            Text("\(game.participations.out.score)").font(.system(size: 100))
-                        }
-                        Button(action: {addPoint(participation: game.participations.out)}, label: {
-                            Image(systemName: "soccerball.inverse")
-                                .font(.system(size: CGFloat(50))).foregroundStyle(.yellow)
-                        })
-                    }
-//                    .border(.red)
                 }
             }
     //        debugPrint("\(game.participations.first!.sections.count)")
                 List {
                     ForEach(pointsSorted(), id: \.id) { point in
-                        Text("\(point.date.formatted(date: .omitted, time: .shortened)) - \(point.participation?.team.name ?? "unknown")")
+                        HighlightListView(point: point, gameStart: game.date)
                     }.onDelete(perform: removePoint)
                         
                 }.foregroundStyle(.black).border(.black)
@@ -97,13 +94,19 @@ struct GameView: View {
     
     let games = makeFakeData()
     games.forEach({data in container.mainContext.insert(data)})
-//    let games = makeFakeData()
-//    debugPrint("\(games.first!.participations.count)")
 
-    
         return NavigationStack {
         GameView(game: games.first!).modelContainer(container)
     }
     
+}
+
+struct HighlightListView: View {
+    let point: Point
+    let gameStart: Date
+    
+    var body: some View {
+        Text("\(point.secondsSindsGameStart()) - \(point.participation?.team?.name ?? "unknown")")
+    }
     
 }
