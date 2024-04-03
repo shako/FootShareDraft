@@ -11,6 +11,9 @@ import SwiftUI
 struct GameView: View {
     @Environment(\.modelContext) var modelContext
     @Bindable var game: Game
+    
+    @State private var showingSelectTeam = false
+    @State private var selectedTeam: Team = Team.emptyTeam
 
     var body: some View {
 
@@ -36,9 +39,10 @@ struct GameView: View {
                             }
                         } else {
                             VStack {
-                                NavigationLink("Select team") {
-                                    SelectTeamView(participation: $participation)
+                                Button("Select team") {
+                                    showingSelectTeam.toggle()
                                 }
+
                             }
                         
                         }
@@ -54,7 +58,13 @@ struct GameView: View {
                 }.foregroundStyle(.black).border(.black)
                 
         } .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle("\(game.date.formatted(date: .abbreviated, time: .omitted))")
+        .navigationTitle("\(game.date.formatted(date: .abbreviated, time: .omitted))")
+        .sheet(isPresented: $showingSelectTeam) {
+            NavigationStack {
+                SelectTeamView()
+            }
+            
+        }
     }
     
     func addPoint(participation: Participation) {
@@ -87,7 +97,7 @@ struct GameView: View {
     
 }
 
-#Preview {
+#Preview("Two Teams") {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Game.self, configurations: config)
     let context = container.mainContext
@@ -96,6 +106,31 @@ struct GameView: View {
     games.forEach({data in container.mainContext.insert(data)})
 
         return NavigationStack {
+        GameView(game: games.first!).modelContainer(container)
+    }
+    
+}
+
+#Preview("No Teams") {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: Game.self, configurations: config)
+    let context = container.mainContext
+    
+    let games = makeFakeData()
+    games.forEach({data in container.mainContext.insert(data)})
+    
+    games.forEach { game in
+        debugPrint("game: \(game.id.id)")
+        debugPrint("number of participations: \(game.participations.count)")
+        game.participations.forEach { participation in
+            participation.team = nil
+            participation.points = []
+        }
+    }
+    
+
+
+    return NavigationStack {
         GameView(game: games.first!).modelContainer(container)
     }
     

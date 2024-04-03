@@ -12,7 +12,6 @@ struct SelectTeamView: View {
     @Environment(\.modelContext) var modelContext
     
     @Environment(\.dismiss) var dismiss
-    @Binding var participation: Participation
     
     @Query var teams: [Team]
     @State var selectedTeam: Team?
@@ -36,8 +35,7 @@ struct SelectTeamView: View {
                         }
 
                     }
-            }
-                    
+            }      
             .navigationTitle("Choose Team")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -96,7 +94,7 @@ struct SelectTeamView: View {
     }
     let participation = Participation(isHomeTeam: true, points: [])
     return NavigationStack {
-        SelectTeamView(participation: .constant(participation)).modelContainer(container)
+        SelectTeamView().modelContainer(container)
     }
 }
 
