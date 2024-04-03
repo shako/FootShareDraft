@@ -13,7 +13,8 @@ struct GameView: View {
     @Bindable var game: Game
     
     @State private var showingSelectTeam = false
-    @State private var selectedTeam: Team = Team.emptyTeam
+    @State private var selectedTeam: Team? = Team.emptyTeam
+    @State private var selectedParticipation : Participation = Participation.emptyParticipation
 
     var body: some View {
 
@@ -40,7 +41,9 @@ struct GameView: View {
                         } else {
                             VStack {
                                 Button("Select team") {
-                                    showingSelectTeam.toggle()
+                                    selectedParticipation = participation
+                                    selectedTeam = nil
+                                    showingSelectTeam = true
                                 }
 
                             }
@@ -49,19 +52,30 @@ struct GameView: View {
                     }
                 }
             }
-    //        debugPrint("\(game.participations.first!.sections.count)")
-                List {
-                    ForEach(pointsSorted(), id: \.id) { point in
-                        HighlightListView(point: point, gameStart: game.date)
-                    }.onDelete(perform: removePoint)
-                        
-                }.foregroundStyle(.black).border(.black)
+            List {
+                ForEach(pointsSorted(), id: \.id) { point in
+                    HighlightListView(point: point, gameStart: game.date)
+                }.onDelete(perform: removePoint)
+                    
+            }.foregroundStyle(.black).border(.black)
                 
         } .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("\(game.date.formatted(date: .abbreviated, time: .omitted))")
         .sheet(isPresented: $showingSelectTeam) {
             NavigationStack {
-                SelectTeamView()
+                SelectTeamView(selectedTeam: $selectedTeam)
+                    .navigationTitle("Choose Team")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Button("Select") {
+                                selectedParticipation.team = selectedTeam
+                                showingSelectTeam = false
+                            }
+//                            .disabled(selectedTeam == nil)
+                        }
+                
+                    }
             }
             
         }

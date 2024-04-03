@@ -14,7 +14,7 @@ struct SelectTeamView: View {
     @Environment(\.dismiss) var dismiss
     
     @Query var teams: [Team]
-    @State var selectedTeam: Team?
+    @Binding var selectedTeam: Team?
     @State var newTeam: Team = Team.emptyTeam
     
     @State var showingAddTeam = false
@@ -36,19 +36,12 @@ struct SelectTeamView: View {
 
                     }
             }      
-            .navigationTitle("Choose Team")
-            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("Select", action: {dismiss()}).disabled(selectedTeam == nil)
-                }
-            
                 ToolbarItem(placement: .topBarLeading) {
                     Button(action: {
-//                        newTeam = Team(name: "", isYourTeam: false)
                         newTeam = Team(name: "", isYourTeam: false)
                         showingAddTeam = true
-//                        showingNewTeamSheet = true
+    //                        showingNewTeamSheet = true
                     }, label: {
                         Image(systemName: "plus")
                     })
@@ -94,7 +87,7 @@ struct SelectTeamView: View {
     }
     let participation = Participation(isHomeTeam: true, points: [])
     return NavigationStack {
-        SelectTeamView().modelContainer(container)
+        SelectTeamView(selectedTeam: .constant(participation.team)).modelContainer(container)
     }
 }
 

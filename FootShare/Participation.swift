@@ -34,3 +34,9 @@ extension Array where Element : Participation {
         return self.filter({participation in !participation.isHomeTeam}).first
     }
 }
+
+extension Participation {
+    static var emptyParticipation: Participation {
+        Participation(isHomeTeam: false, points: [])
+    }
+}
