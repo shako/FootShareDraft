@@ -37,8 +37,14 @@ struct GameListView: View {
             }
             .toolbar {
                 Button("Add") {
-                    let game = Game(date: .now, participations: [Participation(isHomeTeam: true, points: []), Participation(isHomeTeam: false, points: [])])
+                    let participationHomeTeam = Participation(isHomeTeam: true, points: [])
+                    let participationOutTeam = Participation(isHomeTeam: false, points: [])
+                    let game = Game(date: .now, participations: [])
                     modelContext.container.mainContext.insert(game)
+                    modelContext.container.mainContext.insert(participationHomeTeam)
+                    modelContext.container.mainContext.insert(participationOutTeam)
+                    participationHomeTeam.game = game
+                    participationOutTeam.game = game
                     path.append(game)
                 }
             }
