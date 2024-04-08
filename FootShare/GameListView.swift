@@ -78,7 +78,6 @@ func makeFakeData() -> [Game] {
     
     participationWesterlo = Participation(isHomeTeam: true, points: goalsWesterlo)
     participationWesterlo.team = teamWesterlo
-//    point1.participation = participationWesterlo
     
     let participationGeel = Participation(isHomeTeam: false, points: goalsGeel)
     participationGeel.team = teamGeel
