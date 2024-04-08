@@ -52,6 +52,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B02C6FAD2BC47BC8007B7E22 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B03D10592BA4F52C00BB1715 /* Game.swift */,
+				B03D10612BA50E5700BB1715 /* Participation.swift */,
+				B03D105B2BA4F59400BB1715 /* Team.swift */,
+				B07253E02BA8AE4900429710 /* Point.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		B03D103B2BA4F3A600BB1715 = {
 			isa = PBXGroup;
 			children = (
@@ -77,10 +88,7 @@
 				B0552EC92BB476500096D311 /* SelectTeamView.swift */,
 				B0552ECD2BB4AC8F0096D311 /* AddTeamView.swift */,
 				B0D7EB632BAC6F0A00E89E80 /* PointSubView.swift */,
-				B03D10592BA4F52C00BB1715 /* Game.swift */,
-				B03D10612BA50E5700BB1715 /* Participation.swift */,
-				B03D105B2BA4F59400BB1715 /* Team.swift */,
-				B07253E02BA8AE4900429710 /* Point.swift */,
+				B02C6FAD2BC47BC8007B7E22 /* Models */,
 				B03D104B2BA4F3A700BB1715 /* Assets.xcassets */,
 				B03D104D2BA4F3A700BB1715 /* Preview Content */,
 				B01A372A2BAD7D9A003DF4BC /* TestView.swift */,
