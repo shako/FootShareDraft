@@ -82,9 +82,6 @@ struct GameView: View {
     }
     
     func addPoint(participation: Participation) {
-//        
-//        debugPrint(participation.sections.count)
-//        debugPrint(participation.sections.last?.points.count ?? 0)
         participation.points.append(Point(date: .now))
         refreshScore()
     }
@@ -114,7 +111,6 @@ struct GameView: View {
 #Preview("Two Teams") {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Game.self, configurations: config)
-    let context = container.mainContext
     
     let games = makeFakeData()
     games.forEach({data in container.mainContext.insert(data)})

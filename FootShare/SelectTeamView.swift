@@ -41,7 +41,6 @@ struct SelectTeamView: View {
                     Button(action: {
                         newTeam = Team(name: "", isYourTeam: false)
                         showingAddTeam = true
-    //                        showingNewTeamSheet = true
                     }, label: {
                         Image(systemName: "plus")
                     })

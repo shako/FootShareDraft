@@ -34,7 +34,6 @@ struct PointSubView: View {
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Game.self, configurations: config)
-    let context = container.mainContext
     
     let games = makeFakeData()
     games.forEach({data in container.mainContext.insert(data)})
