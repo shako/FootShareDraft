@@ -70,6 +70,7 @@ struct GameView: View {
                         ToolbarItem(placement: .topBarTrailing) {
                             Button("Select") {
                                 participationToSelectTeamFor.team = selectedTeam
+                                refreshScore()
                                 showingSelectTeam = false
                             }
 //                            .disabled(selectedTeam == nil)
