@@ -124,20 +124,10 @@ struct GameView: View {
 #Preview("No Teams") {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Game.self, configurations: config)
-    let context = container.mainContext
     
-    let games = makeFakeData()
+    let games = makeFakeDataWithoutTeams()
+    
     games.forEach({data in container.mainContext.insert(data)})
-    
-    games.forEach { game in
-        debugPrint("game: \(game.id.id)")
-        debugPrint("number of participations: \(game.participations.count)")
-        game.participations.forEach { participation in
-            participation.team = nil
-            participation.points = []
-        }
-    }
-    
 
 
     return NavigationStack {

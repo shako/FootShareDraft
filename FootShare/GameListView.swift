@@ -89,3 +89,14 @@ func makeFakeData() -> [Game] {
     return [game]
 }
 
+func makeFakeDataWithoutTeams() -> [Game] {
+    
+    var participationWesterlo = Participation(isHomeTeam: true, points: [])
+    let participationGeel = Participation(isHomeTeam: false, points: [])
+    
+    let participations = [participationWesterlo, participationGeel]
+    
+    let game = Game(date: .now, participations: participations)
+    return [game]
+}
+
