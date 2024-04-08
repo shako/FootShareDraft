@@ -14,7 +14,7 @@ class Team {
     var name: String
     var isYourTeam: Bool
     var colorHex: Int?
-    @Relationship(deleteRule: .cascade, inverse: \Participation.team) var participation: Participation?
+    @Relationship(deleteRule: .cascade, inverse: \Participation.team) var participations: [Participation] = []
     
     init(name: String, isYourTeam: Bool) {
         self.name = name
