@@ -29,26 +29,35 @@ struct GameView: View {
                         if participation.team != nil {
                             VStack {
                                 Text("\(participation.team?.name ?? "")").font(.largeTitle).foregroundStyle(.blue)
-                                VStack {
-                                    Text("\(participation.score)").font(.system(size: 100))
-                                }
+
                                 Button(action: {addPoint(participation: participation)}, label: {
-                                    Image(systemName: "soccerball.inverse")
-                                        .font(.system(size: CGFloat(50))).foregroundStyle(.blue)
+                                    VStack {
+                                        VStack {
+                                            Text("\(participation.score)").font(.system(size: 100))
+                                        }.frame(maxWidth: .infinity, maxHeight: .infinity)
+                                        
+//                                        Image(systemName: "soccerball.inverse")
+//                                            .font(.system(size: CGFloat(50))).foregroundStyle(.blue)
+                                    }
+
                                 })
                             }
                         } else {
                             VStack {
-                                Button("Select team") {
+                                Button {
                                     participationToSelectTeamFor = participation
                                     selectedTeam = nil
                                     showingSelectTeam = true
+                                } label: {
+                                    Text("Select Team")
+                                        .font(.largeTitle)
+                                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                                 }
                                 
                             }
                             
                         }
-                    }.padding().frame(maxWidth: .infinity, minHeight: 250).background(.gray.opacity(0.3))
+                    }.padding().frame(maxWidth: .infinity, maxHeight: 200).background(.gray.opacity(0.3))
                     //                }
                 }
             }
@@ -118,8 +127,8 @@ struct GameView: View {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Game.self, configurations: config)
     
-    let games = makeFakeData()
-    games.forEach({data in container.mainContext.insert(data)})
+    let games = makeFakeData(container: container)
+//    games.forEach({data in container.mainContext.insert(data)})
 
         return NavigationStack {
         GameView(game: games.first!).modelContainer(container)

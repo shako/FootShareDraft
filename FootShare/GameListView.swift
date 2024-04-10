@@ -20,11 +20,11 @@ struct GameListView: View {
                 ForEach(games) { game in
                     NavigationLink(value: game) {
                         ForEach(game.participations) {participation in
-                            VStack {
+                            VStack() {
                                 Text(participation.team?.name ?? "")
                                     .font(.title2)
                                 Text("\(participation.score)")
-                            }
+                            }.frame(maxWidth: .infinity)
                         }
                     }
                 }
@@ -66,31 +66,46 @@ struct GameListView: View {
     
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Game.self, configurations: config)
-    makeFakeData().forEach({data in container.mainContext.insert(data)})
+    makeFakeData(container: container).forEach({data in container.mainContext.insert(data)})
     return GameListView().modelContainer(container)
 
 }
 
-func makeFakeData() -> [Game] {
+@MainActor func makeFakeData(container: ModelContainer) -> [Game] {
     let teamWesterlo = Team(name: "Westerlo", isYourTeam: true)
     let teamGeel = Team(name: "Geel", isYourTeam: false)
+    container.mainContext.insert(teamWesterlo)
+    container.mainContext.insert(teamGeel)
     
     var participationWesterlo: Participation
     
-    let point1 = Point(date: .now + 1000)
-    let goalsWesterlo = [point1, Point(date: .now + 10), Point(date: .now + 20), Point(date: .now + 60), Point(date: .now + 61)]
-    let goalsGeel = [Point(date: .now + 200)]
 
+    let goalsWesterlo = [Point(date: .now + 1000), Point(date: .now + 10), Point(date: .now + 20), Point(date: .now + 60), Point(date: .now + 61)]
+    goalsWesterlo.forEach { goal in
+        container.mainContext.insert(goal)
+    }
     
-    participationWesterlo = Participation(isHomeTeam: true, points: goalsWesterlo)
+    let goalsGeel = [Point(date: .now + 200)]
+    goalsGeel.forEach { goal in
+        container.mainContext.insert(goal)
+    }
+    
+    participationWesterlo = Participation(isHomeTeam: true, points: [])
+    container.mainContext.insert(participationWesterlo)
     participationWesterlo.team = teamWesterlo
+    participationWesterlo.points = goalsWesterlo
     
-    let participationGeel = Participation(isHomeTeam: false, points: goalsGeel)
+    let participationGeel = Participation(isHomeTeam: false, points: [])
+    container.mainContext.insert(participationGeel)
     participationGeel.team = teamGeel
+    participationGeel.points = goalsGeel
     
     let participations = [participationWesterlo, participationGeel]
     
-    let game = Game(date: .now, participations: participations)
+    let game = Game(date: .now, participations: [])
+    container.mainContext.insert(game)
+    game.participations = participations
+    
     return [game]
 }
 

@@ -44,10 +44,7 @@ struct AddTeamView: View {
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Team.self, configurations: config)
-    let teams = makeTeams()
-    for team in teams {
-        container.mainContext.insert(team)
-    }
+    let teams = makeTeams(container: container)
     return NavigationStack {
         AddTeamView(team: .constant(teams.first!)).modelContainer(container)
     }

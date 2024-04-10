@@ -18,55 +18,64 @@ struct SelectTeamView: View {
     @State var newTeam: Team = Team.emptyTeam
     
     @State var showingAddTeam = false
+    
+    @State private var teamOwnerFilter = teamOwner.all
 
+    enum teamOwner: String, Codable, CaseIterable {
+        case all, your
+    }
+    
     var body: some View {
         VStack {
-                    List(selection: $selectedTeam) {
-                        Section ("Your teams") {
-                            ForEach(teams.filter {$0.isYourTeam == true}) { team  in
-                                Text("\(team.name)").tag(team)
-                            }
-                        }
-                        
-                        Section ("Other teams") {
-                            ForEach(teams.filter {$0.isYourTeam == false}) { team  in
-                                Text("\(team.name)").tag(team)
-                            }
-                        }
-
-                    }
-            }      
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button(action: {
-                        newTeam = Team(name: "", isYourTeam: false)
-                        showingAddTeam = true
-                    }, label: {
-                        Image(systemName: "plus")
-                    })
-                }
-            }
-
-            .sheet(isPresented: $showingAddTeam) {
-                
-                NavigationStack {
-                    AddTeamView(team: $newTeam)
-                        .toolbar {
-                            ToolbarItem(placement: .cancellationAction) {
-                                Button("Cancel") {
-                                    showingAddTeam = false
-                                }
-                            }
-                            ToolbarItem(placement: .confirmationAction) {
-                                Button("Save") {
-                                    modelContext.insert(newTeam)
-                                    selectedTeam = newTeam
-                                    showingAddTeam = false
-                                }
-                            }
+            Picker("owner", selection: $teamOwnerFilter) {
+                ForEach(teamOwner.allCases, id: \.self) { teamOwner in
+                    switch teamOwner {
+                        case .all:
+                            Text("all teams".capitalized)
+                        case .your:
+                            Text("your teams".capitalized)
                     }
                 }
             }
+            .pickerStyle(.segmented).padding()
+
+            List(selection: $selectedTeam) {
+                ForEach(teams.filter {team in teamOwnerFilter == .your ? team.isYourTeam == true : true}) { team  in
+                    Text("\(team.name)").tag(team)
+                }
+
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button(action: {
+                    newTeam = Team(name: "", isYourTeam: false)
+                    showingAddTeam = true
+                }, label: {
+                    Image(systemName: "plus")
+                })
+            }
+        }
+        .sheet(isPresented: $showingAddTeam) {
+            
+            NavigationStack {
+                AddTeamView(team: $newTeam)
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Cancel") {
+                                showingAddTeam = false
+                            }
+                        }
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Save") {
+                                modelContext.insert(newTeam)
+                                selectedTeam = newTeam
+                                showingAddTeam = false
+                            }
+                        }
+                }
+            }
+        }
 //            .sheet(isPresented: $showingNewTeamSheet, content: {
 //                AddTeamView(team: $newTeam)
 //            })
@@ -81,9 +90,8 @@ struct SelectTeamView: View {
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Team.self, configurations: config)
-    for team in makeTeams() {
-        container.mainContext.insert(team)
-    }
+    let teams = makeTeams(container: container)
+    
     let participation = Participation(isHomeTeam: true, points: [])
     return NavigationStack {
         SelectTeamView(selectedTeam: .constant(participation.team)).modelContainer(container)
@@ -91,9 +99,18 @@ struct SelectTeamView: View {
 }
 
 
-func makeTeams() -> [Team] {
-    let team = Team(name: "Westerlo", isYourTeam: true)
-    team.colorHex = 16711680
-    let teams = [team, Team(name: "Geel", isYourTeam: false), Team(name: "Kampenhout", isYourTeam: false), Team(name: "Brugge", isYourTeam: false)]
+@MainActor func makeTeams(container: ModelContainer) -> [Team] {
+    let team1 = Team(name: "Westerlo", isYourTeam: true)
+    let team2 = Team(name: "Geel", isYourTeam: false)
+    let team3 = Team(name: "Kampenhout", isYourTeam: false)
+    let team4 = Team(name: "Brugge", isYourTeam: false)
+    
+    team1.colorHex = 16711680
+    let teams = [team1, team2 , team3, team4]
+    
+    teams.forEach { team in
+        container.mainContext.insert(team)
+    }
+    
     return teams
 }
