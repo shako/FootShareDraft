@@ -23,9 +23,8 @@ struct GameView: View {
             GridItem(.flexible()),
         ]
         VStack {
-//            Text().foregroundStyle(.black)
-            HStack {
-//                LazyVGrid(columns: gridColumns, alignment: .center) {
+            HStack() {
+                Group {
                     ForEach(game.participations, id: \.id) { participation in
                         if participation.team != nil {
                             VStack {
@@ -45,19 +44,25 @@ struct GameView: View {
                                     selectedTeam = nil
                                     showingSelectTeam = true
                                 }
-
+                                
                             }
-                        
+                            
                         }
-                    }
-//                }
+                    }.padding().frame(maxWidth: .infinity, minHeight: 250).background(.gray.opacity(0.3))
+                    //                }
+                }
             }
-//            List {
-//                ForEach(pointsSorted(), id: \.id) { point in
-//                    HighlightListView(point: point, gameStart: game.date)
-//                }.onDelete(perform: removePoint)
-//                    
-//            }.foregroundStyle(.black).border(.black)
+            List {
+                if pointsSorted().isEmpty {
+                    Text("No points scored yet")
+                } else {
+                    ForEach(pointsSorted(), id: \.id) { point in
+                        HighlightListView(point: point, gameStart: game.date)
+                    }.onDelete(perform: removePoint)
+                }
+
+                    
+            }.foregroundStyle(.black)
                 
         } .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("\(game.date.formatted(date: .abbreviated, time: .omitted))")
