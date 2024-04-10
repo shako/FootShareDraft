@@ -25,8 +25,8 @@ struct GameView: View {
         VStack {
 //            Text().foregroundStyle(.black)
             HStack {
-                LazyVGrid(columns: gridColumns, alignment: .center) {
-                    ForEach($game.participations, id: \.id) { $participation in
+//                LazyVGrid(columns: gridColumns, alignment: .center) {
+                    ForEach(game.participations, id: \.id) { participation in
                         if participation.team != nil {
                             VStack {
                                 Text("\(participation.team?.name ?? "")").font(.largeTitle).foregroundStyle(.blue)
@@ -50,14 +50,14 @@ struct GameView: View {
                         
                         }
                     }
-                }
+//                }
             }
-            List {
-                ForEach(pointsSorted(), id: \.id) { point in
-                    HighlightListView(point: point, gameStart: game.date)
-                }.onDelete(perform: removePoint)
-                    
-            }.foregroundStyle(.black).border(.black)
+//            List {
+//                ForEach(pointsSorted(), id: \.id) { point in
+//                    HighlightListView(point: point, gameStart: game.date)
+//                }.onDelete(perform: removePoint)
+//                    
+//            }.foregroundStyle(.black).border(.black)
                 
         } .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("\(game.date.formatted(date: .abbreviated, time: .omitted))")
