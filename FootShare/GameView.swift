@@ -122,7 +122,8 @@ struct GameView: View {
     }
     
     func refreshScore() {
-        game.date = game.date
+        game.participations = game.participations
+        debugPrint("date: \(game.date)")
     }
     
     func removePoint(indexSet: IndexSet) {
