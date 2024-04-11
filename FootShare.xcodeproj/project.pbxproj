@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B00B69A32BC7AF3A00BB40B8 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00B69A22BC7AF3A00BB40B8 /* Utils.swift */; };
 		B01A372B2BAD7D9A003DF4BC /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01A372A2BAD7D9A003DF4BC /* TestView.swift */; };
 		B03D10482BA4F3A600BB1715 /* FootShareApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03D10472BA4F3A600BB1715 /* FootShareApp.swift */; };
 		B03D104A2BA4F3A600BB1715 /* GameListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03D10492BA4F3A600BB1715 /* GameListView.swift */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B00B69A22BC7AF3A00BB40B8 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		B01A372A2BAD7D9A003DF4BC /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		B03D10442BA4F3A600BB1715 /* FootShare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FootShare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B03D10472BA4F3A600BB1715 /* FootShareApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootShareApp.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				B03D104D2BA4F3A700BB1715 /* Preview Content */,
 				B01A372A2BAD7D9A003DF4BC /* TestView.swift */,
 				B0552ECB2BB479580096D311 /* Color.swift */,
+				B00B69A22BC7AF3A00BB40B8 /* Utils.swift */,
 			);
 			path = FootShare;
 			sourceTree = "<group>";
@@ -180,6 +183,7 @@
 				B0552ECC2BB479580096D311 /* Color.swift in Sources */,
 				B03D10482BA4F3A600BB1715 /* FootShareApp.swift in Sources */,
 				B0552ECA2BB476500096D311 /* SelectTeamView.swift in Sources */,
+				B00B69A32BC7AF3A00BB40B8 /* Utils.swift in Sources */,
 				B0D7EB642BAC6F0A00E89E80 /* PointSubView.swift in Sources */,
 				B07253E12BA8AE4900429710 /* Point.swift in Sources */,
 				B0552ECE2BB4AC8F0096D311 /* AddTeamView.swift in Sources */,

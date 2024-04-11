@@ -19,10 +19,10 @@ struct SelectTeamView: View {
     
     @State var showingAddTeam = false
     
-    @State private var teamOwnerFilter = teamOwner.all
+    @State private var teamOwnerFilter = teamOwner.your
 
     enum teamOwner: String, Codable, CaseIterable {
-        case all, your
+        case your, other
     }
     
     var body: some View {
@@ -30,8 +30,8 @@ struct SelectTeamView: View {
             Picker("owner", selection: $teamOwnerFilter) {
                 ForEach(teamOwner.allCases, id: \.self) { teamOwner in
                     switch teamOwner {
-                        case .all:
-                            Text("all teams".capitalized)
+                        case .other:
+                            Text("other teams".capitalized)
                         case .your:
                             Text("your teams".capitalized)
                     }

@@ -35,6 +35,20 @@ extension Array where Element : Participation {
     }
 }
 
+extension Array where Element: Participation {
+    func homeFirst() -> [Participation] {
+        self.sorted(by: { participationl, participationr in
+            participationl.isHomeTeam == true
+        })
+    }
+    
+    var teamsSelected: Bool {
+        self.filter {participation in
+            participation.team == nil
+        }.count == 0
+    }
+}
+
 extension Participation {
     static var emptyParticipation: Participation {
         Participation(isHomeTeam: false, points: [])

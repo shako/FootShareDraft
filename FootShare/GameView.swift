@@ -18,60 +18,92 @@ struct GameView: View {
 
     var body: some View {
 
-        let gridColumns = [
-            GridItem(.flexible()),
-            GridItem(.flexible()),
-        ]
         VStack {
             HStack() {
                 Group {
-                    ForEach(game.participations, id: \.id) { participation in
-                        if participation.team != nil {
-                            VStack {
-                                Text("\(participation.team?.name ?? "")").font(.largeTitle).foregroundStyle(.blue)
+                    ForEach(game.participations.homeFirst().indices) { index in
+                        let participation = game.participations.homeFirst()[index]
+                        Group {
+                            if participation.team != nil {
+                                VStack(spacing: 0) {
+                                    
+  
+                                    Text("\(participation.team!.name)")/*.font(.largeTitle)*/
+                                        .foregroundStyle(.white)
+                                        .frame( maxWidth: .infinity)
+                                        .font(.title3)
+                                        .fontWeight(.semibold)
+                                        .scaledToFit()
+                                        .padding()
+                                        .background(.black)
+                                        .clipShape(
+                                            .rect(cornerRadii: RectangleCornerRadii(
+                                                topLeading: (index == 0 ? 0 : 10),
+                                                bottomLeading: 0,
+                                                bottomTrailing: 0,
+                                                topTrailing: (index == 1 ? 0 : 10)))
+                                        )
 
-                                Button(action: {addPoint(participation: participation)}, label: {
-                                    VStack {
-                                        VStack {
-                                            Text("\(participation.score)").font(.system(size: 100))
-                                        }.frame(maxWidth: .infinity, maxHeight: .infinity)
                                         
-//                                        Image(systemName: "soccerball.inverse")
-//                                            .font(.system(size: CGFloat(50))).foregroundStyle(.blue)
-                                    }
 
-                                })
-                            }
-                        } else {
-                            VStack {
-                                Button {
-                                    participationToSelectTeamFor = participation
-                                    selectedTeam = nil
-                                    showingSelectTeam = true
-                                } label: {
-                                    Text("Select Team")
-                                        .font(.largeTitle)
-                                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                    Button(action: {addPoint(participation: participation)}, label: {
+                                        VStack {
+                                                Text("\(participation.score)")
+                                                .font(.system(size: 100))
+                                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                                .background(.regularMaterial)
+                                                .foregroundStyle(.black)
+                                                .clipShape(RoundedRectangle(cornerRadius: 5))
+                                        }
+                                    }).disabled(!game.participations.teamsSelected).padding()
+                                }
+                                .background(Color.init(hex: participation.team?.colorHex ?? 16711680))
+                                
+                            } else {
+                                VStack {
+                                    Button {
+                                        participationToSelectTeamFor = participation
+                                        selectedTeam = nil
+                                        showingSelectTeam = true
+                                    } label: {
+                                        (Text("Select ") + (participation.isHomeTeam ? Text(Image(systemName: "house")) : Text(Image(systemName: "figure.run"))) + Text(" Team"))
+                                            .font(.title2)
+                                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                    }
+                                    
                                 }
                                 
                             }
-                            
-                        }
-                    }.padding().frame(maxWidth: .infinity, maxHeight: 200).background(.gray.opacity(0.3))
+                        }.frame(maxWidth: .infinity, maxHeight: 200).background(.gray.opacity(0.15))
+                            .clipShape(
+                                .rect(cornerRadii: RectangleCornerRadii(
+                                    topLeading: (index == 0 ? 0 : 10),
+                                    bottomLeading: (index == 0 ? 0 : 10),
+                                    bottomTrailing: (index == 1 ? 0 : 10),
+                                    topTrailing: (index == 1 ? 0 : 10)))
+                            )
+
+                    }
                     //                }
                 }
             }
-            List {
-                if pointsSorted().isEmpty {
-                    Text("No points scored yet")
-                } else {
-                    ForEach(pointsSorted(), id: \.id) { point in
-                        HighlightListView(point: point, gameStart: game.date)
-                    }.onDelete(perform: removePoint)
-                }
-
+            if !game.participations.teamsSelected {
+                (Text(Image(systemName: "arrow.up")) + Text(" Select teams to start ") + Text(Image(systemName: "arrow.up"))).frame(maxHeight: .infinity)
+//                Spacer()
+            } else {
+                List {
+                    if !game.participations.teamsSelected {
+                        Text(Image(systemName: "arrow.up")) + Text(" Select teams to start ") + Text(Image(systemName: "arrow.up"))
+                    } else if pointsSorted().isEmpty {
+                        Text("No points scored!")
+                    } else {
+                        ForEach(pointsSorted(), id: \.id) { point in
+                            HighlightListView(point: point, gameStart: game.date)
+                        }.onDelete(perform: removePoint)
+                    }
                     
-            }.foregroundStyle(.black)
+                }.foregroundStyle(.black)
+            }
                 
         } .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("\(game.date.formatted(date: .abbreviated, time: .omitted))")
@@ -136,11 +168,27 @@ struct GameView: View {
     
 }
 
+#Preview("One Team") {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: Game.self, configurations: config)
+    
+    let games = makeFakeData(container: container)
+    games.first!.participations.home!.team = nil
+    games.first!.participations.home!.points = []
+    games.first!.participations.out!.points = []
+//    games.forEach({data in container.mainContext.insert(data)})
+
+        return NavigationStack {
+        GameView(game: games.first!).modelContainer(container)
+    }
+    
+}
+
 #Preview("No Teams") {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Game.self, configurations: config)
     
-    let games = makeFakeDataWithoutTeams()
+    let games = makeFakeData(container: container, assignTeams: false)
     
     games.forEach({data in container.mainContext.insert(data)})
 
@@ -150,6 +198,7 @@ struct GameView: View {
     }
     
 }
+
 
 struct HighlightListView: View {
     let point: Point

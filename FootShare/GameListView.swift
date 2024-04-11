@@ -71,9 +71,9 @@ struct GameListView: View {
 
 }
 
-@MainActor func makeFakeData(container: ModelContainer) -> [Game] {
-    let teamWesterlo = Team(name: "Westerlo", isYourTeam: true)
-    let teamGeel = Team(name: "Geel", isYourTeam: false)
+@MainActor func makeFakeData(container: ModelContainer, assignTeams: Bool = true) -> [Game] {
+    let teamWesterlo = Team(name: "KVC Westerlo U9", isYourTeam: true)
+    let teamGeel = Team(name: "Het heultje of iets met lange naam", isYourTeam: false)
     container.mainContext.insert(teamWesterlo)
     container.mainContext.insert(teamGeel)
     
@@ -92,13 +92,18 @@ struct GameListView: View {
     
     participationWesterlo = Participation(isHomeTeam: true, points: [])
     container.mainContext.insert(participationWesterlo)
-    participationWesterlo.team = teamWesterlo
-    participationWesterlo.points = goalsWesterlo
+    if assignTeams {
+        participationWesterlo.team = teamWesterlo
+        participationWesterlo.points = goalsWesterlo
+    }
     
     let participationGeel = Participation(isHomeTeam: false, points: [])
     container.mainContext.insert(participationGeel)
-    participationGeel.team = teamGeel
-    participationGeel.points = goalsGeel
+    if assignTeams {
+        participationGeel.team = teamGeel
+        participationGeel.points = goalsGeel
+    }
+    
     
     let participations = [participationWesterlo, participationGeel]
     
@@ -106,17 +111,6 @@ struct GameListView: View {
     container.mainContext.insert(game)
     game.participations = participations
     
-    return [game]
-}
-
-func makeFakeDataWithoutTeams() -> [Game] {
-    
-    var participationWesterlo = Participation(isHomeTeam: true, points: [])
-    let participationGeel = Participation(isHomeTeam: false, points: [])
-    
-    let participations = [participationWesterlo, participationGeel]
-    
-    let game = Game(date: .now, participations: participations)
     return [game]
 }
 
