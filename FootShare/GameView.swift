@@ -27,37 +27,25 @@ struct GameView: View {
                             if participation.team != nil {
                                 VStack(spacing: 0) {
                                     
-  
-                                    Text("\(participation.team!.name)")/*.font(.largeTitle)*/
-                                        .foregroundStyle(.white)
-                                        .frame( maxWidth: .infinity)
-                                        .font(.title3)
-                                        .fontWeight(.semibold)
-                                        .scaledToFit()
-                                        .padding()
-                                        .background(.black)
-                                        .clipShape(
-                                            .rect(cornerRadii: RectangleCornerRadii(
-                                                topLeading: (index == 0 ? 0 : 10),
-                                                bottomLeading: 0,
-                                                bottomTrailing: 0,
-                                                topTrailing: (index == 1 ? 0 : 10)))
-                                        )
-
-                                        
+                                    TeamHeader(name: participation.team!.name, isLeft: index == 0)
 
                                     Button(action: {addPoint(participation: participation)}, label: {
+                                        // todo: move to seperate method, but make sure that after deleting a goal the score gets updated
                                         VStack {
                                                 Text("\(participation.score)")
                                                 .font(.system(size: 100))
                                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                                                 .background(.regularMaterial)
                                                 .foregroundStyle(.black)
-                                                .clipShape(RoundedRectangle(cornerRadius: 5))
+                                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                                .padding()
+                                                .background(Color.init(hex: participation.team?.colorHex ?? 16711680))
                                         }
-                                    }).disabled(!game.participations.teamsSelected).padding()
+                                    })
+                                    .disabled(!game.participations.teamsSelected)
+                                    
                                 }
-                                .background(Color.init(hex: participation.team?.colorHex ?? 16711680))
+                                
                                 
                             } else {
                                 VStack {
@@ -208,4 +196,27 @@ struct HighlightListView: View {
         Text("\(point.secondsSindsGameStart()) - \(point.participation?.team?.name ?? "unknown")")
     }
     
+}
+
+struct TeamHeader: View {
+    let name: String
+    let isLeft: Bool
+    
+    var body: some View {
+        Text("\(name)")/*.font(.largeTitle)*/
+            .foregroundStyle(.white)
+            .frame( maxWidth: .infinity)
+            .font(.title3)
+            .fontWeight(.semibold)
+            .scaledToFit()
+            .padding()
+            .background(.black)
+            .clipShape(
+                .rect(cornerRadii: RectangleCornerRadii(
+                    topLeading: (isLeft ? 0 : 10),
+                    bottomLeading: 0,
+                    bottomTrailing: 0,
+                    topTrailing: (!isLeft ? 0 : 10)))
+            )
+    }
 }

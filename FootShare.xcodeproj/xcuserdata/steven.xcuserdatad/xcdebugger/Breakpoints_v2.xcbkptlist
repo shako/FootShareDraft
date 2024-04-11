@@ -14,8 +14,8 @@
             filePath = "FootShare/GameView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "161"
-            endingLineNumber = "161"
+            startingLineNumber = "149"
+            endingLineNumber = "149"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -154,8 +154,8 @@
             filePath = "FootShare/GameView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -186,8 +186,10 @@
             filePath = "FootShare/GameView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "212"
-            endingLineNumber = "212">
+            startingLineNumber = "200"
+            endingLineNumber = "200"
+            landmarkName = "TeamHeader"
+            landmarkType = "14">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
