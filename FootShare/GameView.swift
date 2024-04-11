@@ -123,11 +123,9 @@ struct GameView: View {
     
     func refreshScore() {
         game.participations = game.participations
-        debugPrint("date: \(game.date)")
     }
     
     func removePoint(indexSet: IndexSet) {
-
         for index in indexSet {
             let point = pointsSorted()[index]
             modelContext.delete(point)
