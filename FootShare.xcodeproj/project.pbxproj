@@ -21,7 +21,6 @@
 		B0552ECC2BB479580096D311 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0552ECB2BB479580096D311 /* Color.swift */; };
 		B0552ECE2BB4AC8F0096D311 /* AddTeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0552ECD2BB4AC8F0096D311 /* AddTeamView.swift */; };
 		B07253E12BA8AE4900429710 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07253E02BA8AE4900429710 /* Point.swift */; };
-		B0D7EB642BAC6F0A00E89E80 /* PointSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D7EB632BAC6F0A00E89E80 /* PointSubView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,7 +39,6 @@
 		B0552ECB2BB479580096D311 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		B0552ECD2BB4AC8F0096D311 /* AddTeamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTeamView.swift; sourceTree = "<group>"; };
 		B07253E02BA8AE4900429710 /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
-		B0D7EB632BAC6F0A00E89E80 /* PointSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointSubView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,7 +87,6 @@
 				B03D10572BA4F52200BB1715 /* GameView.swift */,
 				B0552EC92BB476500096D311 /* SelectTeamView.swift */,
 				B0552ECD2BB4AC8F0096D311 /* AddTeamView.swift */,
-				B0D7EB632BAC6F0A00E89E80 /* PointSubView.swift */,
 				B02C6FAD2BC47BC8007B7E22 /* Models */,
 				B03D104B2BA4F3A700BB1715 /* Assets.xcassets */,
 				B03D104D2BA4F3A700BB1715 /* Preview Content */,
@@ -184,7 +181,6 @@
 				B03D10482BA4F3A600BB1715 /* FootShareApp.swift in Sources */,
 				B0552ECA2BB476500096D311 /* SelectTeamView.swift in Sources */,
 				B00B69A32BC7AF3A00BB40B8 /* Utils.swift in Sources */,
-				B0D7EB642BAC6F0A00E89E80 /* PointSubView.swift in Sources */,
 				B07253E12BA8AE4900429710 /* Point.swift in Sources */,
 				B0552ECE2BB4AC8F0096D311 /* AddTeamView.swift in Sources */,
 				B01A372B2BAD7D9A003DF4BC /* TestView.swift in Sources */,
@@ -324,6 +320,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"FootShare/Preview Content\"";
+				DEVELOPMENT_TEAM = FQ2Q245CX2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -352,6 +349,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"FootShare/Preview Content\"";
+				DEVELOPMENT_TEAM = FQ2Q245CX2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
