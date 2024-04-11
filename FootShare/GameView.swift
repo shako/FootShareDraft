@@ -196,8 +196,23 @@ struct HighlightListView: View {
     let point: Point
     let gameStart: Date
     
+    init(point: Point, gameStart: Date) {
+        self.point = point
+        self.gameStart = gameStart
+        print("About to render point: \(formatHighlightTime(seconds: point.secondsSindsGameStart()))")
+    }
+    
     var body: some View {
-        Text("\(point.secondsSindsGameStart()) - \(point.participation?.team?.name ?? "unknown")")
+        
+        HStack {
+            Image(systemName: "soccerball.inverse").rotationEffect(.degrees(Double(Int.random(in: 0...360))))
+            Text("\(formatHighlightTime(seconds: point.secondsSindsGameStart())) - \(point.participation?.team?.name ?? "unknown")")
+        }.padding(.leading, -5)
+    }
+    
+    func formatHighlightTime(seconds: Double) -> String {
+        let minutes = Int(((seconds) / 60).rounded(.up))
+        return "\(minutes)' \(seconds) seconds"
     }
     
 }
