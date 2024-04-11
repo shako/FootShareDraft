@@ -196,12 +196,6 @@ struct HighlightListView: View {
     let point: Point
     let gameStart: Date
     
-    init(point: Point, gameStart: Date) {
-        self.point = point
-        self.gameStart = gameStart
-        print("About to render point: \(formatHighlightTime(seconds: point.secondsSindsGameStart()))")
-    }
-    
     var body: some View {
         
         HStack {
