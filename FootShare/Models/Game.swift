@@ -19,9 +19,11 @@ class Game {
     }
 
     var points: [Point] {
-        participations.flatMap { participation in
+        return participations.flatMap { participation in
             participation.points
-        }
+        }.sorted(by: { p1, p2 in
+            return p1.date > p2.date
+        })
     }
     
 }

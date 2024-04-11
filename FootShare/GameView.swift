@@ -138,7 +138,13 @@ struct GameView: View {
     
     func pointsSorted() -> [Point] {
         game.points.sorted(by: { pointl, pointr in
-            pointl.date > pointr.date
+            if (pointl.date > pointr.date) {
+                return true
+            } else if (pointl.date < pointr.date) {
+                return false
+            } else {
+                return pointl.id.hashValue > pointr.id.hashValue
+            }
         })
     }
     
