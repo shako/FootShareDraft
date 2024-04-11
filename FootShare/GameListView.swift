@@ -72,6 +72,8 @@ struct GameListView: View {
 }
 
 @MainActor func makeFakeData(container: ModelContainer, assignTeams: Bool = true) -> [Game] {
+    let gameStartDate = Date.now
+    
     let teamWesterlo = Team(name: "KVC Westerlo U9", isYourTeam: true)
     let teamGeel = Team(name: "Het heultje of iets met lange naam", isYourTeam: false)
     teamGeel.colorHex = 15253504
@@ -80,13 +82,12 @@ struct GameListView: View {
     
     var participationWesterlo: Participation
     
-
-    let goalsWesterlo = [Point(date: .now + 1000), Point(date: .now + 10), Point(date: .now + 20), Point(date: .now + 60), Point(date: .now + 61)]
+    let goalsWesterlo = [Point(date: gameStartDate + 1000), Point(date: gameStartDate + 10), Point(date: gameStartDate + 59), Point(date: gameStartDate + 60), Point(date: gameStartDate + 61), Point(date: gameStartDate + 300)]
     goalsWesterlo.forEach { goal in
         container.mainContext.insert(goal)
     }
     
-    let goalsGeel = [Point(date: .now + 200)]
+    let goalsGeel = [Point(date: gameStartDate + 200)]
     goalsGeel.forEach { goal in
         container.mainContext.insert(goal)
     }
@@ -108,7 +109,7 @@ struct GameListView: View {
     
     let participations = [participationWesterlo, participationGeel]
     
-    let game = Game(date: .now, participations: [])
+    let game = Game(date: gameStartDate, participations: [])
     container.mainContext.insert(game)
     game.participations = participations
     
