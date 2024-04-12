@@ -49,7 +49,7 @@ struct SelectTeamView: View {
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button(action: {
-                    newTeam = Team(name: "", isYourTeam: false)
+                    newTeam = Team.emptyTeam
                     showingAddTeam = true
                 }, label: {
                     Image(systemName: "plus")

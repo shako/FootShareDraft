@@ -40,12 +40,11 @@ struct AddTeamView: View {
 
             }
             .onAppear {
+                self.team = self.team
                 focusedField = .teamName
             }
-
-            
-            Spacer()
         }
+        .interactiveDismissDisabled()
     }
 }
 

@@ -13,21 +13,39 @@ struct GameView: View {
     @Bindable var game: Game
     
     @State private var showingSelectTeam = false
+    @State private var editTeamIndex: EditableTeam? = nil
+    @State var editTeams = [Team.emptyTeam, Team.emptyTeam] {
+        didSet(newTeams) {
+            debugPrint("got \(newTeams.count) edit teams")
+            newTeams.forEach { team in
+                debugPrint("Edit team: \(team.name)")
+            }
+        }
+        
+    }
     @State private var selectedTeam: Team? = Team.emptyTeam
     @State private var participationToSelectTeamFor : Participation = Participation.emptyParticipation
 
+    
+    
     var body: some View {
 
         VStack {
             HStack() {
                 Group {
                     ForEach(game.participations.homeFirst().indices) { index in
-                        let participation = game.participations.homeFirst()[index]
+                        var participation = game.participations.homeFirst()[index]
+                        
                         Group {
                             if participation.team != nil {
                                 VStack(spacing: 0) {
-                                    
-                                    TeamHeader(name: participation.team!.name, isLeft: index == 0)
+                                    Button {
+                                        editTeams[index] = participation.team!.copy()
+                                        editTeamIndex = EditableTeam(id: index)
+                                        
+                                    } label: {
+                                        TeamHeader(name: participation.team!.name, isLeft: index == 0)
+                                    }
 
                                     Button(action: {addPoint(participation: participation)}, label: {
                                         // todo: move to seperate method, but make sure that after deleting a goal the score gets updated
@@ -63,8 +81,26 @@ struct GameView: View {
                                     
                                 }
                                 
+                                .sheet(isPresented: $showingSelectTeam) {
+                                    NavigationStack {
+                                        SelectTeamView(selectedTeam: $selectedTeam)
+                                            .navigationTitle("Choose Team")
+                                            .navigationBarTitleDisplayMode(.inline)
+                                            .toolbar {
+                                                ToolbarItem(placement: .topBarTrailing) {
+                                                    Button("Select") {
+                                                        participationToSelectTeamFor.team = selectedTeam
+                                                        refreshScore()
+                                                        showingSelectTeam = false
+                                                    }
+                                                }
+                                            }
+                                    }
+                                }
+                                
                             }
-                        }.frame(maxWidth: .infinity, maxHeight: 200)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: 200)
                             .background(.gray.opacity(0.15))
 //                            .background(.black)
                             .clipShape(
@@ -78,7 +114,29 @@ struct GameView: View {
                     }
                     //                }
                 }
+                .sheet(item: $editTeamIndex) { index in
+//                    Text("test")
+                    NavigationStack {
+                        AddTeamView(team: $editTeams[index.id])
+                            .toolbar {
+                                ToolbarItem(placement: .cancellationAction) {
+                                    Button("Cancel") {
+                                        editTeamIndex = nil
+                                        refreshScore()
+                                    }
+                                }
+                                ToolbarItem(placement: .confirmationAction) {
+                                    Button("Done") {
+                                        game.participations.homeFirst()[index.id].team!.updateDetailsFrom(other: editTeams[index.id])
+                                        editTeamIndex = nil
+                                        refreshScore()
+                                    }
+                                }
+                            }
+                    }
+                }
             }
+            
             if !game.participations.teamsSelected {
                 (Text(Image(systemName: "arrow.up")) + Text(" Select teams to start ") + Text(Image(systemName: "arrow.up"))).frame(maxHeight: .infinity)
 //                Spacer()
@@ -99,25 +157,8 @@ struct GameView: View {
                 
         } .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("\(game.date.formatted(date: .abbreviated, time: .omitted))")
-        .sheet(isPresented: $showingSelectTeam) {
-            NavigationStack {
-                SelectTeamView(selectedTeam: $selectedTeam)
-                    .navigationTitle("Choose Team")
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbar {
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button("Select") {
-                                participationToSelectTeamFor.team = selectedTeam
-                                refreshScore()
-                                showingSelectTeam = false
-                            }
-//                            .disabled(selectedTeam == nil)
-                        }
-                
-                    }
-            }
-            
-        }
+        
+
     }
     
     func addPoint(participation: Participation) {
@@ -214,6 +255,10 @@ struct HighlightListView: View {
         return "\(minutes)'"
     }
     
+}
+
+struct EditableTeam: Identifiable {
+    var id: Int
 }
 
 struct TeamHeader: View {
