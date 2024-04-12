@@ -19,10 +19,10 @@ struct SelectTeamView: View {
     
     @State var showingAddTeam = false
     
-    @State private var teamOwnerFilter = teamOwner.your
+    @State private var teamOwnerFilter = teamOwner.my
 
     enum teamOwner: String, Codable, CaseIterable {
-        case your, other
+        case all, my
     }
     
     var body: some View {
@@ -30,17 +30,17 @@ struct SelectTeamView: View {
             Picker("owner", selection: $teamOwnerFilter) {
                 ForEach(teamOwner.allCases, id: \.self) { teamOwner in
                     switch teamOwner {
-                        case .other:
-                            Text("other teams".capitalized)
-                        case .your:
-                            Text("your teams".capitalized)
+                        case .all:
+                            Text("all teams".capitalized)
+                        case .my:
+                            Text("my teams".capitalized)
                     }
                 }
             }
             .pickerStyle(.segmented).padding()
 
             List(selection: $selectedTeam) {
-                ForEach(teams.filter {team in teamOwnerFilter == .your ? team.isYourTeam == true : true}) { team  in
+                ForEach(teams.filter {team in teamOwnerFilter == .my ? team.isYourTeam == true : true}) { team  in
                     Text("\(team.name)").tag(team)
                 }
 
