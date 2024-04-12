@@ -168,6 +168,7 @@ struct GameView: View {
     games.first!.participations.home!.team = nil
     games.first!.participations.home!.points = []
     games.first!.participations.out!.points = []
+    games.first!.participations.out!.team?.name = "short"
 //    games.forEach({data in container.mainContext.insert(data)})
 
         return NavigationStack {

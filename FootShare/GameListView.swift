@@ -72,11 +72,13 @@ struct GameListView: View {
 }
 
 @MainActor func makeFakeData(container: ModelContainer, assignTeams: Bool = true) -> [Game] {
-    let gameStartDate = Date.now
+    let gameStartDate = Date.now - 1500
     
     let teamWesterlo = Team(name: "KVC Westerlo U9", isYourTeam: true)
     let teamGeel = Team(name: "Het heultje of iets met lange naam", isYourTeam: false)
-    teamGeel.colorHex = 15253504
+//    teamGeel.colorHex = 15253504
+    teamWesterlo.color = UIColor(Color.yellow)
+    teamGeel.color = UIColor.blue
     container.mainContext.insert(teamWesterlo)
     container.mainContext.insert(teamGeel)
     
