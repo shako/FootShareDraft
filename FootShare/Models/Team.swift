@@ -13,7 +13,8 @@ import Foundation
 class Team {
     var name: String
     var isYourTeam: Bool
-    var colorHex: Int?
+//    var colorHex: Int?
+    @Attribute(.transformable(by: UIColorValueTransformer.self)) var color: UIColor = UIColor(Color.gray.opacity(0.6))
     @Relationship(deleteRule: .cascade, inverse: \Participation.team) var participations: [Participation] = []
     
     init(name: String, isYourTeam: Bool) {

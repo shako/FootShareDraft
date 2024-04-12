@@ -36,10 +36,12 @@ struct GameView: View {
                                                 .font(.system(size: 100))
                                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                                                 .background(.regularMaterial)
-                                                .foregroundStyle(.black)
+                                                .foregroundStyle(Color.primary)
+                                                
                                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                                                 .padding()
-                                                .background(Color.init(hex: participation.team?.colorHex ?? 16711680))
+                                                .background(Color(participation.team?.color ?? UIColor.red))
+                                            //participation.team?.color ??
                                         }
                                     })
                                     .disabled(!game.participations.teamsSelected)
@@ -62,7 +64,9 @@ struct GameView: View {
                                 }
                                 
                             }
-                        }.frame(maxWidth: .infinity, maxHeight: 200).background(.gray.opacity(0.15))
+                        }.frame(maxWidth: .infinity, maxHeight: 200)
+                            .background(.gray.opacity(0.15))
+//                            .background(.black)
                             .clipShape(
                                 .rect(cornerRadii: RectangleCornerRadii(
                                     topLeading: (index == 0 ? 0 : 10),
@@ -207,7 +211,7 @@ struct HighlightListView: View {
     
     func formatHighlightTime(seconds: Double) -> String {
         let minutes = Int(((seconds) / 60).rounded(.up))
-        return "\(minutes)' \(seconds) seconds"
+        return "\(minutes)'"
     }
     
 }
@@ -222,15 +226,16 @@ struct TeamHeader: View {
             .frame( maxWidth: .infinity)
             .font(.title3)
             .fontWeight(.semibold)
+//            .clipShape(
+//                .rect(cornerRadii: RectangleCornerRadii(
+//                    topLeading: (isLeft ? 0 : 10),
+//                    bottomLeading: 0,
+//                    bottomTrailing: 0,
+//                    topTrailing: (!isLeft ? 0 : 10)))
+//                
+//            )
             .scaledToFit()
-            .padding()
-            .background(.black)
-            .clipShape(
-                .rect(cornerRadii: RectangleCornerRadii(
-                    topLeading: (isLeft ? 0 : 10),
-                    bottomLeading: 0,
-                    bottomTrailing: 0,
-                    topTrailing: (!isLeft ? 0 : 10)))
-            )
+            .padding(.vertical)
+            .frame(maxWidth: .infinity).background(.black)
     }
 }

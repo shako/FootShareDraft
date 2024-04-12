@@ -105,7 +105,7 @@ struct SelectTeamView: View {
     let team3 = Team(name: "Kampenhout", isYourTeam: false)
     let team4 = Team(name: "Brugge", isYourTeam: false)
     
-    team1.colorHex = 16711680
+    team1.color = UIColor.yellow
     let teams = [team1, team2 , team3, team4]
     
     teams.forEach { team in

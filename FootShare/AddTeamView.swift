@@ -6,6 +6,7 @@
 //
 
 import SwiftData
+import UIKit
 import SwiftUI
 
 struct AddTeamView: View {
@@ -19,16 +20,24 @@ struct AddTeamView: View {
     @FocusState private var focusedField: FocusedField?
     
     var body: some View {
-         
+        let colorBinding = Binding(
+            get: { Color(team.color) },
+            set: { team.color = UIColor($0) }
+        )
+        
         VStack {
             Form {
                 TextField("Team name", text: $team.name)
                     .focused($focusedField, equals: .teamName)
                     .autocorrectionDisabled()
                     .font(.largeTitle)
-                Toggle(isOn: $team.isYourTeam) {
-                    Text("Is your team")
+                ColorPicker(selection: colorBinding) {
+                    Text("Team color")
                 }
+                Toggle(isOn: $team.isYourTeam) {
+                    Text("This is my team")
+                }
+
             }
             .onAppear {
                 focusedField = .teamName
