@@ -13,38 +13,48 @@ struct GameView: View {
     @Bindable var game: Game
     
     @State private var showingSelectTeam = false
-    @State private var editTeamIndex: EditableTeam? = nil
-    @State var editTeams = [Team.emptyTeam, Team.emptyTeam] {
-        didSet(newTeams) {
-            debugPrint("got \(newTeams.count) edit teams")
-            newTeams.forEach { team in
-                debugPrint("Edit team: \(team.name)")
-            }
-        }
-        
-    }
+    @State var teamEditor = TeamEditor()
+    
     @State private var selectedTeam: Team? = Team.emptyTeam
     @State private var participationToSelectTeamFor : Participation = Participation.emptyParticipation
 
-    
-    
     var body: some View {
 
         VStack {
             HStack() {
                 Group {
                     ForEach(game.participations.homeFirst().indices) { index in
-                        var participation = game.participations.homeFirst()[index]
+                        let participation = game.participations.homeFirst()[index]
                         
                         Group {
                             if participation.team != nil {
                                 VStack(spacing: 0) {
                                     Button {
-                                        editTeams[index] = participation.team!.copy()
-                                        editTeamIndex = EditableTeam(id: index)
-                                        
+                                        debugPrint("I'm clicked!")
+                                        teamEditor.editingParticipation = participation
+                                        teamEditor.teamEditInProgress = participation.team!.copy()
+                                        teamEditor.isEditing = true
                                     } label: {
                                         TeamHeader(name: participation.team!.name, isLeft: index == 0)
+                                    }
+//                                    .sheet(item: $teamEditor.currentTeam) { team in
+                                    .sheet(isPresented: $teamEditor.isEditing) {
+                                        NavigationStack {
+                                            AddTeamView(team: $teamEditor.teamEditInProgress)
+                                            .toolbar {
+                                                ToolbarItem(placement: .cancellationAction) {
+                                                    Button("Cancel") {
+                                                        teamEditor.isEditing = false
+                                                    }
+                                                }
+                                                ToolbarItem(placement: .confirmationAction) {
+                                                    Button("Done") {
+                                                        teamEditor.editingParticipation!.team?.updateDetailsFrom(other: teamEditor.teamEditInProgress)
+                                                        teamEditor.isEditing = false
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
 
                                     Button(action: {addPoint(participation: participation)}, label: {
@@ -59,7 +69,6 @@ struct GameView: View {
                                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                                                 .padding()
                                                 .background(Color(participation.team?.color ?? UIColor.red))
-                                            //participation.team?.color ??
                                         }
                                     })
                                     .disabled(!game.participations.teamsSelected)
@@ -74,12 +83,23 @@ struct GameView: View {
                                         selectedTeam = nil
                                         showingSelectTeam = true
                                     } label: {
-                                        (Text("Select ") + (participation.isHomeTeam ? Text(Image(systemName: "house")) : Text(Image(systemName: "figure.run"))) + Text(" Team"))
+                                        ((participation.isHomeTeam ? Text("Home ") : Text("Out ")) + Text("Team"))
                                             .font(.title2)
-                                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                            .padding()
+                                            .background(.white)
+                                            .foregroundColor(.black)
+                                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                                            
                                     }
                                     
-                                }
+                                }.background(content: {
+                                    Image(systemName: participation.isHomeTeam ? "house" : "figure.run")
+                                        .resizable()
+                                        .padding()
+                                        .scaledToFill()
+                                        .foregroundStyle(.black.opacity(0.1))
+                                        
+                                })
                                 
                                 .sheet(isPresented: $showingSelectTeam) {
                                     NavigationStack {
@@ -114,36 +134,16 @@ struct GameView: View {
                     }
                     //                }
                 }
-                .sheet(item: $editTeamIndex) { index in
-//                    Text("test")
-                    NavigationStack {
-                        AddTeamView(team: $editTeams[index.id])
-                            .toolbar {
-                                ToolbarItem(placement: .cancellationAction) {
-                                    Button("Cancel") {
-                                        editTeamIndex = nil
-                                        refreshScore()
-                                    }
-                                }
-                                ToolbarItem(placement: .confirmationAction) {
-                                    Button("Done") {
-                                        game.participations.homeFirst()[index.id].team!.updateDetailsFrom(other: editTeams[index.id])
-                                        editTeamIndex = nil
-                                        refreshScore()
-                                    }
-                                }
-                            }
-                    }
-                }
             }
             
             if !game.participations.teamsSelected {
-                (Text(Image(systemName: "arrow.up")) + Text(" Select teams to start ") + Text(Image(systemName: "arrow.up"))).frame(maxHeight: .infinity)
-//                Spacer()
+                (Text(Image(systemName: "arrow.up")) + Text(" Select both teams to start ") + Text(Image(systemName: "arrow.up"))).fontWeight(.semibold).padding(.top)
+//                    .frame(maxHeight: .infinity)
+                Spacer()
             } else {
                 List {
                     if !game.participations.teamsSelected {
-                        Text(Image(systemName: "arrow.up")) + Text(" Select teams to start ") + Text(Image(systemName: "arrow.up"))
+
                     } else if pointsSorted().isEmpty {
                         Text("No points scored!")
                     } else {
@@ -214,7 +214,6 @@ struct GameView: View {
     games.first!.participations.home!.points = []
     games.first!.participations.out!.points = []
     games.first!.participations.out!.team?.name = "short"
-//    games.forEach({data in container.mainContext.insert(data)})
 
         return NavigationStack {
         GameView(game: games.first!).modelContainer(container)
@@ -283,4 +282,16 @@ struct TeamHeader: View {
             .padding(.vertical)
             .frame(maxWidth: .infinity).background(.black)
     }
+}
+
+@Observable
+class TeamEditor {
+    var isEditing = false
+    var editingParticipation: Participation?
+    var teamEditInProgress: Team = Team.emptyTeam {
+        didSet {
+            print("currentTeam was set to: \(teamEditInProgress.name ?? "nil")")
+        }
+    }
+    
 }

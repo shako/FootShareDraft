@@ -27,7 +27,7 @@ class Team {
 
 extension Team {
     static var emptyTeam: Team {
-        Team(name: "", isYourTeam: false)
+        Team(name: "TEST!", isYourTeam: false)
     }
 
     func copy() -> Team {
