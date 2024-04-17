@@ -176,6 +176,7 @@ struct GameView: View {
         for index in indexSet {
             let point = pointsSorted()[index]
             modelContext.delete(point)
+            try? modelContext.save()
         }
         refreshScore()
     }
