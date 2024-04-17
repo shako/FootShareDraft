@@ -11,11 +11,13 @@ import Foundation
 @Model
 class Game {
     var date: Date
+    @Relationship(deleteRule: .cascade) var clock: Clock
     @Relationship(deleteRule: .cascade, inverse: \Participation.game)  var participations: [Participation]
     
-    init(date: Date, participations: [Participation]) {
+    init(date: Date, participations: [Participation], clock: Clock) {
         self.date = date
         self.participations = participations
+        self.clock = clock
     }
 
     var points: [Point] {
@@ -27,3 +29,4 @@ class Game {
     }
     
 }
+

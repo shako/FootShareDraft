@@ -40,16 +40,18 @@ struct GameListView: View {
                     EditButton()
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("New") {
+                    Button {
                         let participationHomeTeam = Participation(isHomeTeam: true, points: [])
                         let participationOutTeam = Participation(isHomeTeam: false, points: [])
-                        let game = Game(date: .now, participations: [])
+                        let game = Game(date: .now, participations: [], clock: Clock())
                         modelContext.container.mainContext.insert(game)
                         modelContext.container.mainContext.insert(participationHomeTeam)
                         modelContext.container.mainContext.insert(participationOutTeam)
                         participationHomeTeam.game = game
                         participationOutTeam.game = game
                         path.append(game)
+                    } label: {
+                        Image(systemName: "plus")
                     }
                 }
 
@@ -76,6 +78,7 @@ struct GameListView: View {
     return GameListView().modelContainer(container)
 
 }
+
 
 @MainActor func makeFakeData(container: ModelContainer, assignTeams: Bool = true) -> [Game] {
     let gameStartDate = Date.now - 1500
@@ -117,9 +120,13 @@ struct GameListView: View {
     
     let participations = [participationWesterlo, participationGeel]
     
-    let game = Game(date: gameStartDate, participations: [])
+    let clock = Clock()
+    container.mainContext.insert(clock)
+    
+    let game = Game(date: gameStartDate, participations: [], clock: Clock())
     container.mainContext.insert(game)
     game.participations = participations
+    game.clock = clock
     
     return [game]
 }

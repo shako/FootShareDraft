@@ -21,6 +21,9 @@
 		B0552ECC2BB479580096D311 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0552ECB2BB479580096D311 /* Color.swift */; };
 		B0552ECE2BB4AC8F0096D311 /* AddTeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0552ECD2BB4AC8F0096D311 /* AddTeamView.swift */; };
 		B07253E12BA8AE4900429710 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07253E02BA8AE4900429710 /* Point.swift */; };
+		B0BE556B2BCE3C5600AAC420 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BE556A2BCE3C5600AAC420 /* Clock.swift */; };
+		B0EC20202BCDB7F600237481 /* ClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EC201F2BCDB7F600237481 /* ClockView.swift */; };
+		B0EC20222BCDB88D00237481 /* Break.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EC20212BCDB88D00237481 /* Break.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +42,9 @@
 		B0552ECB2BB479580096D311 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		B0552ECD2BB4AC8F0096D311 /* AddTeamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTeamView.swift; sourceTree = "<group>"; };
 		B07253E02BA8AE4900429710 /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
+		B0BE556A2BCE3C5600AAC420 /* Clock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clock.swift; sourceTree = "<group>"; };
+		B0EC201F2BCDB7F600237481 /* ClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockView.swift; sourceTree = "<group>"; };
+		B0EC20212BCDB88D00237481 /* Break.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Break.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,8 +63,10 @@
 			children = (
 				B03D10592BA4F52C00BB1715 /* Game.swift */,
 				B03D10612BA50E5700BB1715 /* Participation.swift */,
+				B0EC20212BCDB88D00237481 /* Break.swift */,
 				B03D105B2BA4F59400BB1715 /* Team.swift */,
 				B07253E02BA8AE4900429710 /* Point.swift */,
+				B0BE556A2BCE3C5600AAC420 /* Clock.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -85,6 +93,7 @@
 				B03D10472BA4F3A600BB1715 /* FootShareApp.swift */,
 				B03D10492BA4F3A600BB1715 /* GameListView.swift */,
 				B03D10572BA4F52200BB1715 /* GameView.swift */,
+				B0EC201F2BCDB7F600237481 /* ClockView.swift */,
 				B0552EC92BB476500096D311 /* SelectTeamView.swift */,
 				B0552ECD2BB4AC8F0096D311 /* AddTeamView.swift */,
 				B02C6FAD2BC47BC8007B7E22 /* Models */,
@@ -180,11 +189,14 @@
 				B0552ECC2BB479580096D311 /* Color.swift in Sources */,
 				B03D10482BA4F3A600BB1715 /* FootShareApp.swift in Sources */,
 				B0552ECA2BB476500096D311 /* SelectTeamView.swift in Sources */,
+				B0EC20222BCDB88D00237481 /* Break.swift in Sources */,
 				B00B69A32BC7AF3A00BB40B8 /* Utils.swift in Sources */,
 				B07253E12BA8AE4900429710 /* Point.swift in Sources */,
 				B0552ECE2BB4AC8F0096D311 /* AddTeamView.swift in Sources */,
+				B0BE556B2BCE3C5600AAC420 /* Clock.swift in Sources */,
 				B01A372B2BAD7D9A003DF4BC /* TestView.swift in Sources */,
 				B03D10622BA50E5700BB1715 /* Participation.swift in Sources */,
+				B0EC20202BCDB7F600237481 /* ClockView.swift in Sources */,
 				B03D105C2BA4F59400BB1715 /* Team.swift in Sources */,
 				B03D105A2BA4F52C00BB1715 /* Game.swift in Sources */,
 			);

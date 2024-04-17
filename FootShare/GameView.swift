@@ -141,6 +141,7 @@ struct GameView: View {
 //                    .frame(maxHeight: .infinity)
                 Spacer()
             } else {
+                ClockView(clock: game.clock)
                 List {
                     if !game.participations.teamsSelected {
 
@@ -152,7 +153,7 @@ struct GameView: View {
                         }.onDelete(perform: removePoint)
                     }
                     
-                }.foregroundStyle(.black)
+                }
             }
                 
         } .navigationBarTitleDisplayMode(.inline)
@@ -163,6 +164,7 @@ struct GameView: View {
     
     func addPoint(participation: Participation) {
         participation.points.append(Point(date: .now))
+        game.date = game.date // force refresh screen. Not needed in simulator, needed on real device
         refreshScore()
     }
     

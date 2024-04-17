@@ -19,7 +19,7 @@ struct SelectTeamView: View {
     
     @State var showingAddTeam = false
     
-    @State private var teamOwnerFilter = teamOwner.my
+    @State private var teamOwnerFilter = teamOwner.all
 
     enum teamOwner: String, Codable, CaseIterable {
         case all, my
