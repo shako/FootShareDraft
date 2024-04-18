@@ -142,18 +142,25 @@ struct GameView: View {
                 Spacer()
             } else {
                 ClockView(clock: game.clock)
-                List {
-                    if !game.participations.teamsSelected {
+                VStack {
+                    
+                    
+                        if !game.participations.teamsSelected {
 
-                    } else if pointsSorted().isEmpty {
-                        Text("No points scored!")
-                    } else {
-                        ForEach(pointsSorted(), id: \.id) { point in
-                            HighlightListView(point: point, gameStart: game.date)
-                        }.onDelete(perform: removePoint)
-                    }
+                        } else if pointsSorted().isEmpty {
+                            Text("No points scored!")
+                        } else {
+//                            Text("Goals").font(.callout)
+                            List {
+                                ForEach(pointsSorted(), id: \.id) { point in
+                                    HighlightListView(point: point, gameStart: game.date)
+                                }.onDelete(perform: removePoint)
+                            }.listStyle(.inset)
+                        }
+                        
                     
                 }
+
             }
                 
         } .navigationBarTitleDisplayMode(.inline)

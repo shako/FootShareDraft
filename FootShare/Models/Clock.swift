@@ -63,8 +63,8 @@ extension Clock {
         switch status {
             case .playing(since: let since):
                 return Date.now - since
-            case .in_break(since: let since):
-                return Date.now - since
+        case .in_break(since: _):
+                return TimeInterval(integerLiteral: 0)
             case .not_started:
                 return TimeInterval(integerLiteral: 0)
             default:
@@ -74,6 +74,14 @@ extension Clock {
     
     var hasEnded : Bool {
         if case .ended = status {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    var inBreak : Bool {
+        if case .in_break = status {
             return true
         } else {
             return false
