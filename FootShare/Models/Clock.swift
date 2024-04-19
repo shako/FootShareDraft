@@ -60,8 +60,8 @@ extension Clock {
         switch status {
         case .playing(since: let since):
             return since
-        case .in_break(since: let since):
-            return since
+        case .in_break:
+            return nil
         default:
             return nil
         }
