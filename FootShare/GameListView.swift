@@ -121,12 +121,19 @@ struct GameListView: View {
     let participations = [participationWesterlo, participationGeel]
     
     let clock = Clock()
+    clock.startTime = gameStartDate + 5
+    clock.status = .playing(since: gameStartDate + 10)
     container.mainContext.insert(clock)
     
     let game = Game(date: gameStartDate, participations: [], clock: Clock())
     container.mainContext.insert(game)
+    
     game.participations = participations
-    game.clock = clock
+    
+    if assignTeams {
+        game.clock = clock
+    }
+
     
     return [game]
 }

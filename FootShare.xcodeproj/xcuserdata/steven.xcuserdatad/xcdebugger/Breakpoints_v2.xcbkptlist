@@ -14,8 +14,8 @@
             filePath = "FootShare/GameView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "219"
-            endingLineNumber = "219"
+            startingLineNumber = "239"
+            endingLineNumber = "239"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -154,8 +154,8 @@
             filePath = "FootShare/GameView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "279"
-            endingLineNumber = "279"
+            startingLineNumber = "310"
+            endingLineNumber = "310"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -170,8 +170,8 @@
             filePath = "FootShare/GameView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "37"
-            endingLineNumber = "37"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -204,8 +204,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "101"
             endingLineNumber = "101"
-            landmarkName = "calculateStatus()"
-            landmarkType = "7">
+            landmarkName = "Clock"
+            landmarkType = "21">
             <Locations>
                <Location
                   uuid = "8BEB8E2B-6F11-4BA8-AD96-E1C253913739 - 73ae584b96fcb31c"
@@ -250,10 +250,10 @@
             filePath = "FootShare/GameView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "204"
-            endingLineNumber = "204"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "226"
+            endingLineNumber = "226"
+            landmarkName = "GameView"
+            landmarkType = "14">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -266,8 +266,8 @@
             filePath = "FootShare/GameView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "199"
-            endingLineNumber = "199"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
             landmarkName = "pointsSorted()"
             landmarkType = "7">
             <Locations>

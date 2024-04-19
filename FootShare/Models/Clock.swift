@@ -88,22 +88,6 @@ extension Clock {
         }
     }
     
-    func calculateStatus() -> Status {
-        if startTime == nil {
-            return Status.not_started
-        }
-        if endTime != nil {
-            return Status.ended
-        }
-        let lastBreak = breaks.chronological().last
-        if lastBreak != nil && lastBreak!.ongoing == true  {
-            debugPrint("state machine says we're in break!")
-            return Status.in_break(since: lastBreak!.startTime)
-        } else {
-            return Status.playing(since: (lastBreak?.endTime ?? startTime!))
-        }
-    }
-    
 }
 
 enum Status: Codable {
