@@ -287,7 +287,7 @@ struct HighlightListView: View {
             let breaks = clock.breaks.filter({breakk in breakk.endTime != nil && breakk.endTime! <= point.date})
             let breakTime = breaks.reduce(0) {$0 + (($1.endTime ?? $1.startTime) - $1.startTime)}
             debugPrint("found a total amount of \(breakTime) seconds in break")
-            return point.date - startTime - breakTime
+            return (point.date - startTime - breakTime).rounded(.down)
         }
         return 0
     }
