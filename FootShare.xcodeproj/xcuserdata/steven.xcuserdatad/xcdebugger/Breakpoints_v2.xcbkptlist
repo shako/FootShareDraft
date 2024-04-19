@@ -195,54 +195,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "8BEB8E2B-6F11-4BA8-AD96-E1C253913739"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FootShare/Models/Clock.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
-            landmarkName = "Clock"
-            landmarkType = "21">
-            <Locations>
-               <Location
-                  uuid = "8BEB8E2B-6F11-4BA8-AD96-E1C253913739 - 73ae584b96fcb31c"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "FootShare.Clock.calculateStatus() -&gt; FootShare.Status"
-                  moduleName = "FootShare"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/steven/Documents/clients/MXConsultancy/FootShare/FootShare/Models/Clock.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "93"
-                  endingLineNumber = "93"
-                  offsetFromSymbolStart = "1500">
-               </Location>
-               <Location
-                  uuid = "8BEB8E2B-6F11-4BA8-AD96-E1C253913739 - 73ae584b96fcb31c"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "FootShare.Clock.calculateStatus() -&gt; FootShare.Status"
-                  moduleName = "FootShare"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/steven/Documents/clients/MXConsultancy/FootShare/FootShare/Models/Clock.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "93"
-                  endingLineNumber = "93"
-                  offsetFromSymbolStart = "1812">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "CEF71499-A2D6-4116-8BF3-1C7DA93A484A"
             shouldBeEnabled = "No"
             ignoreCount = "0"

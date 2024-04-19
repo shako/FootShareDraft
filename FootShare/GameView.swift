@@ -15,16 +15,30 @@ struct GameView: View {
     @State private var showingSelectTeam = false
     @State var teamEditor = TeamEditor()
     
+    @State private var reversedParticipationOrder = false
+    
     @State private var selectedTeam: Team? = Team.emptyTeam
     @State private var participationToSelectTeamFor : Participation = Participation.emptyParticipation
 
     var body: some View {
-
+        
         VStack {
+            HStack {
+
+                Image(systemName: "arrowshape.left.arrowshape.right.fill")
+                    .foregroundStyle(.secondary)
+                    .padding(.bottom, 2)
+                    .onTapGesture {
+                        withAnimation(Animation.easeOut) {
+                            reversedParticipationOrder.toggle()
+                        }
+                    }
+  
+            }
             HStack() {
                 Group {
-                    ForEach(game.participations.homeFirst().indices) { index in
-                        let participation = game.participations.homeFirst()[index]
+                    ForEach(orderedParticipations.indices) { index in
+                        let participation = orderedParticipations[index]
                         
                         Group {
                             if participation.team != nil {
@@ -153,7 +167,7 @@ struct GameView: View {
 //                            Text("Goals").font(.callout)
                             List {
                                 ForEach(pointsSorted(), id: \.id) { point in
-                                    HighlightListView(point: point, gameStart: game.date)
+                                    HighlightListView(point: point, clock: game.clock)
                                 }.onDelete(perform: removePoint)
                             }.listStyle(.inset)
                         }
@@ -167,6 +181,14 @@ struct GameView: View {
         .navigationTitle("\(game.date.formatted(date: .abbreviated, time: .omitted))")
         
 
+    }
+    
+    var orderedParticipations: [Participation] {
+        var participations = game.participations.homeFirst()
+        if reversedParticipationOrder {
+            participations = participations.reversed()
+        }
+        return participations
     }
     
     func addPoint(participation: Participation) {
@@ -207,8 +229,6 @@ struct GameView: View {
     let container = try! ModelContainer(for: Game.self, configurations: config)
     
     let games = makeFakeData(container: container)
-//    games.forEach({data in container.mainContext.insert(data)})
-
         return NavigationStack {
         GameView(game: games.first!).modelContainer(container)
     }
@@ -224,6 +244,7 @@ struct GameView: View {
     games.first!.participations.home!.points = []
     games.first!.participations.out!.points = []
     games.first!.participations.out!.team?.name = "short"
+    games.first!.clock = Clock()
 
         return NavigationStack {
         GameView(game: games.first!).modelContainer(container)
@@ -249,19 +270,29 @@ struct GameView: View {
 
 struct HighlightListView: View {
     let point: Point
-    let gameStart: Date
+    let clock: Clock
     
     var body: some View {
         
         HStack {
             Image(systemName: "soccerball.inverse").rotationEffect(.degrees(Double(Int.random(in: 0...360))))
-            Text("\(formatHighlightTime(seconds: point.secondsSindsGameStart())) - \(point.participation?.team?.name ?? "unknown")")
+            Text("\(formatHighlightTime(seconds: calculateSecondsSinceGameStart())) - \(point.participation?.team?.name ?? "unknown")")
         }.padding(.leading, -5)
+    }
+    
+    func calculateSecondsSinceGameStart() -> Double {
+        if let startTime = clock.startTime {
+            let breaks = clock.breaks.filter({breakk in breakk.endTime != nil && breakk.endTime! <= point.date})
+            let breakTime = breaks.reduce(0) {$0 + (($1.endTime ?? $1.startTime) - $1.startTime)}
+            debugPrint("found a total amount of \(breakTime) seconds in break")
+            return point.date - startTime - breakTime
+        }
+        return 0
     }
     
     func formatHighlightTime(seconds: Double) -> String {
         let minutes = Int(((seconds) / 60).rounded(.up))
-        return "\(minutes)'"
+        return "\(minutes)' (\(Int(seconds.rounded(.up))) secs)"
     }
     
 }
