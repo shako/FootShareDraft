@@ -19,7 +19,7 @@ struct GameListView: View {
             List {
                 ForEach(games) { game in
                     NavigationLink(value: game) {
-                        ForEach(game.participations) {participation in
+                        ForEach(game.participations.homeFirst()) {participation in
                             VStack() {
                                 Text(participation.team?.name ?? "")
                                     .font(.title2)
