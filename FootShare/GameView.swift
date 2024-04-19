@@ -85,7 +85,7 @@ struct GameView: View {
                                                 .background(Color(participation.team?.color ?? UIColor.red))
                                         }
                                     })
-                                    .disabled(!game.participations.teamsSelected)
+                                    .disabled(!game.participations.teamsSelected || !game.clock.isRunning)
                                     
                                 }
                                 
@@ -169,6 +169,7 @@ struct GameView: View {
                                 ForEach(pointsSorted(), id: \.id) { point in
                                     HighlightListView(point: point, clock: game.clock)
                                 }.onDelete(perform: removePoint)
+                                    .deleteDisabled(game.clock.hasEnded)
                             }.listStyle(.inset)
                         }
                         

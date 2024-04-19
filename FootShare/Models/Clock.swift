@@ -47,6 +47,14 @@ extension Clock {
         self.endTime = Date.now
         self.status = .ended
     }
+
+    var isRunning: Bool {
+        if case .playing = status {
+            return true
+        } else {
+            return false
+        }
+    }
     
     var runningSince: Date? {
         switch status {
