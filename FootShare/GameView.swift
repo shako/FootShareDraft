@@ -177,6 +177,7 @@ struct GameView: View {
                 }
 
             }
+            Spacer()
                 
         } .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("\(game.date.formatted(date: .abbreviated, time: .omitted))")
