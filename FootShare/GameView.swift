@@ -35,7 +35,7 @@ struct GameView: View {
                     }
   
             }
-            HStack() {
+            HStack(spacing: 8) {
                 Group {
                     ForEach(orderedParticipations.indices) { index in
                         let participation = orderedParticipations[index]
@@ -139,13 +139,15 @@ struct GameView: View {
 //                            .background(.black)
                             .clipShape(
                                 .rect(cornerRadii: RectangleCornerRadii(
-                                    topLeading: (index == 0 ? 0 : 10),
-                                    bottomLeading: (index == 0 ? 0 : 10),
-                                    bottomTrailing: (index == 1 ? 0 : 10),
-                                    topTrailing: (index == 1 ? 0 : 10)))
+                                    topLeading: (10),
+                                    bottomLeading: (10),
+                                    bottomTrailing: (10),
+                                    topTrailing: 10))
                             )
+                            .padding(index == 0 ? .leading : .trailing, 8)
 
                     }
+                    
                     //                }
                 }
             }
@@ -279,7 +281,9 @@ struct HighlightListView: View {
         HStack {
             Image(systemName: "soccerball.inverse").rotationEffect(.degrees(Double(Int.random(in: 0...360))))
             Text("\(formatHighlightTime(seconds: calculateSecondsSinceGameStart())) - \(point.participation?.team?.name ?? "unknown")")
-        }.padding(.leading, -5)
+                .font(.callout)
+        }
+        .padding(.leading, -5)
     }
     
     func calculateSecondsSinceGameStart() -> Double {
@@ -294,7 +298,7 @@ struct HighlightListView: View {
     
     func formatHighlightTime(seconds: Double) -> String {
         let minutes = Int(((seconds) / 60).rounded(.up))
-        return "\(minutes)' (\(Int(seconds.rounded(.up))) secs)"
+        return "\(minutes)'" // (\(Int(seconds.rounded(.up))) secs)
     }
     
 }
@@ -310,8 +314,8 @@ struct TeamHeader: View {
     var body: some View {
         Text("\(name)")/*.font(.largeTitle)*/
             .foregroundStyle(.white)
+            .lineLimit(1)
             .frame( maxWidth: .infinity)
-            .font(.title3)
             .fontWeight(.semibold)
 //            .clipShape(
 //                .rect(cornerRadii: RectangleCornerRadii(
@@ -321,8 +325,9 @@ struct TeamHeader: View {
 //                    topTrailing: (!isLeft ? 0 : 10)))
 //                
 //            )
-            .scaledToFit()
-            .padding(.vertical)
+//            .scaledToFit()
+            .padding(.horizontal, 4)
+            .padding(.vertical, 10)
             .frame(maxWidth: .infinity).background(.black)
     }
 }
