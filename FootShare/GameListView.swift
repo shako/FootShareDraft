@@ -19,13 +19,14 @@ struct GameListView: View {
             List {
                 ForEach(games) { game in
                     NavigationLink(value: game) {
-                        ForEach(game.participations.homeFirst()) {participation in
-                            VStack() {
-                                Text(participation.team?.name ?? "")
-                                    .font(.title2)
-                                Text("\(participation.score)")
-                            }.frame(maxWidth: .infinity)
-                        }
+                        GameListEntryView(participations: game.participations)
+//                        ForEach(game.participations.homeFirst()) {participation in
+//                            VStack() {
+//                                Text(participation.team?.name ?? "")
+//                                    .font(.title2)
+//                                Text("\(participation.score)")
+//                            }.frame(maxWidth: .infinity)
+//                        }
                     }
                 }
                 .onDelete(perform: deleteGames)
