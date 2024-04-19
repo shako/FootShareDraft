@@ -133,7 +133,7 @@ struct GameView: View {
                                 }
                                 
                             }
-                        }
+                        }.id("participation-\(index)")
                         .frame(maxWidth: .infinity, maxHeight: 200)
                             .background(.gray.opacity(0.15))
 //                            .background(.black)

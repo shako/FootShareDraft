@@ -9,7 +9,7 @@ import SwiftData
 import SwiftUI
 
 struct GameListView: View {
-    @Query var games: [Game]
+    @Query(sort: \Game.date, order: .reverse) var games: [Game]
     @Environment(\.modelContext) var modelContext
     
     @State private var path = NavigationPath()
