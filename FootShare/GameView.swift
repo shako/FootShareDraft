@@ -15,176 +15,254 @@ struct GameView: View {
     @State private var showingSelectTeam = false
     @State var teamEditor = TeamEditor()
     
+    @State var randomBallAngle = Double.random(in: 1..<45)
+    @State var goalMarkerOffset: CGSize = CGSize.zero
+    @State var movingGoalMarker: Bool = false
+    
     @State private var reversedParticipationOrder = false
     
     @State private var selectedTeam: Team? = Team.emptyTeam
     @State private var participationToSelectTeamFor : Participation = Participation.emptyParticipation
 
     var body: some View {
-        
-        VStack {
-            HStack {
+ 
+        ZStack {
+            VStack {
+                HStack {
 
-                Image(systemName: "arrowshape.left.arrowshape.right.fill")
-                    .foregroundStyle(.secondary)
-                    .padding(.bottom, 2)
-                    .onTapGesture {
-                        withAnimation(Animation.easeOut) {
-                            reversedParticipationOrder.toggle()
+                    Image(systemName: "arrowshape.left.arrowshape.right.fill")
+                        .foregroundStyle(.secondary)
+                        .padding(.bottom, 2)
+                        .onTapGesture {
+                            withAnimation(Animation.easeOut) {
+                                reversedParticipationOrder.toggle()
+                            }
                         }
-                    }
-  
-            }
-            HStack(spacing: 8) {
-                Group {
-                    ForEach(orderedParticipations.indices) { index in
-                        let participation = orderedParticipations[index]
-                        
-                        Group {
-                            if participation.team != nil {
-                                VStack(spacing: 0) {
-                                    Button {
-                                        debugPrint("I'm clicked!")
-                                        teamEditor.editingParticipation = participation
-                                        teamEditor.teamEditInProgress = participation.team!.copy()
-                                        teamEditor.isEditing = true
-                                    } label: {
-                                        TeamHeader(name: participation.team!.name, isLeft: index == 0)
-                                    }
-//                                    .sheet(item: $teamEditor.currentTeam) { team in
-                                    .sheet(isPresented: $teamEditor.isEditing) {
-                                        NavigationStack {
-                                            AddTeamView(team: $teamEditor.teamEditInProgress)
-                                            .toolbar {
-                                                ToolbarItem(placement: .cancellationAction) {
-                                                    Button("Cancel") {
-                                                        teamEditor.isEditing = false
+      
+                }
+                HStack(spacing: 8) {
+                    Group {
+                        ForEach(orderedParticipations.indices) { index in
+                            let participation = orderedParticipations[index]
+                            
+                            Group {
+                                if participation.team != nil {
+                                    VStack(spacing: 0) {
+                                        Button {
+                                            debugPrint("I'm clicked!")
+                                            teamEditor.editingParticipation = participation
+                                            teamEditor.teamEditInProgress = participation.team!.copy()
+                                            teamEditor.isEditing = true
+                                        } label: {
+                                            TeamHeader(name: participation.team!.name, isLeft: index == 0)
+                                        }
+    //                                    .sheet(item: $teamEditor.currentTeam) { team in
+                                        .sheet(isPresented: $teamEditor.isEditing) {
+                                            NavigationStack {
+                                                AddTeamView(team: $teamEditor.teamEditInProgress)
+                                                .toolbar {
+                                                    ToolbarItem(placement: .cancellationAction) {
+                                                        Button("Cancel") {
+                                                            teamEditor.isEditing = false
+                                                        }
                                                     }
-                                                }
-                                                ToolbarItem(placement: .confirmationAction) {
-                                                    Button("Done") {
-                                                        teamEditor.editingParticipation!.team?.updateDetailsFrom(other: teamEditor.teamEditInProgress)
-                                                        teamEditor.isEditing = false
+                                                    ToolbarItem(placement: .confirmationAction) {
+                                                        Button("Done") {
+                                                            teamEditor.editingParticipation!.team?.updateDetailsFrom(other: teamEditor.teamEditInProgress)
+                                                            teamEditor.isEditing = false
+                                                        }
                                                     }
                                                 }
                                             }
                                         }
-                                    }
 
-                                    Button(action: {addPoint(participation: participation)}, label: {
-                                        // todo: move to seperate method, but make sure that after deleting a goal the score gets updated
-                                        VStack {
-                                                Text("\(participation.score)")
-                                                .font(.system(size: 100))
-                                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                                .background(.regularMaterial)
-                                                .foregroundStyle(Color.primary)
-                                                
-                                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                        Button(action: {addPoint(participation: participation)}, label: {
+                                            // todo: move to seperate method, but make sure that after deleting a goal the score gets updated
+                                            VStack {
+                                                Text("\(isPreparingToScoreFor(index) ? "+1" :  String(participation.score))")
+                                                    .font(.system(size: 100))
+                                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                                    .background(.regularMaterial)
+                                                    .foregroundStyle(Color.primary)
+                                                    
+                                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                                    .padding()
+                                                    .background(Color(participation.team?.color ?? UIColor.red))
+                                            }
+                                        })
+                                        .disabled(!game.participations.teamsSelected || !game.clock.isRunning)
+                                        .zIndex(2)
+                                        
+                                    }
+                                    
+                                    
+                                } else {
+                                    VStack {
+                                        Button {
+                                            participationToSelectTeamFor = participation
+                                            selectedTeam = nil
+                                            showingSelectTeam = true
+                                        } label: {
+                                            ((participation.isHomeTeam ? Text("Home ") : Text("Out ")) + Text("Team"))
+                                                .font(.title2)
                                                 .padding()
-                                                .background(Color(participation.team?.color ?? UIColor.red))
+                                                .background(.white)
+                                                .foregroundColor(.black)
+                                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                                
                                         }
+                                        
+                                    }.background(content: {
+                                        Image(systemName: participation.isHomeTeam ? "house" : "figure.run")
+                                            .resizable()
+                                            .padding()
+                                            .scaledToFill()
+                                            .foregroundStyle(.black.opacity(0.1))
+                                            
                                     })
-                                    .disabled(!game.participations.teamsSelected || !game.clock.isRunning)
+                                    
+                                    .sheet(isPresented: $showingSelectTeam) {
+                                        NavigationStack {
+                                            SelectTeamView(selectedTeam: $selectedTeam)
+                                                .navigationTitle("Choose Team")
+                                                .navigationBarTitleDisplayMode(.inline)
+                                                .toolbar {
+                                                    ToolbarItem(placement: .topBarTrailing) {
+                                                        Button("Select") {
+                                                            participationToSelectTeamFor.team = selectedTeam
+                                                            refreshScore()
+                                                            showingSelectTeam = false
+                                                        }
+                                                    }
+                                                }
+                                        }
+                                    }
                                     
                                 }
-                                
-                                
+                            }.id("participation-\(index)")
+                            .frame(maxWidth: .infinity, maxHeight: 200)
+                                .background(.gray.opacity(0.15))
+    //                            .background(.black)
+                                .clipShape(
+                                    .rect(cornerRadii: RectangleCornerRadii(
+                                        topLeading: (10),
+                                        bottomLeading: (10),
+                                        bottomTrailing: (10),
+                                        topTrailing: 10))
+                                )
+                                .padding(index == 0 ? .leading : .trailing, 8)
+
+                        }
+                        
+                        //                }
+                    }
+                }
+                .zIndex(-1)
+                
+                if !game.participations.teamsSelected {
+                    (Text(Image(systemName: "arrow.up")) + Text(" Select both teams to start ") + Text(Image(systemName: "arrow.up"))).fontWeight(.semibold).padding(.top)
+    //                    .frame(maxHeight: .infinity)
+                    Spacer()
+                } else {
+                    ClockView(clock: game.clock)
+                    VStack {
+                        
+                        
+                            if !game.participations.teamsSelected {
+
+                            } else if pointsSorted().isEmpty {
+                                Text("No points scored!")
                             } else {
-                                VStack {
-                                    Button {
-                                        participationToSelectTeamFor = participation
-                                        selectedTeam = nil
-                                        showingSelectTeam = true
-                                    } label: {
-                                        ((participation.isHomeTeam ? Text("Home ") : Text("Out ")) + Text("Team"))
-                                            .font(.title2)
-                                            .padding()
-                                            .background(.white)
-                                            .foregroundColor(.black)
-                                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                                            
+    //                            Text("Goals").font(.callout)
+                                List {
+                                    ForEach(pointsSorted(), id: \.id) { point in
+                                        HighlightListView(point: point, clock: game.clock)
+                                    }.onDelete(perform: removePoint)
+                                        .deleteDisabled(game.clock.hasEnded)
+                                }.listStyle(.inset)
+                            }
+                            
+                        
+                    }
+
+                }
+                Spacer()
+                    
+            }
+        
+        
+//            if orderedParticipations.count > 1 {
+//                HStack {
+//                    VStack {
+//                        Color(orderedParticipations.first?.team?.color ?? UIColor(Color.gray))
+//                    }
+//                    VStack {
+//                        Color(orderedParticipations.last?.team?.color ?? UIColor(Color.gray))
+//                    }
+//                }
+//                .ignoresSafeArea()
+//                .frame(maxHeight: .infinity)
+//                .opacity(movingGoalMarker ? 1 : 0)
+//                .zIndex(1)
+//            }
+
+        }.navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("\(game.date.formatted(date: .abbreviated, time: .omitted))")
+        
+        
+        if (game.clock.isRunning) {
+            HStack {
+                Image(systemName: "soccerball.inverse")
+                    .resizable()
+                    .frame(width: 70, height: 70)
+                    .background(Circle().fill(.red))
+                    .foregroundStyle(.white)
+                    .shadow(color: .red.opacity(0.3), radius: 5)
+                    .rotationEffect(Angle(degrees: randomBallAngle))
+                    .offset(goalMarkerOffset)
+                    .gesture(
+                        DragGesture()
+                            .onChanged { value in
+                                if (!movingGoalMarker) {
+                                    if (goalMarkerOffset.height < -50) {
+                                        withAnimation {
+                                            movingGoalMarker = true
+                                        }
                                     }
-                                    
-                                }.background(content: {
-                                    Image(systemName: participation.isHomeTeam ? "house" : "figure.run")
-                                        .resizable()
-                                        .padding()
-                                        .scaledToFill()
-                                        .foregroundStyle(.black.opacity(0.1))
-                                        
-                                })
+
+                                } else {
+                                    if (goalMarkerOffset.height >= -50) {
+                                        withAnimation {
+                                            movingGoalMarker = false
+                                        }
+                                    }
+                                }
                                 
-                                .sheet(isPresented: $showingSelectTeam) {
-                                    NavigationStack {
-                                        SelectTeamView(selectedTeam: $selectedTeam)
-                                            .navigationTitle("Choose Team")
-                                            .navigationBarTitleDisplayMode(.inline)
-                                            .toolbar {
-                                                ToolbarItem(placement: .topBarTrailing) {
-                                                    Button("Select") {
-                                                        participationToSelectTeamFor.team = selectedTeam
-                                                        refreshScore()
-                                                        showingSelectTeam = false
-                                                    }
-                                                }
-                                            }
-                                    }
+                                withAnimation(.easeOut) {
+                                    goalMarkerOffset = value.translation
                                 }
                                 
                             }
-                        }.id("participation-\(index)")
-                        .frame(maxWidth: .infinity, maxHeight: 200)
-                            .background(.gray.opacity(0.15))
-//                            .background(.black)
-                            .clipShape(
-                                .rect(cornerRadii: RectangleCornerRadii(
-                                    topLeading: (10),
-                                    bottomLeading: (10),
-                                    bottomTrailing: (10),
-                                    topTrailing: 10))
-                            )
-                            .padding(index == 0 ? .leading : .trailing, 8)
+                            .onEnded { value in
+                                withAnimation {
+                                    if (isPreparingToScoreFor(0)) {
+                                        addPoint(participation: orderedParticipations.first!)
+                                    } else if (isPreparingToScoreFor(1)) {
+                                        addPoint(participation: orderedParticipations.last!)
+                                    }
+                                    movingGoalMarker = false
+                                }
+                                
+                                withAnimation(.bouncy) {
+                                    goalMarkerOffset = .zero
+                                }
+                            }
+                    )
 
-                    }
                     
-                    //                }
-                }
-            }
-            
-            if !game.participations.teamsSelected {
-                (Text(Image(systemName: "arrow.up")) + Text(" Select both teams to start ") + Text(Image(systemName: "arrow.up"))).fontWeight(.semibold).padding(.top)
-//                    .frame(maxHeight: .infinity)
-                Spacer()
-            } else {
-                ClockView(clock: game.clock)
-                VStack {
-                    
-                    
-                        if !game.participations.teamsSelected {
-
-                        } else if pointsSorted().isEmpty {
-                            Text("No points scored!")
-                        } else {
-//                            Text("Goals").font(.callout)
-                            List {
-                                ForEach(pointsSorted(), id: \.id) { point in
-                                    HighlightListView(point: point, clock: game.clock)
-                                }.onDelete(perform: removePoint)
-                                    .deleteDisabled(game.clock.hasEnded)
-                            }.listStyle(.inset)
-                        }
-                        
-                    
-                }
-
-            }
-            Spacer()
-                
-        } .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle("\(game.date.formatted(date: .abbreviated, time: .omitted))")
-        
-
+    //                .scaledToFill()
+            }.frame(maxWidth: .infinity, alignment: .bottom)
+        }
     }
     
     var orderedParticipations: [Participation] {
@@ -212,6 +290,19 @@ struct GameView: View {
             try? modelContext.save()
         }
         refreshScore()
+    }
+    
+    func isScoreMarkerLocationLeft() -> Bool {
+        return goalMarkerOffset.width <= 0
+    }
+    
+    func isPreparingToScoreFor(_ index: Int) -> Bool {
+        let isPointingLeft = isLeftToRight() && isScoreMarkerLocationLeft()
+        let isLeftScoreBoard = index == 0
+        if movingGoalMarker && ((isPointingLeft && isLeftScoreBoard) || (!isPointingLeft && !isLeftScoreBoard)) {
+            return true
+        }
+        return false
     }
     
     func pointsSorted() -> [Point] {
@@ -290,7 +381,6 @@ struct HighlightListView: View {
         if let startTime = clock.startTime {
             let breaks = clock.breaks.filter({breakk in breakk.endTime != nil && breakk.endTime! <= point.date})
             let breakTime = breaks.reduce(0) {$0 + (($1.endTime ?? $1.startTime) - $1.startTime)}
-            debugPrint("found a total amount of \(breakTime) seconds in break")
             return (point.date - startTime - breakTime).rounded(.down)
         }
         return 0
