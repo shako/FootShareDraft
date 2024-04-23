@@ -50,7 +50,11 @@ struct ClockView: View {
             case .playing:
             return AnyView(Text("".capitalized))
             case .in_break:
-            return AnyView(Text("break".capitalized))
+            if let breakNumber = clock.breakNumber, clock.breakNumber! > 1 {
+                return AnyView(Text("break \((breakNumber))".capitalized))
+            } else {
+                return AnyView(Text("break".capitalized))
+            }
             case .ended:
             return AnyView(Group {})
         }

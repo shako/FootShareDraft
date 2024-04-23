@@ -164,6 +164,12 @@ struct GameView: View {
     //                    .frame(maxHeight: .infinity)
                     Spacer()
                 } else {
+                    if let sessionNumber = game.clock.sessionNumber {
+                        HStack {
+                            Text("Session \(String(sessionNumber))")
+                        }
+                    }
+
                     ClockView(clock: game.clock)
                     VStack {
                         

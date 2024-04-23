@@ -56,6 +56,22 @@ extension Clock {
         }
     }
     
+    var sessionNumber : Int? {
+        if isRunning {
+            return breaks.count + 1
+        } else {
+            return nil
+        }
+    }
+    
+    var breakNumber : Int? {
+        if inBreak {
+            return breaks.count
+        } else {
+            return nil
+        }
+    }
+    
     var runningSince: Date? {
         switch status {
         case .playing(since: let since):
