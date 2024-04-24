@@ -42,7 +42,7 @@ struct GameView: View {
                 }
                 HStack(spacing: 8) {
                     Group {
-                        ForEach(orderedParticipations.indices) { index in
+                        ForEach(orderedParticipations.indices, id: \.self) { index in
                             let participation = orderedParticipations[index]
                             
                             Group {
@@ -417,10 +417,6 @@ struct TeamHeader: View {
 class TeamEditor {
     var isEditing = false
     var editingParticipation: Participation?
-    var teamEditInProgress: Team = Team.emptyTeam {
-        didSet {
-            print("currentTeam was set to: \(teamEditInProgress.name ?? "nil")")
-        }
-    }
+    var teamEditInProgress: Team = Team.emptyTeam
     
 }

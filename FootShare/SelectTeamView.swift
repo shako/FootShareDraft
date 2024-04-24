@@ -90,7 +90,7 @@ struct SelectTeamView: View {
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Team.self, configurations: config)
-    let teams = makeTeams(container: container)
+    _ = makeTeams(container: container)
     
     let participation = Participation(isHomeTeam: true, points: [])
     return NavigationStack {
