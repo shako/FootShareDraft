@@ -121,10 +121,14 @@ struct GameListView: View {
     
     let participations = [participationWesterlo, participationGeel]
     
+    let session = Session(startTime: gameStartDate + 5)
+    container.mainContext.insert(session)
+    
     let clock = Clock()
-    clock.startTime = gameStartDate + 5
     clock.status = .playing(since: gameStartDate + 10)
     container.mainContext.insert(clock)
+    
+    clock.sessions.append(session)
     
     let game = Game(date: gameStartDate, participations: [], clock: Clock())
     container.mainContext.insert(game)

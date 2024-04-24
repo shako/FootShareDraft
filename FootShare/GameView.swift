@@ -371,19 +371,10 @@ struct HighlightListView: View {
         
         HStack {
             Image(systemName: "soccerball.inverse").rotationEffect(.degrees(Double(Int.random(in: 0...360))))
-            Text("\(formatHighlightTime(seconds: calculateSecondsSinceGameStart())) - \(point.participation?.team?.name ?? "unknown")")
+            Text("\(formatHighlightTime(seconds: clock.sessions.playTimeUpTo(date: point.date))) - \(point.participation?.team?.name ?? "unknown")")
                 .font(.callout)
         }
         .padding(.leading, -5)
-    }
-    
-    func calculateSecondsSinceGameStart() -> Double {
-        if let startTime = clock.startTime {
-            let breaks = clock.breaks.filter({breakk in breakk.endTime != nil && breakk.endTime! <= point.date})
-            let breakTime = breaks.reduce(0) {$0 + (($1.endTime ?? $1.startTime) - $1.startTime)}
-            return (point.date - startTime - breakTime).rounded(.down)
-        }
-        return 0
     }
     
     func formatHighlightTime(seconds: Double) -> String {

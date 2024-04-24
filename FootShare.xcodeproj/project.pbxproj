@@ -21,10 +21,10 @@
 		B0552ECC2BB479580096D311 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0552ECB2BB479580096D311 /* Color.swift */; };
 		B0552ECE2BB4AC8F0096D311 /* AddTeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0552ECD2BB4AC8F0096D311 /* AddTeamView.swift */; };
 		B07253E12BA8AE4900429710 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07253E02BA8AE4900429710 /* Point.swift */; };
+		B0A54F2C2BD8D296006B5BCD /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A54F2B2BD8D296006B5BCD /* Session.swift */; };
 		B0BE556B2BCE3C5600AAC420 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BE556A2BCE3C5600AAC420 /* Clock.swift */; };
 		B0D876AD2BD2CE9400B46561 /* GameListEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D876AC2BD2CE9400B46561 /* GameListEntryView.swift */; };
 		B0EC20202BCDB7F600237481 /* ClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EC201F2BCDB7F600237481 /* ClockView.swift */; };
-		B0EC20222BCDB88D00237481 /* Break.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EC20212BCDB88D00237481 /* Break.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,10 +43,10 @@
 		B0552ECB2BB479580096D311 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		B0552ECD2BB4AC8F0096D311 /* AddTeamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTeamView.swift; sourceTree = "<group>"; };
 		B07253E02BA8AE4900429710 /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
+		B0A54F2B2BD8D296006B5BCD /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		B0BE556A2BCE3C5600AAC420 /* Clock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clock.swift; sourceTree = "<group>"; };
 		B0D876AC2BD2CE9400B46561 /* GameListEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameListEntryView.swift; sourceTree = "<group>"; };
 		B0EC201F2BCDB7F600237481 /* ClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockView.swift; sourceTree = "<group>"; };
-		B0EC20212BCDB88D00237481 /* Break.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Break.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,10 +65,10 @@
 			children = (
 				B03D10592BA4F52C00BB1715 /* Game.swift */,
 				B03D10612BA50E5700BB1715 /* Participation.swift */,
-				B0EC20212BCDB88D00237481 /* Break.swift */,
 				B03D105B2BA4F59400BB1715 /* Team.swift */,
 				B07253E02BA8AE4900429710 /* Point.swift */,
 				B0BE556A2BCE3C5600AAC420 /* Clock.swift */,
+				B0A54F2B2BD8D296006B5BCD /* Session.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -188,12 +188,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				B03D104A2BA4F3A600BB1715 /* GameListView.swift in Sources */,
+				B0A54F2C2BD8D296006B5BCD /* Session.swift in Sources */,
 				B03D10582BA4F52200BB1715 /* GameView.swift in Sources */,
 				B0552ECC2BB479580096D311 /* Color.swift in Sources */,
 				B03D10482BA4F3A600BB1715 /* FootShareApp.swift in Sources */,
 				B0552ECA2BB476500096D311 /* SelectTeamView.swift in Sources */,
 				B0D876AD2BD2CE9400B46561 /* GameListEntryView.swift in Sources */,
-				B0EC20222BCDB88D00237481 /* Break.swift in Sources */,
 				B00B69A32BC7AF3A00BB40B8 /* Utils.swift in Sources */,
 				B07253E12BA8AE4900429710 /* Point.swift in Sources */,
 				B0552ECE2BB4AC8F0096D311 /* AddTeamView.swift in Sources */,

@@ -72,26 +72,25 @@ struct ClockView: View {
 
         switch clock.status {
             case .not_started:
-            return AnyView(ColoredButton(color: startColor, text: "Start Game", action: clock.start))
+            debugPrint("no started")
+            return AnyView(ColoredButton(color: startColor, text: "Start Game", action: resumeClock))
             case .playing:
-            return AnyView(ColoredButton(color: breakColor, text: "Break", action: startBreak))
+            debugPrint("playing")
+            return AnyView(ColoredButton(color: breakColor, text: "Break", action: clock.startBreak))
             case .in_break:
-            return AnyView(HStack {
-                ColoredButton(color: startColor, text: "Resume", action: clock.resume)}
-            )
+            return AnyView(ColoredButton(color: startColor, text: "Resume", action: resumeClock))
             case .ended:
+            debugPrint("ended")
             return AnyView(Group {})
 
         }
     }
-        
     
-    func startBreak()  {
-        let newBreak = Break(startTime: Date.now)
-        modelContext.insert(newBreak)
-        clock.startBreak(newBreak: newBreak)
+    func resumeClock() {
+        let session = Session(startTime: Date.now)
+        modelContext.insert(session)
+        clock.resume(newSession: session)
     }
-
     
 }
 

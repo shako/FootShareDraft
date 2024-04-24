@@ -11,40 +11,37 @@ import Foundation
 @Model
 class Clock {
     
-    var startTime: Date?
-    var endTime: Date?
-    @Relationship(deleteRule: .cascade) var breaks: [Break] = []
-    var status: Status
+    @Relationship(deleteRule: .cascade) var sessions: [Session] = []
+    var status: Status = Status.not_started
+    var isEnded: Bool = false
     
-    
-    init(startTime: Date? = nil, endTime: Date? = nil, breaks: [Break] = []) {
-        self.startTime = startTime
-        self.endTime = endTime
-        self.breaks = breaks
-        self.status = Status.not_started
+    init(sessions: [Session] = [], status: Status = Status.not_started, isEnded: Bool = false) {
+        self.sessions = sessions
+        self.status = status
+        self.isEnded = isEnded
     }
-    
 }
 
 extension Clock {
     
     func start() {
-        self.startTime = Date.now
-        self.status = .playing(since: self.startTime!)
+        let session = Session(startTime: Date.now)
+        self.sessions.append(session)
+        self.status = .playing(since: session.startTime)
     }
     
-    func startBreak(newBreak: Break) {
-        breaks.append(newBreak)
-        self.status = .in_break(since: newBreak.startTime)
+    func startBreak() {
+        let breakStart = Date.now
+        sessions.last?.endTime = breakStart
+        self.status = .in_break(since: breakStart)
     }
     
-    func resume() {
-        breaks.chronological().last?.endTime = Date.now
-        self.status = .playing(since: breaks.chronological().last?.endTime ?? .now)
+    func resume(newSession : Session) {
+        self.sessions.append(newSession)
+        self.status = .playing(since: newSession.startTime)
     }
     
     func end() {
-        self.endTime = Date.now
         self.status = .ended
     }
 
@@ -58,7 +55,7 @@ extension Clock {
     
     var sessionNumber : Int? {
         if isRunning {
-            return breaks.count + 1
+            return sessions.count
         } else {
             return nil
         }
@@ -66,7 +63,7 @@ extension Clock {
     
     var breakNumber : Int? {
         if inBreak {
-            return breaks.count
+            return sessions.count
         } else {
             return nil
         }
