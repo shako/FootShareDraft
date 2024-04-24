@@ -14,11 +14,9 @@ class Clock {
     @Relationship(deleteRule: .cascade) var sessions: [Session] = []
     var status: Status = Status.not_started
     var isEnded: Bool = false
-    
-    init(sessions: [Session] = [], status: Status = Status.not_started, isEnded: Bool = false) {
-        self.sessions = sessions
-        self.status = status
-        self.isEnded = isEnded
+
+    init() {
+        
     }
 }
 
