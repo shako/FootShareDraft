@@ -170,22 +170,19 @@ struct GameView: View {
                         }
                     }
 
-                    ClockView(clock: game.clock)
+//                    ClockView(clock: game.clock)
                     VStack {
                         
                         
                             if !game.participations.teamsSelected {
 
-                            } else if pointsSorted().isEmpty {
-                                Text("No points scored!")
                             } else {
-    //                            Text("Goals").font(.callout)
-                                List {
-                                    ForEach(pointsSorted(), id: \.id) { point in
-                                        HighlightListView(point: point, clock: game.clock)
-                                    }.onDelete(perform: removePoint)
-                                        .deleteDisabled(game.clock.hasEnded)
-                                }.listStyle(.inset)
+                                HighlightView(clock: $game.clock, points: game.points)
+//                                HighlightView()
+//                                .tab
+                                
+
+
                             }
                             
                         
@@ -288,15 +285,7 @@ struct GameView: View {
     func refreshScore() {
         game.participations = game.participations
     }
-    
-    func removePoint(indexSet: IndexSet) {
-        for index in indexSet {
-            let point = pointsSorted()[index]
-            modelContext.delete(point)
-            try? modelContext.save()
-        }
-        refreshScore()
-    }
+
     
     func isScoreMarkerLocationLeft() -> Bool {
         return goalMarkerOffset.width <= 0
@@ -309,12 +298,6 @@ struct GameView: View {
             return true
         }
         return false
-    }
-    
-    func pointsSorted() -> [Point] {
-        game.points.sorted(by: { pointl, pointr in
-            pointl.date > pointr.date
-        })
     }
     
 }
@@ -363,26 +346,7 @@ struct GameView: View {
 }
 
 
-struct HighlightListView: View {
-    let point: Point
-    let clock: Clock
-    
-    var body: some View {
-        
-        HStack {
-            Image(systemName: "soccerball.inverse").rotationEffect(.degrees(Double(Int.random(in: 0...360))))
-            Text("\(formatHighlightTime(seconds: clock.sessions.playTimeUpTo(date: point.date))) - \(point.participation?.team?.name ?? "unknown")")
-                .font(.callout)
-        }
-        .padding(.leading, -5)
-    }
-    
-    func formatHighlightTime(seconds: Double) -> String {
-        let minutes = Int(((seconds) / 60).rounded(.up))
-        return "\(minutes)'" // (\(Int(seconds.rounded(.up))) secs)
-    }
-    
-}
+
 
 struct EditableTeam: Identifiable {
     var id: Int

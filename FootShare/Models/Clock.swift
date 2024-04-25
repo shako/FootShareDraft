@@ -13,7 +13,6 @@ class Clock {
     
     @Relationship(deleteRule: .cascade) var sessions: [Session] = []
     var status: Status = Status.not_started
-    var isEnded: Bool = false
 
     init() {
         
@@ -30,7 +29,7 @@ extension Clock {
     
     func startBreak() {
         let breakStart = Date.now
-        sessions.last?.endTime = breakStart
+        sessions.firstToLast.last?.endTime = breakStart
         self.status = .in_break(since: breakStart)
     }
     
@@ -114,8 +113,4 @@ enum Status: Codable {
     case playing(since: Date)
     case in_break(since: Date)
     case ended
-}
-
-@MainActor func makeFakeClockData(container: ModelContainer) -> [Clock] {
-    return [Clock()]
 }

@@ -72,15 +72,12 @@ struct ClockView: View {
 
         switch clock.status {
             case .not_started:
-            debugPrint("no started")
             return AnyView(ColoredButton(color: startColor, text: "Start Game", action: resumeClock))
             case .playing:
-            debugPrint("playing")
             return AnyView(ColoredButton(color: breakColor, text: "Break", action: clock.startBreak))
             case .in_break:
             return AnyView(ColoredButton(color: startColor, text: "Resume", action: resumeClock))
             case .ended:
-            debugPrint("ended")
             return AnyView(Group {})
 
         }
@@ -98,10 +95,11 @@ struct ClockView: View {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Clock.self, configurations: config)
     
-    let clocks = makeFakeClockData(container: container)
+    let games = makeFakeData(container: container)
+    let game = games.first!
 
     return NavigationStack {
-        ClockView(clock: clocks.first!).modelContainer(container)
+        ClockView(clock: game.clock).modelContainer(container)
             .frame(maxWidth: .infinity, minHeight: 100).background(.gray.opacity(0.3))
     }
     

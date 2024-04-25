@@ -22,16 +22,32 @@ class Session {
 
 extension Array where Element : Session {
     
-    func chronological() -> [Session] {
+    var firstToLast: [Session] {
         self.sorted(by: { sessionl, sessionr in
             sessionl.startTime < sessionr.startTime
         })
+    }
+    
+    var lastToFirst: [Session] {
+        firstToLast.reversed()
     }
     
     func playTimeUpTo(date: Date) -> Double {
         let sessions = self.filter({session in session.startTime <= date})
         let timeInSessions = sessions.reduce(0) {$0 + ($1.hasEnded && date < $1.endTime! ? $1.length : (date - $1.startTime) ) }
         return timeInSessions
+    }
+    
+    var past: [Session] {
+        self.filter { session in session.endTime != nil }
+    }
+    
+    var ongoing: Session? {
+        if let lastSession = self.last, lastSession.endTime == nil {
+            return self.last!
+        } else {
+            return nil
+        }
     }
     
 }

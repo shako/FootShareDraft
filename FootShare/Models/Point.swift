@@ -21,3 +21,19 @@ class Point {
         return date.timeIntervalSinceReferenceDate - (participation?.game?.date.timeIntervalSinceReferenceDate ?? date.timeIntervalSinceReferenceDate)
     }
 }
+
+extension Point {
+    
+    func madeDuring(_ session: Session) -> Bool {
+        self.date >= session.startTime && (session.endTime != nil ? self.date <= session.endTime! : true)
+    }
+    
+}
+
+extension Array where Element : Point {
+    
+    func madeDuring(_ session: Session) -> [Point] {
+        self.filter {$0.madeDuring(session)}
+    }
+    
+}
