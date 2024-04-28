@@ -17,41 +17,43 @@ struct HighlightView: View {
     
     var body: some View {
         TabView {
-            if clock.hasEnded {
-                
-                VStack {
-                    Text("All Sessions")
-                    HighLightListView(clock: clock, points: points)
-                }
-                .tabItem { Label("", systemImage: "list.bullet") }
-
-                ForEach(clock.sessions.lastToFirst.indices, id: \.self) { index in
-                    let session = clock.sessions.firstToLast[index]
-                    
-                    HighLightListView(clock: clock, points: points.madeDuring(session))
-                        .tabItem { Label("", systemImage: "\(index + 1).square") }
-                }
-
-            } else {
-                
-                VStack {
-                    Text("Session \(clock.sessions.count)")
-                    ClockView(clock: clock)
-                    if let ongoingSession = clock.sessions.ongoing {
-                        HighLightListView(clock: clock, points: points.madeDuring(ongoingSession))
-                    }
-                }.tabItem { Label("Clock", systemImage: "timer") }
-                
-                ForEach(clock.sessions.past.firstToLast.indices, id: \.self) { index in
-                    let session = clock.sessions.past.firstToLast[index]
-                    
+            VStack {
+                if clock.hasEnded {
                     VStack {
-                        Text("Session \(index + 1)")
-                        HighLightListView(clock: clock, points: points.madeDuring(session))
+                        HighLightListView(clock: clock, points: points)
                     }
-                        .tabItem { Label("", systemImage: "\(index + 1).square") }
+                    .frame(maxHeight: .infinity, alignment: .top)
+
+                } else {
+                    VStack {
+                        ClockView(clock: clock)
+                        if let ongoingSession = clock.sessions.ongoing {
+                            HighLightListView(clock: clock, points: points.madeDuring(ongoingSession))
+                        }
+                    }
+                    .frame(maxHeight: .infinity, alignment: .top)
+
+                }
+            }
+            .tabItem {
+                if clock.hasEnded {
+                    Label("", systemImage: "list.bullet")
+                } else {
+                    Label("Clock", systemImage: "timer")
                 }
                 
+            }
+            
+            ForEach(relevantSessions(sessions: clock.sessions), id: \.self) { session in
+                let sessionNumber = relevantSessions(sessions: clock.sessions).firstIndex(of: session) ?? 0
+                
+                VStack {
+                    Text("Session \(relevantSessions(sessions: clock.sessions).count - sessionNumber)")
+                        .font(.title)
+                    HighLightListView(clock: clock, points: points.madeDuring(session))
+                }
+                .frame(maxHeight: .infinity, alignment: .top)
+                .tabItem { Label("", systemImage: "\(relevantSessions(sessions: clock.sessions).count - sessionNumber).square") }
             }
 
         }
@@ -61,6 +63,20 @@ struct HighlightView: View {
             UIPageControl.appearance().currentPageIndicatorTintColor = .red
             UIPageControl.appearance().pageIndicatorTintColor = UIColor.black.withAlphaComponent(0.2)
         })
+    }
+    
+    func relevantSessions(sessions: [Session]) -> [Session] {
+        if (clock.hasEnded && sessions.count < 2) {
+            debugPrint("Clock has ended and less than 2 sessions. showing no sessions")
+            return [Session]()
+        }
+        if clock.hasEnded || clock.inBreak {
+            debugPrint("clock has ended or is in break. showing all sessions")
+            return clock.sessions.lastToFirst
+        } else {
+            debugPrint("showing all but latest sessions")
+            return Array(clock.sessions.lastToFirst.dropFirst())
+        }
     }
     
     func removePoint(indexSet: IndexSet) {
@@ -92,12 +108,18 @@ struct HighLightListView: View {
 //                                Text("Goals").font(.callout)
             AnyView(
                 List {
-                    ForEach(points, id: \.id) { point in
-                        HighlightEntryView(point: point, clock: clock)
+                    Section {
+                        ForEach(points, id: \.id) { point in
+                            HighlightEntryView(point: point, clock: clock)
+                        }
+                    } header: {
+                        Text("Highlights")
                     }
+
     //                .onDelete(perform: removePoint)
     //                .deleteDisabled(game.clock.hasEnded)
-                }.listStyle(.inset)
+                }
+                    .listStyle(.inset)
             )
         }
     }
@@ -131,7 +153,7 @@ struct HighlightEntryView: View {
     let games = makeFakeData(container: container)
     let game = games.first!
         return NavigationStack {
-            HighlightView(clock: .constant(game.clock), points: game.participations.first!.points).modelContainer(container)
+            HighlightView(clock: .constant(game.clock), points: game.points).modelContainer(container)
             Spacer()
     }
 }

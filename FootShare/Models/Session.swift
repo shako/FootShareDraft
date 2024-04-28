@@ -43,9 +43,11 @@ extension Array where Element : Session {
     }
     
     var ongoing: Session? {
-        if let lastSession = self.last, lastSession.endTime == nil {
-            return self.last!
+        if let lastSession = self.firstToLast.last, lastSession.endTime == nil {
+            debugPrint("Found last session with starttime \(lastSession.startTime.formatted()) and endtime \(lastSession.endTime?.formatted() ?? "NONE")")
+            return lastSession
         } else {
+            debugPrint("Didn't find a last session")
             return nil
         }
     }
