@@ -29,16 +29,7 @@ struct GameView: View {
         ZStack {
             VStack {
                 HStack {
-
-                    Image(systemName: "arrowshape.left.arrowshape.right.fill")
-                        .foregroundStyle(.secondary)
-                        .padding(.bottom, 2)
-                        .onTapGesture {
-                            withAnimation(Animation.easeOut) {
-                                reversedParticipationOrder.toggle()
-                            }
-                        }
-      
+                    iconToSwitchSides
                 }
                 HStack(spacing: 8) {
                     Group {
@@ -161,7 +152,6 @@ struct GameView: View {
                 
                 if !game.participations.teamsSelected {
                     (Text(Image(systemName: "arrow.up")) + Text(" Select both teams to start ") + Text(Image(systemName: "arrow.up"))).fontWeight(.semibold).padding(.top)
-    //                    .frame(maxHeight: .infinity)
                     Spacer()
                 } else {
                     VStack {
@@ -176,22 +166,6 @@ struct GameView: View {
                 Spacer()
                     
             }
-        
-        
-//            if orderedParticipations.count > 1 {
-//                HStack {
-//                    VStack {
-//                        Color(orderedParticipations.first?.team?.color ?? UIColor(Color.gray))
-//                    }
-//                    VStack {
-//                        Color(orderedParticipations.last?.team?.color ?? UIColor(Color.gray))
-//                    }
-//                }
-//                .ignoresSafeArea()
-//                .frame(maxHeight: .infinity)
-//                .opacity(movingGoalMarker ? 1 : 0)
-//                .zIndex(1)
-//            }
 
         }.navigationBarTitleDisplayMode(.inline)
             .navigationTitle("\(game.date.formatted(date: .abbreviated, time: .omitted))")
@@ -199,58 +173,69 @@ struct GameView: View {
         
         if (game.clock.isRunning) {
             HStack {
-                Image(systemName: "soccerball.inverse")
-                    .resizable()
-                    .frame(width: 70, height: 70)
-                    .background(Circle().fill(.red))
-                    .foregroundStyle(.white)
-                    .shadow(color: .red.opacity(0.3), radius: 5)
-                    .rotationEffect(Angle(degrees: randomBallAngle))
-                    .offset(goalMarkerOffset)
-                    .gesture(
-                        DragGesture()
-                            .onChanged { value in
-                                if (!movingGoalMarker) {
-                                    if (goalMarkerOffset.height < -50) {
-                                        withAnimation {
-                                            movingGoalMarker = true
-                                        }
-                                    }
-
-                                } else {
-                                    if (goalMarkerOffset.height >= -50) {
-                                        withAnimation {
-                                            movingGoalMarker = false
-                                        }
-                                    }
-                                }
-                                
-                                withAnimation(.easeOut) {
-                                    goalMarkerOffset = value.translation
-                                }
-                                
-                            }
-                            .onEnded { value in
+                ball
+            }
+        }
+    }
+    
+    var ball: some View {
+        Image(systemName: "soccerball.inverse")
+            .resizable()
+            .frame(width: 70, height: 70)
+            .background(Circle().fill(.red))
+            .foregroundStyle(.white)
+            .shadow(color: .red.opacity(0.3), radius: 5)
+            .rotationEffect(Angle(degrees: randomBallAngle))
+            .offset(goalMarkerOffset)
+            .gesture(
+                DragGesture()
+                    .onChanged { value in
+                        if (!movingGoalMarker) {
+                            if (goalMarkerOffset.height < -50) {
                                 withAnimation {
-                                    if (isPreparingToScoreFor(0)) {
-                                        addPoint(participation: orderedParticipations.first!)
-                                    } else if (isPreparingToScoreFor(1)) {
-                                        addPoint(participation: orderedParticipations.last!)
-                                    }
+                                    movingGoalMarker = true
+                                }
+                            }
+
+                        } else {
+                            if (goalMarkerOffset.height >= -50) {
+                                withAnimation {
                                     movingGoalMarker = false
                                 }
-                                
-                                withAnimation(.bouncy) {
-                                    goalMarkerOffset = .zero
-                                }
                             }
-                    )
-
-                    
-    //                .scaledToFill()
+                        }
+                        
+                        withAnimation(.easeOut) {
+                            goalMarkerOffset = value.translation
+                        }
+                        
+                    }
+                    .onEnded { value in
+                        withAnimation {
+                            if (isPreparingToScoreFor(0)) {
+                                addPoint(participation: orderedParticipations.first!)
+                            } else if (isPreparingToScoreFor(1)) {
+                                addPoint(participation: orderedParticipations.last!)
+                            }
+                            movingGoalMarker = false
+                        }
+                        
+                        withAnimation(.bouncy) {
+                            goalMarkerOffset = .zero
+                        }
+                    }
+            )
+    }
+    
+    var iconToSwitchSides : some View {
+        Image(systemName: "arrowshape.left.arrowshape.right.fill")
+            .foregroundStyle(.secondary)
+            .padding(.bottom, 2)
+            .onTapGesture {
+                withAnimation(Animation.easeOut) {
+                    reversedParticipationOrder.toggle()
+                }
             }
-//           .frame(maxWidth: .infinity, alignment: .bottom)
-        }
     }
     
     var orderedParticipations: [Participation] {
