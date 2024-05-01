@@ -158,7 +158,10 @@ struct GameView: View {
                             if !game.participations.teamsSelected {
                             } else {
                                 HighlightView(clock: $game.clock, points: game.points)
+                                    .padding(.bottom, 6)
                                     .ignoresSafeArea(.all, edges: .bottom)
+                                
+                                    
                             }
 
                     }
@@ -175,7 +178,7 @@ struct GameView: View {
     //                    .padding(.top, -10)
                         
                         .frame(maxHeight: .infinity, alignment: .bottom)
-                        .padding(.bottom, 20)
+                        .padding(.bottom, 25)
                 }
             }
             

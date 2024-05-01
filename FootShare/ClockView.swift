@@ -54,7 +54,8 @@ struct ClockView: View {
             .resizable()
             .scaledToFill()
             .frame(width: 70, height: 60)
-            .foregroundStyle(Color.secondary)
+            .foregroundStyle(Color.secondary.opacity(0.5))
+            
 //            .font(.largeTitle)
 //            .fontWeight(.semibold)
 //            .tracking(2)
