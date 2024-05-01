@@ -60,8 +60,9 @@ struct HighlightView: View {
         .tabViewStyle(.page(indexDisplayMode: .automatic))
         .indexViewStyle(.page(backgroundDisplayMode: .always))
         .onAppear(perform: {
-            UIPageControl.appearance().currentPageIndicatorTintColor = .red
-            UIPageControl.appearance().pageIndicatorTintColor = UIColor.black.withAlphaComponent(0.2)
+            UIPageControl.appearance().currentPageIndicatorTintColor = .red.withAlphaComponent(0.8)
+//            UIPageControl.appearance().pageIndicatorTintColor = .red
+            UIPageControl.appearance().pageIndicatorTintColor = UIColor(Color.primary).withAlphaComponent(0.3)
         })
     }
     
