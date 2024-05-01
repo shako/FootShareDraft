@@ -247,7 +247,7 @@ struct GameView: View {
     }
     
     func addPoint(participation: Participation) {
-        participation.points.append(Point(date: .now))
+        participation.points.append(Point(date: .now, session: game.clock.sessions.ongoing))
         game.date = game.date // force refresh screen. Not needed in simulator, needed on real device
         refreshScore()
     }

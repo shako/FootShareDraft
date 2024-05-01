@@ -14,8 +14,9 @@ class Point {
     var participation: Participation?
     var session: Session?
     
-    init(date: Date) {
+    init(date: Date, session: Session? = nil) {
         self.date = date
+        self.session = session
     }
     
     func secondsSindsGameStart() -> Double {
