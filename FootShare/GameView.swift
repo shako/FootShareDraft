@@ -158,24 +158,35 @@ struct GameView: View {
                             if !game.participations.teamsSelected {
                             } else {
                                 HighlightView(clock: $game.clock, points: game.points)
+                                    .ignoresSafeArea(.all, edges: .bottom)
                             }
 
                     }
 
                 }
-                Spacer()
+//                Spacer()
                     
+                
             }
 
-        }.navigationBarTitleDisplayMode(.inline)
-            .navigationTitle("\(game.date.formatted(date: .abbreviated, time: .omitted))")
-        
-        
-        if (game.clock.isRunning) {
-            HStack {
-                ball
+            if (game.clock.isRunning) {
+                HStack {
+                    ball
+    //                    .padding(.top, -10)
+                        
+                        .frame(maxHeight: .infinity, alignment: .bottom)
+                        .padding(.bottom, 20)
+                }
             }
+            
+
         }
+        
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("\(game.date.formatted(date: .abbreviated, time: .omitted))")
+        
+        
+
     }
     
     var ball: some View {
@@ -184,8 +195,11 @@ struct GameView: View {
             .frame(width: 70, height: 70)
             .background(Circle().fill(.red))
             .foregroundStyle(.white)
-            .shadow(color: .red.opacity(0.3), radius: 5)
             .rotationEffect(Angle(degrees: randomBallAngle))
+            .padding(2)
+            .background(Color.red)
+            .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+            .shadow(color: .red.opacity(0.3), radius: 5)
             .offset(goalMarkerOffset)
             .gesture(
                 DragGesture()

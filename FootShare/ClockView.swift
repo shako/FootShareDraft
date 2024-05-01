@@ -19,12 +19,13 @@ struct ClockView: View {
                     HStack() {
                         endGameButton
                         Spacer()
-                    }.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).padding(.horizontal, 10)
+                    }.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
                 }
                 VStack {
-                    time
                     if (clock.inBreak) {
-                        clockStatus
+                        clockBreakMessage
+                    } else {
+                        time
                     }
                     
                 }
@@ -32,38 +33,37 @@ struct ClockView: View {
             HStack() {
                 Spacer()
                 startOrBreakButton
-            }.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/).padding(.horizontal, 10)
-            
+            }.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .trailing)
         }
+        .padding(.horizontal, 15)
+        .padding(.vertical, 10)
     }
     
     var time: some View {
         TimelineView(.periodic(from: clock.runningSince ?? .now, by: 1)) { context in
-            Text("\(clock.value?.seconds.convertDurationToString() ?? "00:00")").font(.largeTitle)
+            Text("\(clock.value?.seconds.convertDurationToString() ?? "00:00")")
+                .font(.largeTitle)
+                .fontWeight(.semibold)
+                .tracking(2)
         }
     }
     
-    var clockStatus: some View {
-        switch clock.status {
-            case .not_started:
-            return AnyView(Text(" ".capitalized))
-            case .playing:
-            return AnyView(Text("".capitalized))
-            case .in_break:
-            if let breakNumber = clock.breakNumber, clock.breakNumber! > 1 {
-                return AnyView(Text("break \((breakNumber))".capitalized))
-            } else {
-                return AnyView(Text("break".capitalized))
-            }
-            case .ended:
-            return AnyView(Group {})
-        }
+    var clockBreakMessage: some View {
+//        Text("break")
+        Image(systemName: "pause.rectangle.fill")
+            .resizable()
+            .scaledToFill()
+            .frame(width: 70, height: 60)
+            .foregroundStyle(Color.secondary)
+//            .font(.largeTitle)
+//            .fontWeight(.semibold)
+//            .tracking(2)
     }
     
     var endGameButton: some View {
         let endColor = Color(#colorLiteral(red: 0.9529411793, green: 0, blue: 0.02332801142, alpha: 1))
         
-        return ColoredButton(color: endColor, text: "End game", action: clock.end)
+        return ColoredButton(color: endColor, image: Image(systemName: "stop.circle"), action: clock.end)
     }
     
     var startOrBreakButton: some View {
@@ -72,11 +72,11 @@ struct ClockView: View {
 
         switch clock.status {
             case .not_started:
-            return AnyView(ColoredButton(color: startColor, text: "Start Game", action: resumeClock))
+            return AnyView(ColoredButton(color: startColor, image: Image(systemName: "play.circle"), action: resumeClock))
             case .playing:
-            return AnyView(ColoredButton(color: breakColor, text: "Break", action: clock.startBreak))
+            return AnyView(ColoredButton(color: breakColor, image: Image(systemName: "pause.circle"), action: clock.startBreak))
             case .in_break:
-            return AnyView(ColoredButton(color: startColor, text: "Resume", action: resumeClock))
+            return AnyView(ColoredButton(color: startColor, image: Image(systemName: "play.circle"), action: resumeClock))
             case .ended:
             return AnyView(Group {})
 
@@ -100,26 +100,29 @@ struct ClockView: View {
 
     return NavigationStack {
         ClockView(clock: game.clock).modelContainer(container)
-            .frame(maxWidth: .infinity, minHeight: 100).background(.gray.opacity(0.3))
+            .frame(maxWidth: .infinity, minHeight: 100)
+//            .background(Color.white)
     }
     
 }
 
 struct ColoredButton: View {
     let color: Color
-    let text: String
+    let image: Image
     let action: () -> Void
-    
     
     var body: some View {
         Button(action: action, label: {
-            Text(text)
-                .padding(.vertical, 10)
-                .padding(.horizontal, 15)
-                .foregroundStyle(.white)
-                .fontWeight(.semibold)
-                .background(RoundedRectangle(cornerRadius: 10).fill(color))
-                .shadow(color: color, radius: 2, x: 2, y: 2)
+            image
+                .resizable()
+                .scaledToFit()
+//                .padding(.vertical, 10)
+//                .padding(.horizontal, 15)
+                .frame(width: 70, height: 60)
+                .foregroundStyle(color)
+//                .fontWeight(.semibold)
+//                .background(color) RoundedRectangle(cornerRadius: 10).fill(color)
+                .shadow(color: color.opacity(0.3), radius: 5, x: 2, y: 2)
         })
     }
 }

@@ -20,6 +20,8 @@ struct HighlightView: View {
             VStack {
                 if clock.hasEnded {
                     VStack {
+                        Text("Highlights")
+                            .font(.title)
                         HighLightListView(clock: clock, points: points, groupBySession: true)
                     }
                     .frame(maxHeight: .infinity, alignment: .top)
