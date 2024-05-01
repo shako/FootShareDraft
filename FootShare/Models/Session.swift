@@ -12,10 +12,12 @@ import SwiftData
 class Session {
     var startTime: Date
     var endTime: Date?
+    @Relationship(deleteRule: .cascade, inverse: \Point.session) var points: [Point]
     
-    init(startTime: Date, endTime: Date? = nil) {
+    init(startTime: Date, endTime: Date? = nil, points: [Point] = [Point]()) {
         self.startTime = startTime
         self.endTime = endTime
+        self.points = points
     }
     
 }

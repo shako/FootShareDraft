@@ -20,7 +20,7 @@ struct HighlightView: View {
             VStack {
                 if clock.hasEnded {
                     VStack {
-                        HighLightListView(clock: clock, points: points)
+                        HighLightListView(clock: clock, points: points, groupBySession: true)
                     }
                     .frame(maxHeight: .infinity, alignment: .top)
 
@@ -99,41 +99,56 @@ struct HighLightListView: View {
     
     var clock: Clock
     var points: [Point]
+    var groupBySession: Bool = false
     
     var body: some View {
-        if points.isEmpty {
-            AnyView(Text("No points scored!"))
-        } else {
-
+        if !points.isEmpty {
 //                                Text("Goals").font(.callout)
-            AnyView(
+
                 List {
-                    Section {
-                        ForEach(points, id: \.id) { point in
-                            HighlightEntryView(point: point, clock: clock)
+                    
+                    if (groupBySession) {
+                        ForEach(clock.sessions.lastToFirst.indices) { sessionIndex in
+                            let session = clock.sessions.lastToFirst[sessionIndex]
+                            Section {
+                                ForEach(session.points, id: \.id) { point in
+                                    HighlightEntryView(point: point)
+                                }
+                                if (session.points.isEmpty) {
+                                    Text("No Highlights")
+                                }
+                            } header: {
+                                Text("Session \(clock.sessions.count - sessionIndex)")
+                                
+                            }
+                            
                         }
-                    } header: {
-                        Text("Highlights")
+
+                    } else {
+                        Section {
+                            ForEach(points, id: \.id) { point in
+                                HighlightEntryView(point: point)
+                            }
+                        }
                     }
 
     //                .onDelete(perform: removePoint)
     //                .deleteDisabled(game.clock.hasEnded)
                 }
                     .listStyle(.inset)
-            )
+            
         }
     }
 }
 
 struct HighlightEntryView: View {
     let point: Point
-    let clock: Clock
     
     var body: some View {
         
         HStack {
             Image(systemName: "soccerball.inverse").rotationEffect(.degrees(Double(Int.random(in: 0...360))))
-            Text("\(formatHighlightTime(seconds: clock.sessions.playTimeUpTo(date: point.date))) - \(point.participation?.team?.name ?? "unknown")")
+            Text("\(formatHighlightTime(seconds: point.participation!.game!.clock.sessions.playTimeUpTo(date: point.date))) - \(point.participation?.team?.name ?? "unknown")")
                 .font(.callout)
         }
         .padding(.leading, -5)

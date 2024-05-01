@@ -12,6 +12,7 @@ import Foundation
 class Point {
     var date: Date
     var participation: Participation?
+    var session: Session?
     
     init(date: Date) {
         self.date = date
@@ -37,5 +38,7 @@ extension Array where Element : Point {
     func madeDuring(_ session: Session) -> [Point] {
         self.filter {$0.madeDuring(session)}
     }
+    
+    
     
 }

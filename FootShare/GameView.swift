@@ -248,7 +248,8 @@ struct GameView: View {
 
                     
     //                .scaledToFill()
-            }.frame(maxWidth: .infinity, alignment: .bottom)
+            }
+//           .frame(maxWidth: .infinity, alignment: .bottom)
         }
     }
     
