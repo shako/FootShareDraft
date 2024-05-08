@@ -193,16 +193,11 @@ struct GameView: View {
     }
     
     var ball: some View {
-        Image(systemName: "soccerball.inverse")
-            .resizable()
-            .frame(width: 70, height: 70)
-            .background(Circle().fill(.red))
-            .foregroundStyle(.white)
+        Text("⚽️")
+            .font(.system(size: 70))
             .rotationEffect(Angle(degrees: randomBallAngle))
-            .padding(2)
-            .background(Color.red)
             .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-            .shadow(color: .red.opacity(0.3), radius: 5)
+            .shadow(color: .black.opacity(0.5), radius: 5, x: 1, y: 0.5)
             .offset(goalMarkerOffset)
             .gesture(
                 DragGesture()
