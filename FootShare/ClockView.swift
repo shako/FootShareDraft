@@ -49,16 +49,17 @@ struct ClockView: View {
     }
     
     var clockBreakMessage: some View {
-//        Text("break")
-        Image(systemName: "pause.rectangle.fill")
-            .resizable()
-            .scaledToFill()
-            .frame(width: 70, height: 60)
-            .foregroundStyle(Color.secondary.opacity(0.5))
-            
-//            .font(.largeTitle)
-//            .fontWeight(.semibold)
-//            .tracking(2)
+
+//        Image(systemName: "pause.rectangle.fill")
+//            .resizable()
+//            .scaledToFill()
+//            .frame(width: 70, height: 60)
+//            .foregroundStyle(Color.secondary.opacity(0.5))
+        
+        Text("😴Break")
+            .font(.largeTitle)
+            .fontWeight(.semibold)
+            .tracking(2)
     }
     
     var endGameButton: some View {

@@ -39,7 +39,15 @@ extension Array where Element : Point {
     func madeDuring(_ session: Session) -> [Point] {
         self.filter {$0.madeDuring(session)}
     }
+
+    var firstToLast: [Point] {
+        self.sorted(by: { pointl, pointr in
+            pointl.date < pointr.date
+        })
+    }
     
-    
+    var lastToFirst: [Point] {
+        firstToLast.reversed()
+    }
     
 }

@@ -20,6 +20,9 @@ class Session {
         self.points = points
     }
     
+    var isPlaying: Bool {
+        return endTime == nil
+    }
 }
 
 extension Array where Element : Session {

@@ -18,24 +18,15 @@ struct HighlightView: View {
     var body: some View {
         TabView {
             VStack {
-                if clock.hasEnded {
-                    VStack {
-                        Text("Highlights")
-                            .font(.title)
-                        HighLightListView(clock: clock, points: points, groupBySession: true)
-                    }
-                    .frame(maxHeight: .infinity, alignment: .top)
-
-                } else {
-                    VStack {
-                        ClockView(clock: clock)
-                        if let ongoingSession = clock.sessions.ongoing {
-                            HighLightListView(clock: clock, points: points.madeDuring(ongoingSession))
-                        }
-                    }
-                    .frame(maxHeight: .infinity, alignment: .top)
-
+                if (!clock.hasEnded) {
+                    ClockView(clock: clock)
                 }
+                
+                VStack {
+                    HighLightListView(clock: clock, points: points, groupBySession: true)
+                }
+                .frame(maxHeight: .infinity, alignment: .top)
+
             }
             .tabItem {
                 if clock.hasEnded {
@@ -69,17 +60,24 @@ struct HighlightView: View {
     }
     
     func relevantSessions(sessions: [Session]) -> [Session] {
-        if (clock.hasEnded && sessions.count < 2) {
-            debugPrint("Clock has ended and less than 2 sessions. showing no sessions")
-            return [Session]()
-        }
-        if clock.hasEnded || clock.inBreak {
-            debugPrint("clock has ended or is in break. showing all sessions")
+        if (clock.sessions.count > 1) {
+            debugPrint("Returning all sessions")
             return clock.sessions.lastToFirst
-        } else {
-            debugPrint("showing all but latest sessions")
-            return Array(clock.sessions.lastToFirst.dropFirst())
         }
+        
+        debugPrint("Returning no sessions")
+        return [Session]()
+//        if (clock.hasEnded && sessions.count < 2) {
+//            debugPrint("Clock has ended and less than 2 sessions. showing no sessions")
+//            return [Session]()
+//        }
+//        if clock.hasEnded || clock.inBreak {
+//            debugPrint("clock has ended or is in break. showing all sessions")
+//            return clock.sessions.lastToFirst
+//        } else {
+//            debugPrint("showing all but latest sessions")
+//            return Array(clock.sessions.lastToFirst.dropFirst())
+//        }
     }
     
     func removePoint(indexSet: IndexSet) {
@@ -100,28 +98,40 @@ struct HighlightView: View {
 
 struct HighLightListView: View {
     
-    var clock: Clock
+    @Bindable var clock: Clock
     var points: [Point]
     var groupBySession: Bool = false
     
     var body: some View {
-        if !points.isEmpty {
+
 //                                Text("Goals").font(.callout)
 
                 List {
                     
                     if (groupBySession) {
-                        ForEach(clock.sessions.lastToFirst.indices) { sessionIndex in
-                            let session = clock.sessions.lastToFirst[sessionIndex]
+                        ForEach(clock.sessions.lastToFirst, id: \.id) { session in
+                            let sessionPoints = points.madeDuring(session).lastToFirst
+                            
                             Section {
-                                ForEach(session.points, id: \.id) { point in
+                                ForEach(sessionPoints, id: \.id) { point in
                                     HighlightEntryView(point: point)
                                 }
-                                if (session.points.isEmpty) {
+                                if (sessionPoints.isEmpty) {
                                     Text("No Highlights")
                                 }
                             } header: {
-                                Text("Session \(clock.sessions.count - sessionIndex)")
+                                if let sessionIndex = clock.sessions.lastToFirst.firstIndex(of: session) {
+//                                    if (clock.sessions.count > 1) {
+                                    if (session.isPlaying) {
+                                        Text("Session \(clock.sessions.count - sessionIndex) - playing")
+                                    } else {
+                                        Text("Session \(clock.sessions.count - sessionIndex)")
+                                    }
+
+//                                    }
+                                }
+
+                                
                                 
                             }
                             
@@ -140,7 +150,7 @@ struct HighLightListView: View {
                 }
                     .listStyle(.inset)
             
-        }
+        
     }
 }
 
