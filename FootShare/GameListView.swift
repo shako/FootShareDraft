@@ -17,19 +17,25 @@ struct GameListView: View {
     var body: some View {
         NavigationStack(path: $path) {
             List {
-                ForEach(games) { game in
+                ForEach(games.lastToFirst) { game in
                     NavigationLink(value: game) {
                         GameListEntryView(participations: game.participations)
-//                        ForEach(game.participations.homeFirst()) {participation in
-//                            VStack() {
-//                                Text(participation.team?.name ?? "")
-//                                    .font(.title2)
-//                                Text("\(participation.score)")
-//                            }.frame(maxWidth: .infinity)
-//                        }
+                            .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                                Button(action: {cloneGame(game: game)}, label: {
+                                    HStack {
+                                        Image(systemName: "arrow.circlepath")
+                                            .resizable()
+                                            .scaledToFill()
+                                        Text("Play Again")
+                                    }.font(.title)
+                                    
+                                })
+                                .tint(.blue)
+                            }
                     }
                 }
                 .onDelete(perform: deleteGames)
+
                 
             }
             .navigationTitle("Games")
@@ -62,10 +68,20 @@ struct GameListView: View {
 
     }
     
+    func cloneGame(game: Game) {
+        withAnimation {
+            modelContext.insert(game.clone(modelContext: modelContext))
+            try? modelContext.save()
+        }
+
+    }
+    
     func deleteGames(at offsets: IndexSet) {
-        for offset in offsets {
-            let game = games[offset]
-            modelContext.delete(game)
+        withAnimation {
+            for offset in offsets {
+                let game = games[offset]
+                modelContext.delete(game)
+            }
         }
     }
     

@@ -11,6 +11,7 @@ import Foundation
 @Model
 class Game {
     var date: Date
+    var createdAt: Date = Date.now
     @Relationship(deleteRule: .cascade) var clock: Clock
     @Relationship(deleteRule: .cascade, inverse: \Participation.game)  var participations: [Participation]
     
@@ -30,3 +31,34 @@ class Game {
     
 }
 
+extension Game {
+    
+    func clone(modelContext: ModelContext) -> Game {
+        debugPrint("cloning game with \(self.participations.count) participations")
+        var participations = self.participations.map { participation in
+            var newParticipation = Participation.init(isHomeTeam: participation.isHomeTeam, points: [Point]())
+            modelContext.insert(newParticipation)
+            newParticipation.team = participation.team
+            return newParticipation
+        }
+        var game = Game.init(date: self.date, participations: [], clock: Clock.init())
+        modelContext.insert(game)
+        game.participations = participations
+        return game
+    }
+    
+}
+
+extension Array where Element : Game {
+    
+    var firstToLast: [Game] {
+        self.sorted(by: { gamel, gamer in
+            gamel.createdAt < gamer.createdAt
+        })
+    }
+    
+    var lastToFirst: [Game] {
+        firstToLast.reversed()
+    }
+    
+}
