@@ -19,24 +19,10 @@ struct GameListView: View {
             List {
                 ForEach(games.lastToFirst) { game in
                     NavigationLink(value: game) {
-                        GameListEntryView(participations: game.participations)
-                            .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                                Button(action: {cloneGame(game: game)}, label: {
-                                    HStack {
-                                        Image(systemName: "arrow.circlepath")
-                                            .resizable()
-                                            .scaledToFill()
-                                        Text("Play Again")
-                                    }.font(.title)
-                                    
-                                })
-                                .tint(.blue)
-                            }
+                        GameEntry(game: game, cloneGameFunction: {cloneGame(game: game)})
                     }
                 }
                 .onDelete(perform: deleteGames)
-
-                
             }
             .navigationTitle("Games")
             .navigationDestination(for: Game.self) { game in
@@ -47,19 +33,7 @@ struct GameListView: View {
                     EditButton()
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button {
-                        let participationHomeTeam = Participation(isHomeTeam: true, points: [])
-                        let participationOutTeam = Participation(isHomeTeam: false, points: [])
-                        let game = Game(date: .now, participations: [], clock: Clock())
-                        modelContext.container.mainContext.insert(game)
-                        modelContext.container.mainContext.insert(participationHomeTeam)
-                        modelContext.container.mainContext.insert(participationOutTeam)
-                        participationHomeTeam.game = game
-                        participationOutTeam.game = game
-                        path.append(game)
-                    } label: {
-                        Image(systemName: "plus")
-                    }
+                    newGameButton
                 }
 
             }
@@ -67,6 +41,7 @@ struct GameListView: View {
         }
 
     }
+
     
     func cloneGame(game: Game) {
         withAnimation {
@@ -83,6 +58,46 @@ struct GameListView: View {
                 modelContext.delete(game)
             }
         }
+    }
+    
+    @MainActor
+    var newGameButton: some View {
+        Button {
+            let participationHomeTeam = Participation(isHomeTeam: true, points: [])
+            let participationOutTeam = Participation(isHomeTeam: false, points: [])
+            let game = Game(date: .now, participations: [], clock: Clock())
+            modelContext.container.mainContext.insert(game)
+            modelContext.container.mainContext.insert(participationHomeTeam)
+            modelContext.container.mainContext.insert(participationOutTeam)
+            participationHomeTeam.game = game
+            participationOutTeam.game = game
+            path.append(game)
+        } label: {
+            Image(systemName: "plus")
+        }
+    }
+    
+}
+
+struct GameEntry: View {
+    
+    var game: Game
+    var cloneGameFunction: () -> Void
+    
+    var body: some View {
+        GameListEntryView(participations: game.participations)
+            .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                Button(action: {cloneGameFunction()}, label: {
+                    HStack {
+                        Image(systemName: "arrow.circlepath")
+                            .resizable()
+                            .scaledToFill()
+                        Text("Play Again")
+                    }.font(.title)
+                    
+                })
+                .tint(.blue)
+            }
     }
     
 }
