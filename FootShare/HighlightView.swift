@@ -37,16 +37,17 @@ struct HighlightView: View {
                 
             }
             
-            ForEach(relevantSessions(sessions: clock.sessions), id: \.self) { session in
-                let sessionNumber = relevantSessions(sessions: clock.sessions).firstIndex(of: session) ?? 0
+            let sessions = relevantSessions(sessions: clock.sessions)
+            ForEach(sessions, id: \.self) { session in
+                let sessionNumber = sessions.firstIndex(of: session) ?? 0
                 
                 VStack {
-                    Text("Session \(relevantSessions(sessions: clock.sessions).count - sessionNumber)")
+                    Text("Session \(sessions.count - sessionNumber)")
                         .font(.title)
                     HighLightListView(clock: clock, points: points.madeDuring(session))
                 }
                 .frame(maxHeight: .infinity, alignment: .top)
-                .tabItem { Label("", systemImage: "\(relevantSessions(sessions: clock.sessions).count - sessionNumber).square") }
+                .tabItem { Label("", systemImage: "\(sessions.count - sessionNumber).square") }
             }
 
         }
@@ -61,11 +62,11 @@ struct HighlightView: View {
     
     func relevantSessions(sessions: [Session]) -> [Session] {
         if (clock.sessions.count > 1) {
-            debugPrint("Returning all sessions")
+//            debugPrint("Returning all sessions")
             return clock.sessions.lastToFirst
         }
         
-        debugPrint("Returning no sessions")
+//        debugPrint("Returning no sessions")
         return [Session]()
 //        if (clock.hasEnded && sessions.count < 2) {
 //            debugPrint("Clock has ended and less than 2 sessions. showing no sessions")
@@ -107,9 +108,9 @@ struct HighLightListView: View {
 //                                Text("Goals").font(.callout)
 
                 List {
-                    
+                    let sessions = clock.sessions.lastToFirst
                     if (groupBySession) {
-                        ForEach(clock.sessions.lastToFirst, id: \.id) { session in
+                        ForEach(sessions, id: \.id) { session in
                             let sessionPoints = points.madeDuring(session).lastToFirst
                             
                             Section {
@@ -120,7 +121,7 @@ struct HighLightListView: View {
                                     Text("No Highlights")
                                 }
                             } header: {
-                                if let sessionIndex = clock.sessions.lastToFirst.firstIndex(of: session) {
+                                if let sessionIndex = sessions.firstIndex(of: session) {
 //                                    if (clock.sessions.count > 1) {
                                     if (session.isPlaying) {
                                         Text("Session \(clock.sessions.count - sessionIndex) - playing")
