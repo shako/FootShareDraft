@@ -29,6 +29,7 @@
 		B0D876AD2BD2CE9400B46561 /* GameListEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D876AC2BD2CE9400B46561 /* GameListEntryView.swift */; };
 		B0D9F61E2BDADB0C0083925B /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D9F61D2BDADB0C0083925B /* TestData.swift */; };
 		B0EC20202BCDB7F600237481 /* ClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EC201F2BCDB7F600237481 /* ClockView.swift */; };
+		B0F85BBB2BED3D9E00AF2DEF /* SessionSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F85BBA2BED3D9E00AF2DEF /* SessionSummaryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,7 @@
 		B0D876AC2BD2CE9400B46561 /* GameListEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameListEntryView.swift; sourceTree = "<group>"; };
 		B0D9F61D2BDADB0C0083925B /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
 		B0EC201F2BCDB7F600237481 /* ClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockView.swift; sourceTree = "<group>"; };
+		B0F85BBA2BED3D9E00AF2DEF /* SessionSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSummaryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				B02370C02BD9272000F525DE /* HighlightView.swift */,
 				B0BAF5BC2BF3F160007B144E /* BallView.swift */,
 				B0EC201F2BCDB7F600237481 /* ClockView.swift */,
+				B0F85BBA2BED3D9E00AF2DEF /* SessionSummaryView.swift */,
 				B0552EC92BB476500096D311 /* SelectTeamView.swift */,
 				B0552ECD2BB4AC8F0096D311 /* AddTeamView.swift */,
 				B02C6FAD2BC47BC8007B7E22 /* Models */,
@@ -204,6 +207,7 @@
 				B03D10582BA4F52200BB1715 /* GameView.swift in Sources */,
 				B0BAF5BD2BF3F160007B144E /* BallView.swift in Sources */,
 				B0C97EB22BD8F52E00C8A39A /* TestTabView.swift in Sources */,
+				B0F85BBB2BED3D9E00AF2DEF /* SessionSummaryView.swift in Sources */,
 				B0552ECC2BB479580096D311 /* Color.swift in Sources */,
 				B03D10482BA4F3A600BB1715 /* FootShareApp.swift in Sources */,
 				B0552ECA2BB476500096D311 /* SelectTeamView.swift in Sources */,
