@@ -254,6 +254,38 @@
             endingLineNumber = "38"
             landmarkName = "clone(modelContext:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "EEA282CD-0A79-4839-9C01-B00A572F4998 - e66d2833c7242fed"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "FootShare.Game.clone(modelContext: SwiftData.ModelContext) -&gt; FootShare.Game"
+                  moduleName = "FootShare"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/steven/Documents/clients/MXConsultancy/FootShare/FootShare/Models/Game.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "568">
+               </Location>
+               <Location
+                  uuid = "EEA282CD-0A79-4839-9C01-B00A572F4998 - 6ef8b0daa352e7bb"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (FootShare.Participation) -&gt; FootShare.Participation in FootShare.Game.clone(modelContext: SwiftData.ModelContext) -&gt; FootShare.Game"
+                  moduleName = "FootShare"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/steven/Documents/clients/MXConsultancy/FootShare/FootShare/Models/Game.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "39"
+                  endingLineNumber = "39"
+                  offsetFromSymbolStart = "68">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -317,6 +349,38 @@
             startingLineNumber = "45"
             endingLineNumber = "45"
             landmarkName = "clone(modelContext:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DC36C5E5-EF44-4150-8DE2-E18F17E374F2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FootShare/ClockView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "resumeClock()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E65164C5-11AD-4557-ADF5-63B6491E64B4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FootShare/Models/Clock.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "init()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

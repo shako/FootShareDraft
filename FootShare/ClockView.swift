@@ -86,9 +86,7 @@ struct ClockView: View {
     }
     
     func resumeClock() {
-        let session = Session(startTime: Date.now)
-        modelContext.insert(session)
-        clock.resume(newSession: session)
+        clock.resume(modelContext: modelContext)
     }
     
 }

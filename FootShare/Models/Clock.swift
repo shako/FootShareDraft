@@ -13,29 +13,41 @@ class Clock {
     
     @Relationship(deleteRule: .cascade) var sessions: [Session] = []
     var status: Status = Status.not_started
-
+    @Transient var currentSession: Session?
+    
     init() {
-        
+        var latestSession = sessions.firstToLast.last
+        debugPrint("initializing clock")
+//        if (latestSession?.isPlaying == true) {
+            currentSession = latestSession
+        let _ = debugPrint("got a latestsession? \(latestSession != nil)")
+//        }
     }
 }
 
 extension Clock {
     
     func start() {
-        let session = Session(startTime: Date.now)
-        self.sessions.append(session)
-        self.status = .playing(since: session.startTime)
+        currentSession = Session(startTime: Date.now)
+        self.sessions.append(currentSession!)
+        self.status = .playing(since: currentSession!.startTime)
     }
     
     func startBreak() {
+        guard let session = currentSession else {
+            fatalError("Found no session to end")
+//            return
+        }
         let breakStart = Date.now
-        sessions.firstToLast.last?.endTime = breakStart
+        session.endTime = breakStart
         self.status = .in_break(since: breakStart)
     }
     
-    func resume(newSession : Session) {
-        self.sessions.append(newSession)
-        self.status = .playing(since: newSession.startTime)
+    func resume(modelContext: ModelContext) {
+        currentSession = Session(startTime: Date.now)
+        modelContext.insert(currentSession!)
+        self.sessions.append(currentSession!)
+        self.status = .playing(since: currentSession!.startTime)
     }
     
     func end() {
