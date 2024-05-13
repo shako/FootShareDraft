@@ -16,8 +16,9 @@ struct HighlightView: View {
     var refreshAction: (() -> Void)?
     
     var body: some View {
-        let sessions = relevantSessions(sessions: clock.sessions)
-        
+        let allSessions = clock.sessions.lastToFirst
+        let sessions = relevantSessions(sessions: allSessions)
+ 
         TabView {
             VStack {
 
@@ -26,7 +27,7 @@ struct HighlightView: View {
                 }
                 
                 VStack {
-                    HighLightListView(sessions: sessions, points: points, groupBySession: true)
+                    HighLightListView(sessions: allSessions, points: points, groupBySession: true)
                 }
                 .frame(maxHeight: .infinity, alignment: .top)
 
@@ -63,9 +64,9 @@ struct HighlightView: View {
     }
     
     func relevantSessions(sessions: [Session]) -> [Session] {
-        if (clock.sessions.count > 1) {
+        if (sessions.count > 1) {
 //            debugPrint("Returning all sessions")
-            return clock.sessions.lastToFirst
+            return sessions
         }
         
 //        debugPrint("Returning no sessions")
