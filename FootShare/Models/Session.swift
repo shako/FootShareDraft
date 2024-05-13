@@ -28,13 +28,15 @@ class Session {
 extension Array where Element : Session {
     
     var firstToLast: [Session] {
-        self.sorted(by: { sessionl, sessionr in
+        debugPrint("\(Date.now.formatted(date: .complete, time: .complete)) Reading all sessions - firstToLast")
+        return self.sorted(by: { sessionl, sessionr in
             sessionl.startTime < sessionr.startTime
         })
     }
     
     var lastToFirst: [Session] {
-        firstToLast.reversed()
+        debugPrint("\(Date.now.formatted(date: .complete, time: .complete)) Reading all sessions - lastToFirst")
+        return firstToLast.reversed()
     }
     
     func playTimeUpTo(date: Date) -> Double {
