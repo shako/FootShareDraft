@@ -16,14 +16,17 @@ struct HighlightView: View {
     var refreshAction: (() -> Void)?
     
     var body: some View {
+        let sessions = relevantSessions(sessions: clock.sessions)
+        
         TabView {
             VStack {
+
                 if (!clock.hasEnded) {
                     ClockView(clock: clock)
                 }
                 
                 VStack {
-                    HighLightListView(clock: clock, points: points, groupBySession: true)
+                    HighLightListView(sessions: sessions, points: points, groupBySession: true)
                 }
                 .frame(maxHeight: .infinity, alignment: .top)
 
@@ -37,14 +40,13 @@ struct HighlightView: View {
                 
             }
             
-            let sessions = relevantSessions(sessions: clock.sessions)
             ForEach(sessions, id: \.self) { session in
                 let sessionNumber = sessions.firstIndex(of: session) ?? 0
                 
                 VStack {
                     Text("Session \(sessions.count - sessionNumber)")
                         .font(.title)
-                    HighLightListView(clock: clock, points: points.madeDuring(session))
+                    HighLightListView(sessions: sessions, points: points.madeDuring(session))
                 }
                 .frame(maxHeight: .infinity, alignment: .top)
                 .tabItem { Label("", systemImage: "\(sessions.count - sessionNumber).square") }
@@ -99,7 +101,7 @@ struct HighlightView: View {
 
 struct HighLightListView: View {
     
-    @Bindable var clock: Clock
+    var sessions: [Session]
     var points: [Point]
     var groupBySession: Bool = false
     
@@ -108,7 +110,6 @@ struct HighLightListView: View {
 //                                Text("Goals").font(.callout)
 
                 List {
-                    let sessions = clock.sessions.lastToFirst
                     if (groupBySession) {
                         ForEach(sessions, id: \.id) { session in
                             let sessionPoints = points.madeDuring(session).lastToFirst
@@ -124,9 +125,9 @@ struct HighLightListView: View {
                                 if let sessionIndex = sessions.firstIndex(of: session) {
 //                                    if (clock.sessions.count > 1) {
                                     if (session.isPlaying) {
-                                        Text("Session \(clock.sessions.count - sessionIndex) - playing")
+                                        Text("Session \(sessions.count - sessionIndex) - playing")
                                     } else {
-                                        Text("Session \(clock.sessions.count - sessionIndex)")
+                                        Text("Session \(sessions.count - sessionIndex)")
                                     }
 
 //                                    }
