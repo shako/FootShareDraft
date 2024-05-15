@@ -24,6 +24,8 @@ struct HighlightView: View {
 
                 if (!clock.hasEnded) {
                     ClockView(clock: clock)
+                } else if let session = allSessions.first, allSessions.count == 1 {
+                    SessionSummaryView(session: binding(for: session), omitGoals: true)
                 }
                 
                 VStack {
@@ -51,7 +53,7 @@ struct HighlightView: View {
                     HighLightListView(sessions: sessions, points: points.madeDuring(session))
                 }
                 .frame(maxHeight: .infinity, alignment: .top)
-                .tabItem { Label("", systemImage: "\(sessions.count - sessionNumber).square") }
+                .tabItem { Label("", systemImage: "\(sessionNumber).square") }
             }
 
         }

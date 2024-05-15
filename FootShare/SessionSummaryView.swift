@@ -11,16 +11,38 @@ import SwiftData
 struct SessionSummaryView: View {
     
     @Binding var session: Session
+    var omitGoals = false
     
     var body: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 4) {
-                Label("\(formatDuration(session.duration))", systemImage: "clock")
+
+        VStack(alignment: .leading, spacing: 8) {
+            Label {
+                Text("\(formatDuration(session.duration))")
+            } icon: {
+                Image(systemName: "clock")
+                    .foregroundColor(.accentColor)
+            }
+            if !omitGoals {
+                Divider()
+                       .padding(.leading, 24)
                 ForEach(session.participations.homeFirst()) { participation in
-                    Label("\(session.points.forParticipation(participation).count) - \(participation.team?.name ?? "")", systemImage: "soccerball")
+                    Label {
+                        Text("\(session.points.forParticipation(participation).count) - \(participation.team?.name ?? "")")
+                    } icon: {
+                        Image(systemName: "soccerball")
+                            .foregroundColor(.accentColor)
+                    }
+                    Divider()
+                           .padding(.leading, 24)
                 }
-            }.frame(maxWidth: .infinity, alignment: .leading).padding()
+            }
+
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.leading)
+            
+            
+
     }
     
     func formatDuration(_ timeInterval: TimeInterval) -> String {
@@ -30,6 +52,24 @@ struct SessionSummaryView: View {
         return formatter.string(from: timeInterval)!
     }
     
+}
+
+/// Create a Label with a custom image which can have its color updated using the
+/// `.foregroundColor(_)` funtion.
+struct LabelWithImageIcon: View {
+   /// The title which will be passed to the title attribute of the Label View.
+   let title: String
+   /// The name of the image to pass into the Label View.
+   let image: String
+   
+   var body: some View {
+       Label(title: {
+           Text(self.title)
+       }, icon: {
+           Image(self.image)
+               .renderingMode(.template)
+       } )
+   }
 }
 
 #Preview {
