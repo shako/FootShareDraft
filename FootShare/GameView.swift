@@ -15,9 +15,7 @@ struct GameView: View {
     @State private var showingSelectTeam = false
     @State var teamEditor = TeamEditor()
     
-    @State var randomBallAngle = Double.random(in: 1..<45)
-    @State var goalMarkerOffset: CGSize = CGSize.zero
-    @State var movingGoalMarker: Bool = false
+    @State var scoringTarget: ScoringTarget = .none
     
     @State private var reversedParticipationOrder = false
     
@@ -173,10 +171,9 @@ struct GameView: View {
             }
 
             if (game.clock.isRunning) {
-                HStack {
-                    ball
-    //                    .padding(.top, -10)
-                        
+                VStack {
+                    BallView(scoringTarget: $scoringTarget, scoreGoalFunction: scoreGoal)
+                        .padding(.top, -10)
                         .frame(maxHeight: .infinity, alignment: .bottom)
                         .padding(.bottom, 25)
                 }
@@ -184,59 +181,13 @@ struct GameView: View {
             
 
         }
-        
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("\(game.date.formatted(date: .abbreviated, time: .omitted))")
         
-        
-
     }
-    
-    var ball: some View {
-        Text("⚽️")
-            .font(.system(size: 70))
-            .rotationEffect(Angle(degrees: randomBallAngle))
-            .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-            .shadow(color: .black.opacity(0.5), radius: 5, x: 1, y: 0.5)
-            .offset(goalMarkerOffset)
-            .gesture(
-                DragGesture()
-                    .onChanged { value in
-                        if (!movingGoalMarker) {
-                            if (goalMarkerOffset.height < -50) {
-                                withAnimation {
-                                    movingGoalMarker = true
-                                }
-                            }
 
-                        } else {
-                            if (goalMarkerOffset.height >= -50) {
-                                withAnimation {
-                                    movingGoalMarker = false
-                                }
-                            }
-                        }
-                        
-                        withAnimation(.easeOut) {
-                            goalMarkerOffset = value.translation
-                        }
-                        
-                    }
-                    .onEnded { value in
-                        withAnimation {
-                            if (isPreparingToScoreFor(0)) {
-                                addPoint(participation: orderedParticipations.first!)
-                            } else if (isPreparingToScoreFor(1)) {
-                                addPoint(participation: orderedParticipations.last!)
-                            }
-                            movingGoalMarker = false
-                        }
-                        
-                        withAnimation(.bouncy) {
-                            goalMarkerOffset = .zero
-                        }
-                    }
-            )
+    func mockScoreGoalFunction(scoringTarget: ScoringTarget) {
+        debugPrint("Scoring goal for: \(scoringTarget.rawValue)")
     }
     
     var iconToSwitchSides : some View {
@@ -264,23 +215,20 @@ struct GameView: View {
         refreshScore()
     }
     
+    func scoreGoal(scoringTarget: ScoringTarget) {
+        if case .leading = scoringTarget {
+            addPoint(participation: orderedParticipations.first!)
+        }
+        if case .trailing = scoringTarget {
+            addPoint(participation: orderedParticipations.last!)
+        }
+    }
+    
     func refreshScore() {
         game.participations = game.participations
     }
 
-    
-    func isScoreMarkerLocationLeft() -> Bool {
-        return goalMarkerOffset.width <= 0
-    }
-    
-    func isPreparingToScoreFor(_ index: Int) -> Bool {
-        let isPointingLeft = isLeftToRight() && isScoreMarkerLocationLeft()
-        let isLeftScoreBoard = index == 0
-        if movingGoalMarker && ((isPointingLeft && isLeftScoreBoard) || (!isPointingLeft && !isLeftScoreBoard)) {
-            return true
-        }
-        return false
-    }
+
     
 }
 
