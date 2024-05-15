@@ -71,4 +71,17 @@ extension Session {
         return (self.endTime ?? Date.now) - self.startTime
     }
     
+    var participations: [Participation] {
+        return Array(Set(self.points.filter { point in
+            point.participation != nil
+        }
+        .map { point in
+            point.participation!
+        }))
+    }
+    
+    var duration: TimeInterval {
+        (self.endTime ?? Date.now) - self.startTime
+    }
+    
 }

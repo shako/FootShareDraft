@@ -50,4 +50,8 @@ extension Array where Element : Point {
         firstToLast.reversed()
     }
     
+    func forParticipation(_ participation: Participation) -> [Point] {
+        self.filter {$0.participation == participation}
+    }
+    
 }

@@ -47,6 +47,7 @@ extension Array where Element: Participation {
             participation.team == nil
         }.count == 0
     }
+    
 }
 
 extension Participation {

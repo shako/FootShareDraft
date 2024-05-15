@@ -41,12 +41,13 @@ struct HighlightView: View {
                 
             }
             
-            ForEach(sessions, id: \.self) { session in
-                let sessionNumber = sessions.firstIndex(of: session) ?? 0
+            ForEach(Array(sessions.enumerated()), id: \.element) { index, session in
+                let sessionNumber = sessions.count - index
                 
                 VStack {
-                    Text("Session \(sessions.count - sessionNumber)")
+                    Text("Session \(sessionNumber)")
                         .font(.title)
+                    SessionSummaryView(session: binding(for: session))
                     HighLightListView(sessions: sessions, points: points.madeDuring(session))
                 }
                 .frame(maxHeight: .infinity, alignment: .top)
@@ -61,6 +62,13 @@ struct HighlightView: View {
 //            UIPageControl.appearance().pageIndicatorTintColor = .red
             UIPageControl.appearance().pageIndicatorTintColor = UIColor(Color.primary).withAlphaComponent(0.3)
         })
+    }
+    
+    private func binding(for session: Session) -> Binding<Session> {
+        guard let index = clock.sessions.firstIndex(of: session) else {
+            fatalError("Session not found in clock.sessions")
+        }
+        return $clock.sessions[index]
     }
     
     func relevantSessions(sessions: [Session]) -> [Session] {
@@ -114,7 +122,6 @@ struct HighLightListView: View {
                     if (groupBySession) {
                         ForEach(sessions, id: \.id) { session in
                             let sessionPoints = points.madeDuring(session).lastToFirst
-                            
                             Section {
                                 ForEach(sessionPoints, id: \.id) { point in
                                     HighlightEntryView(point: point)
