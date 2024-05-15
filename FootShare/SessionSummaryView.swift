@@ -11,7 +11,6 @@ import SwiftData
 struct SessionSummaryView: View {
     
     @Binding var session: Session
-    var omitGoals = false
     
     var body: some View {
 
@@ -22,20 +21,19 @@ struct SessionSummaryView: View {
                 Image(systemName: "clock")
                     .foregroundColor(.accentColor)
             }
-            if !omitGoals {
+            Divider()
+                   .padding(.leading, 24)
+            ForEach(session.participations.homeFirst()) { participation in
+                Label {
+                    Text("\(session.points.forParticipation(participation).count) - \(participation.team?.name ?? "")")
+                } icon: {
+                    Image(systemName: "soccerball")
+                        .foregroundColor(.accentColor)
+                }
                 Divider()
                        .padding(.leading, 24)
-                ForEach(session.participations.homeFirst()) { participation in
-                    Label {
-                        Text("\(session.points.forParticipation(participation).count) - \(participation.team?.name ?? "")")
-                    } icon: {
-                        Image(systemName: "soccerball")
-                            .foregroundColor(.accentColor)
-                    }
-                    Divider()
-                           .padding(.leading, 24)
-                }
             }
+            
 
         }
         .frame(maxWidth: .infinity, alignment: .leading)

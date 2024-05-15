@@ -24,8 +24,6 @@ struct HighlightView: View {
 
                 if (!clock.hasEnded) {
                     ClockView(clock: clock)
-                } else if let session = allSessions.first, allSessions.count == 1 {
-                    SessionSummaryView(session: binding(for: session), omitGoals: true)
                 }
                 
                 VStack {
