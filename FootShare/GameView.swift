@@ -68,7 +68,7 @@ struct GameView: View {
                                         Button(action: {addPoint(participation: participation)}, label: {
                                             // todo: move to seperate method, but make sure that after deleting a goal the score gets updated
                                             VStack {
-                                                Text("\(isPreparingToScoreFor(index) ? "+1" :  String(participation.score))")
+                                                Text("\(String(participation.score))")
                                                     .font(.system(size: 100))
                                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                                                     .background(.regularMaterial)
@@ -128,7 +128,8 @@ struct GameView: View {
                                     }
                                     
                                 }
-                            }.id("participation-\(index)")
+                            }
+                            .id("participation-\(index)")
                             .frame(maxWidth: .infinity, maxHeight: 200)
                                 .background(.gray.opacity(0.15))
     //                            .background(.black)
@@ -142,31 +143,75 @@ struct GameView: View {
                                 .padding(index == 0 ? .leading : .trailing, 8)
 
                         }
+
                         
                         //                }
                     }
                 }
                 .zIndex(-1)
                 
+                if scoringTarget == .leading || scoringTarget == .trailing {
+                    HStack {
+                        VStack {
+                            Text(scoringTarget == .leading ? "+1" : "")
+                                .font(.system(size: 100))
+                                .foregroundStyle(.secondary)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .background(.regularMaterial)
+                                .foregroundStyle(Color.primary)
+                                
+//                                .clipShape(RoundedRectangle(cornerRadius: 10))
+//                                .padding()
+                                .background(Color(orderedParticipations.first!.team?.color ?? UIColor.red))
+                                .padding()
+                                .background(scoringTarget == .leading ?  (Color(orderedParticipations.first!.team?.color ?? UIColor.red)) : .white)
+                        }
+                        VStack {
+                            Text(scoringTarget == .trailing ? "+1" : "")
+                                .font(.system(size: 100))
+                                .foregroundStyle(.secondary)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .background(.regularMaterial)
+                                .foregroundStyle(Color.primary)
+                                
+//                                .clipShape(RoundedRectangle(cornerRadius: 10))
+//                                .padding()
+                                .background(Color(orderedParticipations.last!.team?.color ?? UIColor.red))
+                                .padding()
+                                .background(scoringTarget == .trailing ? (Color(orderedParticipations.last!.team?.color ?? UIColor.red)) : .white)
+                                
+                        }
+                    }.frame(maxHeight: .infinity)
+
+//                    Spacer()
+                }
+
+                
                 if !game.participations.teamsSelected {
                     (Text(Image(systemName: "arrow.up")) + Text(" Select both teams to start ") + Text(Image(systemName: "arrow.up"))).fontWeight(.semibold).padding(.top)
                     Spacer()
                 } else {
+
                     VStack {
                             if !game.participations.teamsSelected {
                             } else {
-                                HighlightView(clock: $game.clock, points: game.points)
-                                    .padding(.bottom, 6)
-                                    .ignoresSafeArea(.all, edges: .bottom)
+                                if scoringTarget == .leading || scoringTarget == .trailing {
+//                                    Spacer()
+                                } else {
+                                    HighlightView(clock: $game.clock, points: game.points)
+                                        .padding(.bottom, 6)
+                                        .ignoresSafeArea(.all, edges: .bottom)
+                                }
+
                                 
                                     
                             }
 
                     }
 
+
                 }
-//                Spacer()
-                    
+
                 
             }
 
