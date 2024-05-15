@@ -164,7 +164,7 @@ struct GameView: View {
 //                                .padding()
                                 .background(Color(orderedParticipations.first!.team?.color ?? UIColor.red))
                                 .padding()
-                                .background(scoringTarget == .leading ?  (Color(orderedParticipations.first!.team?.color ?? UIColor.red)) : .white)
+                                .background(scoringTarget == .leading ?  (Color(orderedParticipations.first!.team?.color ?? UIColor.red)) : nil)
                         }
                         VStack {
                             Text(scoringTarget == .trailing ? "+1" : "")
@@ -178,7 +178,7 @@ struct GameView: View {
 //                                .padding()
                                 .background(Color(orderedParticipations.last!.team?.color ?? UIColor.red))
                                 .padding()
-                                .background(scoringTarget == .trailing ? (Color(orderedParticipations.last!.team?.color ?? UIColor.red)) : .white)
+                                .background(scoringTarget == .trailing ? (Color(orderedParticipations.last!.team?.color ?? UIColor.red)) : nil)
                                 
                         }
                     }.frame(maxHeight: .infinity)
