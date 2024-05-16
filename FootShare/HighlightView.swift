@@ -29,10 +29,11 @@ struct HighlightView: View {
             ForEach(Array(closedSessions.enumerated()), id: \.element) { index, session in
                 let sessionNumber = index + 1
                 
-                VStack {
-                    Text("Session \(sessionNumber)")
-                        .font(.title)
-                    SessionSummaryView(session: binding(for: session))
+                VStack() {
+//                    Text("Session \(sessionNumber)")
+//                        .font(.title)
+                    SessionSummaryView(session: binding(for: session), sessionNumber: sessionNumber)
+                        .padding(.vertical)
                     HighLightListView(sessions: sessions, points: session.points)
                 }
                 .frame(maxHeight: .infinity, alignment: .top)
@@ -42,19 +43,20 @@ struct HighlightView: View {
                 .tabItem {
                         Label("", systemImage: "\(sessionNumber).square")
                 }
+                
             }
 
             if (!clock.hasEnded) {
-                VStack {
+                VStack() {
                     if (!clock.hasEnded && ((clock.lastSession?.isPlaying) == true)) {
                         let session = clock.lastSession!
-                        Text("Session \((sessions.firstIndex(of: session) ?? 0) + 1)")
-                            .font(.title)
+                        SessionSummaryView(session: binding(for: session), sessionNumber: clock.sessionNumber ?? 0)
+                            .padding(.top)
                     }
                     ClockView(clock: clock)
                     if (!clock.hasEnded && ((clock.lastSession?.isPlaying) == true)) {
                         let session = clock.lastSession!
-                        SessionSummaryView(session: binding(for: session))
+  
                         HighLightListView(sessions: sessions, points: session.points)
                     }
                 }
@@ -66,7 +68,7 @@ struct HighlightView: View {
             }
             
             if (closedSessions.count > 0) {
-                VStack {
+                VStack(spacing: 0) {
                     Text("Highlights")
                         .font(.title)
                     VStack {
@@ -158,7 +160,7 @@ struct HighLightListView: View {
                 List {
                     if (groupBySession) {
                         ForEach(sessions, id: \.id) { session in
-                            let sessionPoints = points.madeDuring(session).lastToFirst
+                            let sessionPoints = points.madeDuring(session).firstToLast
                             Section {
                                 ForEach(sessionPoints, id: \.id) { point in
                                     HighlightEntryView(point: point)
@@ -186,7 +188,7 @@ struct HighLightListView: View {
 
                     } else {
                         Section {
-                            ForEach(points, id: \.id) { point in
+                            ForEach(points.lastToFirst, id: \.id) { point in
                                 HighlightEntryView(point: point)
                             }
                         }

@@ -11,10 +11,18 @@ import SwiftData
 struct SessionSummaryView: View {
     
     @Binding var session: Session
+    var sessionNumber: Int
     
     var body: some View {
 
         VStack(alignment: .leading, spacing: 8) {
+            Label {
+                Text("Session \(sessionNumber)")
+            } icon: {
+                Image(systemName: "number")
+                    .foregroundColor(.accentColor)
+            }
+            Divider()
             Label {
                 Text("\(formatDuration(session.duration))")
             } icon: {
@@ -76,5 +84,5 @@ struct LabelWithImageIcon: View {
     
     let games = makeFakeData(container: container)
     
-    return SessionSummaryView(session: .constant(games.first!.clock.sessions.firstToLast.last!))
+    return SessionSummaryView(session: .constant(games.first!.clock.sessions.firstToLast.last!), sessionNumber: 2)
 }
