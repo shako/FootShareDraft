@@ -14,43 +14,33 @@ struct HighlightView: View {
     @Binding var clock: Clock
     var points: [Point]
     var refreshAction: (() -> Void)?
-//    @State private var selectedTab = 0
+    
+    @State private var selectedTab = "current"
     
     var body: some View {
-        let allSessions = clock.sessions.lastToFirst
+        let allSessions = clock.sessions.firstToLast
         let sessions = relevantSessions(sessions: allSessions)
  
-        TabView {
-            VStack {
-
-//                if (!clock.hasEnded) {
-//                    ClockView(clock: clock)
-//                }
-                
-                VStack {
-                    HighLightListView(sessions: allSessions, points: points, groupBySession: true)
-                }
-                .frame(maxHeight: .infinity, alignment: .top)
-
-            }
-            .tabItem {
-                Label("", systemImage: "list.bullet")
-            }
-            
+        let _ = Self._printChanges()
+        
+        TabView(selection: $selectedTab) {
             ForEach(Array(sessions.enumerated()), id: \.element) { index, session in
-                let sessionNumber = sessions.count - index
+                let sessionNumber = index + 1
                 
                 VStack {
-                    Text("Session \(sessionNumber)")
-                        .font(.title)
                     if (!clock.hasEnded && clock.lastSession == session) {
                         ClockView(clock: clock)
                     }
+                    Text("Session \(sessionNumber)")
+                        .font(.title)
                     SessionSummaryView(session: binding(for: session))
                     HighLightListView(sessions: sessions, points: points.madeDuring(session))
                 }
                 .frame(maxHeight: .infinity, alignment: .top)
-                .tabItem { 
+                .tag(
+                    (!clock.hasEnded && clock.lastSession == session) ? "current" : "\(sessionNumber)"
+                )
+                .tabItem {
                     if (!clock.hasEnded && clock.lastSession == session) {
                         Label("Clock", systemImage: "timer")
                     } else {
@@ -60,6 +50,16 @@ struct HighlightView: View {
                 }
             }
 
+            VStack {
+                VStack {
+                    HighLightListView(sessions: allSessions, points: points, groupBySession: true)
+                }
+                .frame(maxHeight: .infinity, alignment: .top)
+            }
+            .tag("summary")
+            .tabItem {
+                Label("", systemImage: "list.bullet")
+            }
         }
         .tabViewStyle(.page(indexDisplayMode: .automatic))
         .indexViewStyle(.page(backgroundDisplayMode: .always))
@@ -67,8 +67,18 @@ struct HighlightView: View {
             UIPageControl.appearance().currentPageIndicatorTintColor = .red.withAlphaComponent(0.8)
 //            UIPageControl.appearance().pageIndicatorTintColor = .red
             UIPageControl.appearance().pageIndicatorTintColor = UIColor(Color.primary).withAlphaComponent(0.3)
-            
         })
+        .onChange(of: clock.hasEnded) { _, _ in
+            calculateTabSelection()
+        }
+    }
+    
+    func calculateTabSelection() {
+        if (clock.hasEnded) {
+            selectedTab = "summary"
+        } else {
+            selectedTab = "current"
+        }
     }
     
     private func binding(for session: Session) -> Binding<Session> {
