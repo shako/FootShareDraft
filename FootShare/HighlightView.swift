@@ -30,9 +30,6 @@ struct HighlightView: View {
                 let sessionNumber = index + 1
                 
                 VStack {
-//                    if (!clock.hasEnded && clock.lastSession == session) {
-//                        ClockView(clock: clock)
-//                    }
                     Text("Session \(sessionNumber)")
                         .font(.title)
                     SessionSummaryView(session: binding(for: session))
@@ -43,22 +40,20 @@ struct HighlightView: View {
                     "\(sessionNumber)"
                 )
                 .tabItem {
-//                    if (!clock.hasEnded && clock.lastSession == session) {
-//                        Label("Clock", systemImage: "timer")
-//                    } else {
                         Label("", systemImage: "\(sessionNumber).square")
-//                    }
-                    
                 }
             }
 
             if (!clock.hasEnded) {
                 VStack {
-                    ClockView(clock: clock)
                     if (!clock.hasEnded && ((clock.lastSession?.isPlaying) == true)) {
                         let session = clock.lastSession!
                         Text("Session \((sessions.firstIndex(of: session) ?? 0) + 1)")
                             .font(.title)
+                    }
+                    ClockView(clock: clock)
+                    if (!clock.hasEnded && ((clock.lastSession?.isPlaying) == true)) {
+                        let session = clock.lastSession!
                         SessionSummaryView(session: binding(for: session))
                         HighLightListView(sessions: sessions, points: session.points)
                     }
@@ -72,6 +67,8 @@ struct HighlightView: View {
             
             if (closedSessions.count > 0) {
                 VStack {
+                    Text("Highlights")
+                        .font(.title)
                     VStack {
                         HighLightListView(sessions: allSessions, points: points, groupBySession: true)
                     }
