@@ -24,32 +24,51 @@ struct HighlightView: View {
         let _ = Self._printChanges()
         
         TabView(selection: $selectedTab) {
-            ForEach(Array(sessions.enumerated()), id: \.element) { index, session in
+            
+            ForEach(Array(allSessions.enumerated()), id: \.element) { index, session in
                 let sessionNumber = index + 1
                 
                 VStack {
-                    if (!clock.hasEnded && clock.lastSession == session) {
-                        ClockView(clock: clock)
-                    }
+//                    if (!clock.hasEnded && clock.lastSession == session) {
+//                        ClockView(clock: clock)
+//                    }
                     Text("Session \(sessionNumber)")
                         .font(.title)
                     SessionSummaryView(session: binding(for: session))
-                    HighLightListView(sessions: sessions, points: points.madeDuring(session))
+                    HighLightListView(sessions: sessions, points: session.points)
                 }
                 .frame(maxHeight: .infinity, alignment: .top)
                 .tag(
-                    (!clock.hasEnded && clock.lastSession == session) ? "current" : "\(sessionNumber)"
+                    "\(sessionNumber)"
                 )
                 .tabItem {
-                    if (!clock.hasEnded && clock.lastSession == session) {
-                        Label("Clock", systemImage: "timer")
-                    } else {
+//                    if (!clock.hasEnded && clock.lastSession == session) {
+//                        Label("Clock", systemImage: "timer")
+//                    } else {
                         Label("", systemImage: "\(sessionNumber).square")
-                    }
+//                    }
                     
                 }
             }
 
+            if (!clock.hasEnded) {
+                VStack {
+                    ClockView(clock: clock)
+                    if (!clock.hasEnded && ((clock.lastSession?.isPlaying) == true)) {
+                        let session = clock.lastSession!
+                        Text("Session \((sessions.firstIndex(of: session) ?? 0) + 1)")
+                            .font(.title)
+                        SessionSummaryView(session: binding(for: session))
+                        HighLightListView(sessions: sessions, points: session.points)
+                    }
+                }
+                .frame(maxHeight: .infinity, alignment: .top)
+                .tag("current")
+                .tabItem {
+                    Label("Clock", systemImage: "timer")
+                }
+            }
+            
             VStack {
                 VStack {
                     HighLightListView(sessions: allSessions, points: points, groupBySession: true)
