@@ -106,6 +106,10 @@ extension Clock {
         }
     }
     
+    var lastSession: Session? {
+        return self.sessions.firstToLast.last
+    }
+    
 }
 
 enum Status: Codable {

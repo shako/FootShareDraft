@@ -14,6 +14,7 @@ struct HighlightView: View {
     @Binding var clock: Clock
     var points: [Point]
     var refreshAction: (() -> Void)?
+//    @State private var selectedTab = 0
     
     var body: some View {
         let allSessions = clock.sessions.lastToFirst
@@ -22,9 +23,9 @@ struct HighlightView: View {
         TabView {
             VStack {
 
-                if (!clock.hasEnded) {
-                    ClockView(clock: clock)
-                }
+//                if (!clock.hasEnded) {
+//                    ClockView(clock: clock)
+//                }
                 
                 VStack {
                     HighLightListView(sessions: allSessions, points: points, groupBySession: true)
@@ -33,12 +34,7 @@ struct HighlightView: View {
 
             }
             .tabItem {
-                if clock.hasEnded {
-                    Label("", systemImage: "list.bullet")
-                } else {
-                    Label("Clock", systemImage: "timer")
-                }
-                
+                Label("", systemImage: "list.bullet")
             }
             
             ForEach(Array(sessions.enumerated()), id: \.element) { index, session in
@@ -47,11 +43,21 @@ struct HighlightView: View {
                 VStack {
                     Text("Session \(sessionNumber)")
                         .font(.title)
+                    if (!clock.hasEnded && clock.lastSession == session) {
+                        ClockView(clock: clock)
+                    }
                     SessionSummaryView(session: binding(for: session))
                     HighLightListView(sessions: sessions, points: points.madeDuring(session))
                 }
                 .frame(maxHeight: .infinity, alignment: .top)
-                .tabItem { Label("", systemImage: "\(sessionNumber).square") }
+                .tabItem { 
+                    if (!clock.hasEnded && clock.lastSession == session) {
+                        Label("Clock", systemImage: "timer")
+                    } else {
+                        Label("", systemImage: "\(sessionNumber).square")
+                    }
+                    
+                }
             }
 
         }
@@ -61,6 +67,7 @@ struct HighlightView: View {
             UIPageControl.appearance().currentPageIndicatorTintColor = .red.withAlphaComponent(0.8)
 //            UIPageControl.appearance().pageIndicatorTintColor = .red
             UIPageControl.appearance().pageIndicatorTintColor = UIColor(Color.primary).withAlphaComponent(0.3)
+            
         })
     }
     
