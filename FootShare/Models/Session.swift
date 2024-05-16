@@ -59,6 +59,10 @@ extension Array where Element : Session {
         }
     }
     
+    var closed: [Session] {
+        return self.filter{ $0.hasEnded }
+    }
+    
 }
 
 extension Session {

@@ -20,12 +20,13 @@ struct HighlightView: View {
     var body: some View {
         let allSessions = clock.sessions.firstToLast
         let sessions = relevantSessions(sessions: allSessions)
+        let closedSessions = allSessions.closed
  
         let _ = Self._printChanges()
         
         TabView(selection: $selectedTab) {
             
-            ForEach(Array(allSessions.enumerated()), id: \.element) { index, session in
+            ForEach(Array(closedSessions.enumerated()), id: \.element) { index, session in
                 let sessionNumber = index + 1
                 
                 VStack {
@@ -69,16 +70,19 @@ struct HighlightView: View {
                 }
             }
             
-            VStack {
+            if (closedSessions.count > 0) {
                 VStack {
-                    HighLightListView(sessions: allSessions, points: points, groupBySession: true)
+                    VStack {
+                        HighLightListView(sessions: allSessions, points: points, groupBySession: true)
+                    }
+                    .frame(maxHeight: .infinity, alignment: .top)
                 }
-                .frame(maxHeight: .infinity, alignment: .top)
+                .tag("summary")
+                .tabItem {
+                    Label("", systemImage: "list.bullet")
+                }
             }
-            .tag("summary")
-            .tabItem {
-                Label("", systemImage: "list.bullet")
-            }
+
         }
         .tabViewStyle(.page(indexDisplayMode: .automatic))
         .indexViewStyle(.page(backgroundDisplayMode: .always))
@@ -169,9 +173,9 @@ struct HighLightListView: View {
                                 if let sessionIndex = sessions.firstIndex(of: session) {
 //                                    if (clock.sessions.count > 1) {
                                     if (session.isPlaying) {
-                                        Text("Session \(sessions.count - sessionIndex) - playing")
+                                        Text("Session \(sessionIndex + 1) - playing")
                                     } else {
-                                        Text("Session \(sessions.count - sessionIndex)")
+                                        Text("Session \(sessionIndex + 1)")
                                     }
 
 //                                    }
