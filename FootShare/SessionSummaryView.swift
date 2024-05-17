@@ -15,22 +15,21 @@ struct SessionSummaryView: View {
     
     var body: some View {
 
-        VStack(alignment: .leading, spacing: 8) {
+        Section {
             Label {
                 Text("Session \(sessionNumber)")
             } icon: {
                 Image(systemName: "number")
                     .foregroundColor(.accentColor)
             }
-            Divider()
+
             Label {
                 Text("\(formatDuration(session.duration))")
             } icon: {
                 Image(systemName: "clock")
                     .foregroundColor(.accentColor)
             }
-            Divider()
-                   .padding(.leading, 24)
+
             ForEach(session.participations.homeFirst()) { participation in
                 Label {
                     Text("\(session.points.forParticipation(participation).count) - \(participation.team?.name ?? "")")
@@ -38,14 +37,13 @@ struct SessionSummaryView: View {
                     Image(systemName: "soccerball")
                         .foregroundColor(.accentColor)
                 }
-                Divider()
-                       .padding(.leading, 24)
+
             }
             
 
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.leading)
+//        .padding(.leading)
             
             
 

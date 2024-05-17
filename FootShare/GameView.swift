@@ -26,9 +26,6 @@ struct GameView: View {
         let _ = Self._printChanges()
         ZStack {
             VStack {
-                HStack {
-                    iconToSwitchSides
-                }
                 HStack(spacing: 8) {
                     Group {
                         ForEach(orderedParticipations.indices, id: \.self) { index in
@@ -228,22 +225,27 @@ struct GameView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("\(game.date.formatted(date: .abbreviated, time: .omitted))")
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                iconToSwitchSides
+            }
+            
+        }
         
     }
+    
 
     func mockScoreGoalFunction(scoringTarget: ScoringTarget) {
         debugPrint("Scoring goal for: \(scoringTarget.rawValue)")
     }
     
     var iconToSwitchSides : some View {
-        Image(systemName: "arrowshape.left.arrowshape.right.fill")
-            .foregroundStyle(.secondary)
-            .padding(.bottom, 2)
-            .onTapGesture {
-                withAnimation(Animation.easeOut) {
-                    reversedParticipationOrder.toggle()
-                }
-            }
+        Button {
+            reversedParticipationOrder.toggle()
+        } label: {
+            Image(systemName: "arrowshape.left.arrowshape.right")
+        }
+
     }
     
     var orderedParticipations: [Participation] {

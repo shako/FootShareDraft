@@ -32,9 +32,20 @@ struct HighlightView: View {
                 VStack() {
 //                    Text("Session \(sessionNumber)")
 //                        .font(.title)
-                    SessionSummaryView(session: binding(for: session), sessionNumber: sessionNumber)
-                        .padding(.vertical)
-                    HighLightListView(sessions: sessions, points: session.points)
+                    List {
+                        Section("Stats") {
+                            SessionSummaryView(session: binding(for: session), sessionNumber: sessionNumber)
+                            
+                        }
+                        Section ("Highlights") {
+                            HighLightListView(sessions: sessions, points: session.points)
+                            if (session.points.isEmpty) {
+                                Text("No Highlights")
+                            }
+                        }
+
+                    }.listStyle(.grouped)
+ 
                 }
                 .frame(maxHeight: .infinity, alignment: .top)
                 .tag(
@@ -47,19 +58,36 @@ struct HighlightView: View {
             }
 
             if (!clock.hasEnded) {
-                VStack() {
-                    if (!clock.hasEnded && ((clock.lastSession?.isPlaying) == true)) {
-                        let session = clock.lastSession!
-                        SessionSummaryView(session: binding(for: session), sessionNumber: clock.sessionNumber ?? 0)
-                            .padding(.top)
-                    }
+                VStack
+                {
                     ClockView(clock: clock)
-                    if (!clock.hasEnded && ((clock.lastSession?.isPlaying) == true)) {
-                        let session = clock.lastSession!
-  
-                        HighLightListView(sessions: sessions, points: session.points)
-                    }
-                }
+                    List() {
+                        if (!clock.hasEnded && ((clock.lastSession?.isPlaying) == true)) {
+                            let session = clock.lastSession!
+                            Section("Stats") {
+                                SessionSummaryView(session: binding(for: session), sessionNumber: clock.sessionNumber ?? 0)
+                            }
+                            
+                            Section ("Highlights") {
+                                
+                                let session = clock.lastSession!
+                                
+                                HighLightListView(sessions: sessions, points: session.points)
+                                    .frame(maxHeight: .infinity)
+                                
+                                if (session.points.isEmpty) {
+                                    Text("No Highlights")
+                                }
+                                
+                            }
+                            
+                        }
+                        
+                        
+                        
+                    }.listStyle(.grouped)
+            }
+                
                 .frame(maxHeight: .infinity, alignment: .top)
                 .tag("current")
                 .tabItem {
@@ -72,7 +100,10 @@ struct HighlightView: View {
                     Text("Highlights")
                         .font(.title)
                     VStack {
-                        HighLightListView(sessions: allSessions, points: points, groupBySession: true)
+                        List {
+                            HighLightListView(sessions: allSessions, points: points, groupBySession: true)
+                        }.listStyle(.grouped)
+
                     }
                     .frame(maxHeight: .infinity, alignment: .top)
                 }
@@ -89,6 +120,7 @@ struct HighlightView: View {
             UIPageControl.appearance().currentPageIndicatorTintColor = .red.withAlphaComponent(0.8)
 //            UIPageControl.appearance().pageIndicatorTintColor = .red
             UIPageControl.appearance().pageIndicatorTintColor = UIColor(Color.primary).withAlphaComponent(0.3)
+            calculateTabSelection()
         })
         .onChange(of: clock.hasEnded) { _, _ in
             calculateTabSelection()
@@ -157,7 +189,7 @@ struct HighLightListView: View {
 
 //                                Text("Goals").font(.callout)
 
-                List {
+
                     if (groupBySession) {
                         ForEach(sessions, id: \.id) { session in
                             let sessionPoints = points.madeDuring(session).firstToLast
@@ -169,7 +201,9 @@ struct HighLightListView: View {
                                     Text("No Highlights")
                                 }
                             } header: {
-                                if let sessionIndex = sessions.firstIndex(of: session) {
+                                if (sessions.count < 2) {
+                                    
+                                } else if let sessionIndex = sessions.firstIndex(of: session) {
 //                                    if (clock.sessions.count > 1) {
                                     if (session.isPlaying) {
                                         Text("Session \(sessionIndex + 1) - playing")
@@ -196,8 +230,7 @@ struct HighLightListView: View {
 
     //                .onDelete(perform: removePoint)
     //                .deleteDisabled(game.clock.hasEnded)
-                }
-                    .listStyle(.inset)
+
             
         
     }
@@ -223,7 +256,7 @@ struct HighlightEntryView: View {
     
 }
 
-#Preview {
+#Preview("Playing game") {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Game.self, configurations: config)
     
@@ -234,3 +267,17 @@ struct HighlightEntryView: View {
             Spacer()
     }
 }
+
+#Preview("Ended game") {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: Game.self, configurations: config)
+    
+    let games = makeFakeData(container: container)
+    let game = games.first!
+    game.clock.end()
+        return NavigationStack {
+            HighlightView(clock: .constant(game.clock), points: game.points).modelContainer(container)
+            Spacer()
+    }
+}
+
