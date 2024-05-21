@@ -16,6 +16,7 @@ struct HighlightView: View {
     var refreshAction: (() -> Void)?
     
     @State private var selectedTab = "current"
+    @State private var infoType = "highlights"
     
     var body: some View {
         let allSessions = clock.sessions.firstToLast
@@ -24,68 +25,91 @@ struct HighlightView: View {
  
         let _ = Self._printChanges()
         
+        
         TabView(selection: $selectedTab) {
             
-            ForEach(Array(closedSessions.enumerated()), id: \.element) { index, session in
-                let sessionNumber = index + 1
-                
-                VStack() {
-//                    Text("Session \(sessionNumber)")
-//                        .font(.title)
-                    List {
-                        Section("Stats") {
-                            SessionSummaryView(session: binding(for: session), sessionNumber: sessionNumber)
-                            
-                        }
-                        Section ("Highlights") {
-                            HighLightListView(sessions: sessions, points: session.points)
-                            if (session.points.isEmpty) {
-                                Text("No Highlights")
-                            }
-                        }
-
-                    }.listStyle(.grouped)
- 
-                }
-                .frame(maxHeight: .infinity, alignment: .top)
-                .tag(
-                    "\(sessionNumber)"
-                )
-                .tabItem {
-                        Label("", systemImage: "\(sessionNumber).square")
-                }
-                
-            }
+//            ForEach(Array(closedSessions.enumerated()), id: \.element) { index, session in
+//                let sessionNumber = index + 1
+//                
+//                VStack() {
+//                    infoTypeTitle
+//                    chooseInfoType
+//                    
+//                    List {
+//                        Section {
+//                            if (infoType == "statistics") {
+//                                SessionSummaryView(session: binding(for: session), sessionNumber: sessionNumber)
+//                            } else {
+//                                HighLightListView(sessions: sessions, points: session.points)
+//                                if (session.points.isEmpty) {
+//                                    Text("No Highlights")
+//                                }
+//
+//                            }
+//                        } header: {
+//                            Text("Session \(sessionNumber)")
+//                                .foregroundStyle(.blue)
+//                        }
+//                    }.listStyle(.grouped)
+//
+//
+//                    
+// 
+//                }
+//                .frame(maxHeight: .infinity, alignment: .top)
+//                .tag(
+//                    "\(sessionNumber)"
+//                )
+//                .tabItem {
+//                        Label("", systemImage: "\(sessionNumber).square")
+//                }
+//                
+//            }
 
             if (!clock.hasEnded) {
                 VStack
                 {
                     ClockView(clock: clock)
-                    List() {
+                    
+
                         if (!clock.hasEnded && ((clock.lastSession?.isPlaying) == true)) {
-                            let session = clock.lastSession!
-                            Section("Stats") {
-                                SessionSummaryView(session: binding(for: session), sessionNumber: clock.sessionNumber ?? 0)
-                            }
+                            infoTypeTitle
+                            chooseInfoType
                             
-                            Section ("Highlights") {
-                                
+                            List{
                                 let session = clock.lastSession!
                                 
-                                HighLightListView(sessions: sessions, points: session.points)
-                                    .frame(maxHeight: .infinity)
                                 
-                                if (session.points.isEmpty) {
-                                    Text("No Highlights")
+                                Section {
+
+                                    if (infoType == "statistics") {
+                                  
+                                        SessionSummaryView(session: binding(for: session), sessionNumber: clock.sessionNumber ?? 0)
+                       
+                                    } else {
+                                        HighLightListView(sessions: sessions, points: session.points)
+                                            .frame(maxHeight: .infinity)
+                                        
+                                        if (session.points.isEmpty) {
+                                            Text("No Highlights")
+                                        }
+             
+                                    }
+                                    
+                                } header: {
+                                    Text("Session \(clock.sessions.count)")
+                                        .foregroundStyle(.blue)
                                 }
                                 
-                            }
+                            }.listStyle(.grouped)
                             
+
+
                         }
                         
                         
                         
-                    }.listStyle(.grouped)
+                    
             }
                 
                 .frame(maxHeight: .infinity, alignment: .top)
@@ -96,13 +120,41 @@ struct HighlightView: View {
             }
             
             if (closedSessions.count > 0) {
-                VStack(spacing: 0) {
-                    Text("Highlights")
-                        .font(.title)
+                VStack() {
+                    infoTypeTitle
+                    chooseInfoType
                     VStack {
+                        
                         List {
-                            HighLightListView(sessions: allSessions, points: points, groupBySession: true)
-                        }.listStyle(.grouped)
+                            if (infoType == "statistics") {
+                                ForEach(Array(clock.sessions.firstToLast.enumerated()), id: \.element) { index, session in
+                                    var sessionNumber = index + 1
+                                    
+                                    Section {
+                                        SessionSummaryView(session: binding(for: session), sessionNumber: sessionNumber)
+                                    } header: {
+                                        if (session.isPlaying) {
+                                            Text("Session \(sessionNumber) - playing")
+                                                .foregroundStyle(.blue)
+                                        } else {
+                                            Text("Session \(sessionNumber)")
+                                                .foregroundStyle(.blue)
+                                        }
+                                        
+                                    }
+                                    
+                                    
+                                }
+                                
+                            } else {
+                               
+                                HighLightListView(sessions: allSessions, points: points, groupBySession: true)
+              
+                            }
+                        }
+                        .listStyle(.grouped)
+                        
+
 
                     }
                     .frame(maxHeight: .infinity, alignment: .top)
@@ -125,6 +177,18 @@ struct HighlightView: View {
         .onChange(of: clock.hasEnded) { _, _ in
             calculateTabSelection()
         }
+    }
+    
+    var infoTypeTitle: some View {
+        Text("\(infoType)".capitalized)
+            .fontWeight(.semibold)
+    }
+    
+    var chooseInfoType: some View {
+        Picker("Info type", selection: $infoType) {
+            Image(systemName: "list.bullet").tag("highlights")
+            Image(systemName: "chart.bar").tag("statistics")
+        }.pickerStyle(.segmented).padding(.horizontal)
     }
     
     func calculateTabSelection() {
@@ -207,8 +271,10 @@ struct HighLightListView: View {
 //                                    if (clock.sessions.count > 1) {
                                     if (session.isPlaying) {
                                         Text("Session \(sessionIndex + 1) - playing")
+                                            .foregroundStyle(.blue)
                                     } else {
                                         Text("Session \(sessionIndex + 1)")
+                                            .foregroundStyle(.blue)
                                     }
 
 //                                    }

@@ -17,13 +17,6 @@ struct SessionSummaryView: View {
 
         Section {
             Label {
-                Text("Session \(sessionNumber)")
-            } icon: {
-                Image(systemName: "number")
-                    .foregroundColor(.accentColor)
-            }
-
-            Label {
                 Text("\(formatDuration(session.duration))")
             } icon: {
                 Image(systemName: "clock")
