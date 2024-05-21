@@ -69,12 +69,15 @@ struct HighlightView: View {
             if (!clock.hasEnded) {
                 VStack
                 {
+                    if (!clock.hasEnded && ((clock.lastSession?.isPlaying) == true)) {
+                        infoTypeTitle
+                        chooseInfoType
+                    }
+                    
                     ClockView(clock: clock)
                     
 
                         if (!clock.hasEnded && ((clock.lastSession?.isPlaying) == true)) {
-                            infoTypeTitle
-                            chooseInfoType
                             
                             List{
                                 let session = clock.lastSession!
