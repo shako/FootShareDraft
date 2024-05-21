@@ -17,6 +17,7 @@ struct HighlightView: View {
     
     @State private var selectedTab = "current"
     @State private var infoType = "highlights"
+    @State private var displayClock = false
     
     var body: some View {
         let allSessions = clock.sessions.firstToLast
@@ -28,87 +29,48 @@ struct HighlightView: View {
         
         TabView(selection: $selectedTab) {
             
-//            ForEach(Array(closedSessions.enumerated()), id: \.element) { index, session in
-//                let sessionNumber = index + 1
-//                
-//                VStack() {
-//                    infoTypeTitle
-//                    chooseInfoType
-//                    
-//                    List {
-//                        Section {
-//                            if (infoType == "statistics") {
-//                                SessionSummaryView(session: binding(for: session), sessionNumber: sessionNumber)
-//                            } else {
-//                                HighLightListView(sessions: sessions, points: session.points)
-//                                if (session.points.isEmpty) {
-//                                    Text("No Highlights")
-//                                }
-//
-//                            }
-//                        } header: {
-//                            Text("Session \(sessionNumber)")
-//                                .foregroundStyle(.blue)
-//                        }
-//                    }.listStyle(.grouped)
-//
-//
-//                    
-// 
-//                }
-//                .frame(maxHeight: .infinity, alignment: .top)
-//                .tag(
-//                    "\(sessionNumber)"
-//                )
-//                .tabItem {
-//                        Label("", systemImage: "\(sessionNumber).square")
-//                }
-//                
-//            }
-
             if (!clock.hasEnded) {
                 VStack
                 {
-                    if (!clock.hasEnded && ((clock.lastSession?.isPlaying) == true)) {
+                    if (displayClock) {
                         infoTypeTitle
                         chooseInfoType
                     }
                     
                     ClockView(clock: clock)
-                    
 
-                        if (!clock.hasEnded && ((clock.lastSession?.isPlaying) == true)) {
+                    if (displayClock) {
+                        
+                        List{
+                            let session = clock.lastSession!
                             
-                            List{
-                                let session = clock.lastSession!
-                                
-                                
-                                Section {
+                            
+                            Section {
 
-                                    if (infoType == "statistics") {
-                                  
-                                        SessionSummaryView(session: binding(for: session), sessionNumber: clock.sessionNumber ?? 0)
-                       
-                                    } else {
-                                        HighLightListView(sessions: sessions, points: session.points)
-                                            .frame(maxHeight: .infinity)
-                                        
-                                        if (session.points.isEmpty) {
-                                            Text("No Highlights")
-                                        }
-             
-                                    }
+                                if (infoType == "statistics") {
+                              
+                                    SessionSummaryView(session: binding(for: session), sessionNumber: clock.sessionNumber ?? 0)
+                   
+                                } else {
+                                    HighLightListView(sessions: sessions, points: session.points)
+                                        .frame(maxHeight: .infinity)
                                     
-                                } header: {
-                                    Text("Session \(clock.sessions.count)")
-                                        .foregroundStyle(.blue)
+                                    if (session.points.isEmpty) {
+                                        Text("No Highlights")
+                                    }
+         
                                 }
                                 
-                            }.listStyle(.grouped)
+                            } header: {
+                                Text("Session \(clock.sessions.count)")
+                                    .foregroundStyle(.blue)
+                            }
                             
+                        }.listStyle(.grouped)
+                        
 
 
-                        }
+                    }
                         
                         
                         
@@ -176,10 +138,20 @@ struct HighlightView: View {
 //            UIPageControl.appearance().pageIndicatorTintColor = .red
             UIPageControl.appearance().pageIndicatorTintColor = UIColor(Color.primary).withAlphaComponent(0.3)
             calculateTabSelection()
+            calculateShowClock()
         })
         .onChange(of: clock.hasEnded) { _, _ in
             calculateTabSelection()
         }
+        .onChange(of: clock.inBreak) { _, _ in
+            withAnimation(.snappy) {
+                calculateShowClock()
+            }
+        }
+    }
+    
+    func calculateShowClock() {
+        displayClock = (!clock.hasEnded && ((clock.lastSession?.isPlaying) == true))
     }
     
     var infoTypeTitle: some View {
