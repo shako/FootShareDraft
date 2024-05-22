@@ -19,8 +19,7 @@ struct SessionSummaryView: View {
             Label {
                 Text("\(formatDuration(session.duration))")
             } icon: {
-                Image(systemName: "clock")
-                    .foregroundColor(.accentColor)
+                Image(systemName: "timer")
             }
 
             ForEach(session.participations.homeFirst()) { participation in
@@ -28,7 +27,6 @@ struct SessionSummaryView: View {
                     Text("\(session.points.forParticipation(participation).count) - \(participation.team?.name ?? "")")
                 } icon: {
                     Image(systemName: "soccerball")
-                        .foregroundColor(.accentColor)
                 }
 
             }
@@ -49,24 +47,6 @@ struct SessionSummaryView: View {
         return formatter.string(from: timeInterval)!
     }
     
-}
-
-/// Create a Label with a custom image which can have its color updated using the
-/// `.foregroundColor(_)` funtion.
-struct LabelWithImageIcon: View {
-   /// The title which will be passed to the title attribute of the Label View.
-   let title: String
-   /// The name of the image to pass into the Label View.
-   let image: String
-   
-   var body: some View {
-       Label(title: {
-           Text(self.title)
-       }, icon: {
-           Image(self.image)
-               .renderingMode(.template)
-       } )
-   }
 }
 
 #Preview {

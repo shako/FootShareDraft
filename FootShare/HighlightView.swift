@@ -55,6 +55,7 @@ struct HighlightView: View {
                                     HighLightListView(sessions: sessions, points: session.points)
                                         .frame(maxHeight: .infinity)
                                     
+                                    
                                     if (session.points.isEmpty) {
                                         Text("No Highlights")
                                     }
@@ -97,6 +98,7 @@ struct HighlightView: View {
                                     
                                     Section {
                                         SessionSummaryView(session: binding(for: session), sessionNumber: sessionNumber)
+                                        
                                     } header: {
                                         if (session.isPlaying) {
                                             Text("Session \(sessionNumber) - playing")
