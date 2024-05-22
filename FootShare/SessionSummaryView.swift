@@ -11,7 +11,6 @@ import SwiftData
 struct SessionSummaryView: View {
     
     @Binding var session: Session
-    var sessionNumber: Int
     
     var body: some View {
 
@@ -56,6 +55,6 @@ struct SessionSummaryView: View {
     let games = makeFakeData(container: container)
     
     return List {
-        SessionSummaryView(session: .constant(games.first!.clock.sessions.firstToLast.last!), sessionNumber: 2).listStyle(.grouped)
+        SessionSummaryView(session: .constant(games.first!.clock.sessions.firstToLast.last!)).listStyle(.grouped)
     }
 }

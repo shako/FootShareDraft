@@ -49,7 +49,7 @@ struct HighlightView: View {
 
                                 if (infoType == "statistics") {
                               
-                                    SessionSummaryView(session: binding(for: session), sessionNumber: clock.sessionNumber ?? 0)
+                                    SessionSummaryView(session: binding(for: session))
                    
                                 } else {
                                     HighLightListView(sessions: sessions, points: session.points)
@@ -97,7 +97,7 @@ struct HighlightView: View {
                                     var sessionNumber = index + 1
                                     
                                     Section {
-                                        SessionSummaryView(session: binding(for: session), sessionNumber: sessionNumber)
+                                        SessionSummaryView(session: binding(for: session))
                                         
                                     } header: {
                                         if (session.isPlaying) {
