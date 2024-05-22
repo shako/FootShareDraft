@@ -35,13 +35,13 @@ extension Game {
     
     func clone(modelContext: ModelContext) -> Game {
         debugPrint("cloning game with \(self.participations.count) participations")
-        var participations = self.participations.map { participation in
-            var newParticipation = Participation.init(isHomeTeam: participation.isHomeTeam, points: [Point]())
+        let participations = self.participations.map { participation in
+            let newParticipation = Participation.init(isHomeTeam: participation.isHomeTeam, points: [Point]())
             modelContext.insert(newParticipation)
             newParticipation.team = participation.team
             return newParticipation
         }
-        var game = Game.init(date: self.date, participations: [], clock: Clock.init())
+        let game = Game.init(date: self.date, participations: [], clock: Clock.init())
         modelContext.insert(game)
         game.participations = participations
         return game

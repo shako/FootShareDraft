@@ -94,7 +94,7 @@ struct HighlightView: View {
                         List {
                             if (infoType == "statistics") {
                                 ForEach(Array(clock.sessions.firstToLast.enumerated()), id: \.element) { index, session in
-                                    var sessionNumber = index + 1
+                                    let sessionNumber = index + 1
                                     
                                     Section {
                                         SessionSummaryView(session: binding(for: session))

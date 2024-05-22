@@ -27,7 +27,7 @@ class Point {
 extension Point {
     
     func madeDuring(_ session: Session) -> Bool {
-        var madeDuringSession =  self.date >= session.startTime && (session.endTime != nil ? self.date <= session.endTime! : true)
+        let madeDuringSession =  self.date >= session.startTime && (session.endTime != nil ? self.date <= session.endTime! : true)
 //        debugPrint("point with date \(date.formatted()) made during session with startdate \(session.startTime.formatted()) and enddate \(session.endTime?.formatted() ?? "NONE")? -> \(madeDuringSession)")
         return madeDuringSession
     }
