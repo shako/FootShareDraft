@@ -75,5 +75,7 @@ struct LabelWithImageIcon: View {
     
     let games = makeFakeData(container: container)
     
-    return SessionSummaryView(session: .constant(games.first!.clock.sessions.firstToLast.last!), sessionNumber: 2)
+    return List {
+        SessionSummaryView(session: .constant(games.first!.clock.sessions.firstToLast.last!), sessionNumber: 2).listStyle(.grouped)
+    }
 }
