@@ -32,10 +32,6 @@ struct HighlightView: View {
             if (!clock.hasEnded) {
                 VStack
                 {
-                    if (lastSessionIsPlaying) {
-                        infoTypeTitle
-                        chooseInfoType
-                    }
                     
                     ClockView(clock: clock)
 
@@ -64,7 +60,6 @@ struct HighlightView: View {
                                 
                             } header: {
                                 Text("Session \(clock.sessions.count)")
-                                    .foregroundStyle(.blue)
                             }
                             
                         }.listStyle(.grouped)
@@ -102,10 +97,8 @@ struct HighlightView: View {
                                     } header: {
                                         if (session.isPlaying) {
                                             Text("Session \(sessionNumber) - playing")
-                                                .foregroundStyle(.blue)
                                         } else {
                                             Text("Session \(sessionNumber)")
-                                                .foregroundStyle(.blue)
                                         }
                                         
                                     }
@@ -248,10 +241,8 @@ struct HighLightListView: View {
 //                                    if (clock.sessions.count > 1) {
                                     if (session.isPlaying) {
                                         Text("Session \(sessionIndex + 1) - playing")
-                                            .foregroundStyle(.blue)
                                     } else {
                                         Text("Session \(sessionIndex + 1)")
-                                            .foregroundStyle(.blue)
                                     }
 
 //                                    }
