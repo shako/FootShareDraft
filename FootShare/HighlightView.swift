@@ -17,7 +17,7 @@ struct HighlightView: View {
     
     @State private var selectedTab = "current"
     @State private var infoType = "highlights"
-    @State private var displayClock = false
+    @State private var lastSessionIsPlaying = false
     
     var body: some View {
         let allSessions = clock.sessions.firstToLast
@@ -32,14 +32,14 @@ struct HighlightView: View {
             if (!clock.hasEnded) {
                 VStack
                 {
-                    if (displayClock) {
+                    if (lastSessionIsPlaying) {
                         infoTypeTitle
                         chooseInfoType
                     }
                     
                     ClockView(clock: clock)
 
-                    if (displayClock) {
+                    if (lastSessionIsPlaying) {
                         
                         List{
                             let session = clock.lastSession!
@@ -138,20 +138,20 @@ struct HighlightView: View {
 //            UIPageControl.appearance().pageIndicatorTintColor = .red
             UIPageControl.appearance().pageIndicatorTintColor = UIColor(Color.primary).withAlphaComponent(0.3)
             calculateTabSelection()
-            calculateShowClock()
+            calculateShowHighlightsAndStats()
         })
         .onChange(of: clock.hasEnded) { _, _ in
             calculateTabSelection()
         }
         .onChange(of: clock.inBreak) { _, _ in
             withAnimation(.snappy) {
-                calculateShowClock()
+                calculateShowHighlightsAndStats()
             }
         }
     }
     
-    func calculateShowClock() {
-        displayClock = (!clock.hasEnded && ((clock.lastSession?.isPlaying) == true))
+    func calculateShowHighlightsAndStats() {
+        lastSessionIsPlaying = (!clock.hasEnded && ((clock.lastSession?.isPlaying) == true))
     }
     
     var infoTypeTitle: some View {
