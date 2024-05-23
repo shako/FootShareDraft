@@ -17,7 +17,7 @@ struct GameListView: View {
     var body: some View {
         NavigationStack(path: $path) {
             List {
-                ForEach(games.lastToFirst) { game in
+                ForEach(games) { game in
                     NavigationLink(value: game) {
                         GameEntry(game: game, cloneGameFunction: {cloneGame(game: game)})
                     }

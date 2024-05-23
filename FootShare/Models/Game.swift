@@ -11,7 +11,6 @@ import Foundation
 @Model
 class Game {
     var date: Date
-    var createdAt: Date = Date.now
     @Relationship(deleteRule: .cascade) var clock: Clock
     @Relationship(deleteRule: .cascade, inverse: \Participation.game)  var participations: [Participation]
     
@@ -45,20 +44,6 @@ extension Game {
         modelContext.insert(game)
         game.participations = participations
         return game
-    }
-    
-}
-
-extension Array where Element : Game {
-    
-    var firstToLast: [Game] {
-        self.sorted(by: { gamel, gamer in
-            gamel.createdAt < gamer.createdAt
-        })
-    }
-    
-    var lastToFirst: [Game] {
-        firstToLast.reversed()
     }
     
 }
