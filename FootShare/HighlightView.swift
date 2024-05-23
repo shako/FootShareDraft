@@ -59,7 +59,11 @@ struct HighlightView: View {
                                 }
                                 
                             } header: {
-                                Text("Session \(clock.sessions.count)")
+                                if (session.isPlaying) {
+                                    Text("Session \(clock.sessions.count) - playing")
+                                } else {
+                                    Text("Session \(clock.sessions.count)")
+                                }
                             }
                             
                         }.listStyle(.grouped)
@@ -238,17 +242,12 @@ struct HighLightListView: View {
                                     Text("No Highlights")
                                 }
                             } header: {
-                                if (sessions.count < 2) {
-                                    
-                                } else if let sessionIndex = sessions.firstIndex(of: session) {
-//                                    if (clock.sessions.count > 1) {
+                                if let sessionIndex = sessions.firstIndex(of: session) {
                                     if (session.isPlaying) {
                                         Text("Session \(sessionIndex + 1) - playing")
                                     } else {
                                         Text("Session \(sessionIndex + 1)")
                                     }
-
-//                                    }
                                 }
 
                                 
