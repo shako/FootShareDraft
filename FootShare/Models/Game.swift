@@ -40,7 +40,7 @@ extension Game {
             newParticipation.team = participation.team
             return newParticipation
         }
-        let game = Game.init(date: self.date, participations: [], clock: Clock.init())
+        let game = Game.init(date: Date.now, participations: [], clock: Clock.init())
         modelContext.insert(game)
         game.participations = participations
         return game
