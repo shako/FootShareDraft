@@ -80,7 +80,7 @@ struct HighlightView: View {
                 }
             }
             
-            if (closedSessions.count > 0) {
+            if (closedSessions.count > 0 || lastSessionIsPlaying) {
                 VStack() {
                     infoTypeTitle
                     chooseInfoType
@@ -135,18 +135,21 @@ struct HighlightView: View {
             calculateTabSelection()
             calculateShowHighlightsAndStats()
         })
-        .onChange(of: clock.hasEnded) { _, _ in
-            calculateTabSelection()
-        }
-        .onChange(of: clock.inBreak) { _, _ in
+        .onChange(of: clock.isRunning) { _, _ in
+            debugPrint("Change of clock.isRunning")
             withAnimation(.snappy) {
                 calculateShowHighlightsAndStats()
             }
+        }
+        .onChange(of: clock.hasEnded) { _, _ in
+            debugPrint("Change of clock.hasEnded")
+            calculateTabSelection()
         }
     }
     
     func calculateShowHighlightsAndStats() {
         lastSessionIsPlaying = (!clock.hasEnded && ((clock.lastSession?.isPlaying) == true))
+        debugPrint("last sessing is playing? \(lastSessionIsPlaying)")
     }
     
     var infoTypeTitle: some View {
