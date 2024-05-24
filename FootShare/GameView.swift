@@ -206,7 +206,7 @@ struct GameView: View {
                 }
 
                 
-            }
+            }.frame(maxHeight: .infinity, alignment: .top)
 
             if (game.clock.isRunning) {
                 VStack {
