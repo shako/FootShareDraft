@@ -146,67 +146,64 @@ struct GameView: View {
                     }
                 }
                 .zIndex(-1)
-                
-                if scoringTarget == .leading || scoringTarget == .trailing {
-                    HStack {
-                        VStack {
-                            Text(scoringTarget == .leading ? "+1" : "")
-                                .font(.system(size: 100))
-                                .foregroundStyle(.secondary)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .background(.regularMaterial)
-                                .foregroundStyle(Color.primary)
-                                
-//                                .clipShape(RoundedRectangle(cornerRadius: 10))
-//                                .padding()
-                                .background(Color(orderedParticipations.first!.team?.color ?? UIColor.red))
-                                .padding()
-                                .background(scoringTarget == .leading ?  (Color(orderedParticipations.first!.team?.color ?? UIColor.red)) : nil)
-                        }
-                        VStack {
-                            Text(scoringTarget == .trailing ? "+1" : "")
-                                .font(.system(size: 100))
-                                .foregroundStyle(.secondary)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .background(.regularMaterial)
-                                .foregroundStyle(Color.primary)
-                                
-//                                .clipShape(RoundedRectangle(cornerRadius: 10))
-//                                .padding()
-                                .background(Color(orderedParticipations.last!.team?.color ?? UIColor.red))
-                                .padding()
-                                .background(scoringTarget == .trailing ? (Color(orderedParticipations.last!.team?.color ?? UIColor.red)) : nil)
-                                
-                        }
-                    }.frame(maxHeight: .infinity)
-
-//                    Spacer()
-                }
 
                 
-                if !game.participations.teamsSelected {
-                    (Text(Image(systemName: "arrow.up")) + Text(" Select both teams to start ") + Text(Image(systemName: "arrow.up"))).fontWeight(.semibold).padding(.top)
-                    Spacer()
-                } else {
+                ZStack {
+                    if !game.participations.teamsSelected {
+                        (Text(Image(systemName: "arrow.up")) + Text(" Select both teams to start ") + Text(Image(systemName: "arrow.up"))).fontWeight(.semibold).padding(.top)
+                        Spacer()
+                    } else {
 
-                    VStack {
-                            if !game.participations.teamsSelected {
-                            } else {
-                                if scoringTarget == .leading || scoringTarget == .trailing {
-//                                    Spacer()
+                        VStack {
+                                if !game.participations.teamsSelected {
                                 } else {
                                     HighlightView(clock: $game.clock, points: game.points)
                                         .padding(.bottom, 6)
                                         .ignoresSafeArea(.all, edges: .bottom)
                                 }
 
-                                
-                                    
-                            }
+                        }.zIndex(1)
+
 
                     }
+                    
+                    if scoringTarget == .leading || scoringTarget == .trailing {
+                        HStack {
+                            VStack {
+                                Text(scoringTarget == .leading ? "+1" : "")
+                                    .font(.system(size: 100))
+                                    .foregroundStyle(.secondary)
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                    .background(.regularMaterial)
+                                    .foregroundStyle(Color.primary)
+                                    
+    //                                .clipShape(RoundedRectangle(cornerRadius: 10))
+    //                                .padding()
+                                    .background(Color(orderedParticipations.first!.team?.color ?? UIColor.red))
+                                    .padding()
+                                    .background(scoringTarget == .leading ?  (Color(orderedParticipations.first!.team?.color ?? UIColor.red)) : nil)
+                            }
+                            VStack {
+                                Text(scoringTarget == .trailing ? "+1" : "")
+                                    .font(.system(size: 100))
+                                    .foregroundStyle(.secondary)
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                    .background(.regularMaterial)
+                                    .foregroundStyle(Color.primary)
+                                    
+    //                                .clipShape(RoundedRectangle(cornerRadius: 10))
+    //                                .padding()
+                                    .background(Color(orderedParticipations.last!.team?.color ?? UIColor.red))
+                                    .padding()
+                                    .background(scoringTarget == .trailing ? (Color(orderedParticipations.last!.team?.color ?? UIColor.red)) : nil)
+                                    
+                            }
+                        }.frame(maxHeight: .infinity)
+                            .zIndex(2)
+                }
 
 
+//                    Spacer()
                 }
 
                 
