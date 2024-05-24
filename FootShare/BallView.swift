@@ -23,7 +23,8 @@ struct BallView: View {
             .font(.system(size: 70))
             .rotationEffect(Angle(degrees: randomBallAngle))
             .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-            .shadow(color: .black.opacity(0.5), radius: 5, x: 1, y: 0.5)
+            .shadow(color: .black.opacity(1), radius: 5, x: 1, y: 0.5)
+            .shadow(color: .white.opacity(1), radius: 5, x: -1, y: -0.5)
             .offset(goalMarkerOffset)
             .gesture(
                 DragGesture()
@@ -88,8 +89,14 @@ struct BallView: View {
 
 #Preview {
     @State var scoringTarget: ScoringTarget = .none
-    return VStack {
+    return ZStack {
+        VStack {
+            Color.black
+            Color.white
+        }
         BallView(scoringTarget: $scoringTarget, scoreGoalFunction: mockScoreGoalFunction)
+
+            
     }
     
     func mockScoreGoalFunction(scoringTarget: ScoringTarget) {
