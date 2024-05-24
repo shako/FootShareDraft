@@ -22,7 +22,6 @@
 		B0552ECC2BB479580096D311 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0552ECB2BB479580096D311 /* Color.swift */; };
 		B0552ECE2BB4AC8F0096D311 /* AddTeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0552ECD2BB4AC8F0096D311 /* AddTeamView.swift */; };
 		B07253E12BA8AE4900429710 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07253E02BA8AE4900429710 /* Point.swift */; };
-		B07F4CC92BFFD52D00BF5E6E /* CustomPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07F4CC82BFFD52D00BF5E6E /* CustomPageControl.swift */; };
 		B0A54F2C2BD8D296006B5BCD /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A54F2B2BD8D296006B5BCD /* Session.swift */; };
 		B0BAF5BD2BF3F160007B144E /* BallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BAF5BC2BF3F160007B144E /* BallView.swift */; };
 		B0BE556B2BCE3C5600AAC420 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BE556A2BCE3C5600AAC420 /* Clock.swift */; };
@@ -50,7 +49,6 @@
 		B0552ECB2BB479580096D311 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		B0552ECD2BB4AC8F0096D311 /* AddTeamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTeamView.swift; sourceTree = "<group>"; };
 		B07253E02BA8AE4900429710 /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
-		B07F4CC82BFFD52D00BF5E6E /* CustomPageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPageControl.swift; sourceTree = "<group>"; };
 		B0A54F2B2BD8D296006B5BCD /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		B0BAF5BC2BF3F160007B144E /* BallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BallView.swift; sourceTree = "<group>"; };
 		B0BE556A2BCE3C5600AAC420 /* Clock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clock.swift; sourceTree = "<group>"; };
@@ -108,7 +106,6 @@
 				B03D10492BA4F3A600BB1715 /* GameListView.swift */,
 				B03D10572BA4F52200BB1715 /* GameView.swift */,
 				B02370C02BD9272000F525DE /* HighlightView.swift */,
-				B07F4CC82BFFD52D00BF5E6E /* CustomPageControl.swift */,
 				B0BAF5BC2BF3F160007B144E /* BallView.swift */,
 				B0EC201F2BCDB7F600237481 /* ClockView.swift */,
 				B0F85BBA2BED3D9E00AF2DEF /* SessionSummaryView.swift */,
@@ -218,7 +215,6 @@
 				B00B69A32BC7AF3A00BB40B8 /* Utils.swift in Sources */,
 				B07253E12BA8AE4900429710 /* Point.swift in Sources */,
 				B0552ECE2BB4AC8F0096D311 /* AddTeamView.swift in Sources */,
-				B07F4CC92BFFD52D00BF5E6E /* CustomPageControl.swift in Sources */,
 				B0BE556B2BCE3C5600AAC420 /* Clock.swift in Sources */,
 				B01A372B2BAD7D9A003DF4BC /* TestView.swift in Sources */,
 				B0D9F61E2BDADB0C0083925B /* TestData.swift in Sources */,

@@ -70,8 +70,11 @@ struct HighlightView: View {
                         
 
 
+                    } 
+                    else {
+                        breakview
                     }
-                        
+                    
                         
                         
                     
@@ -159,6 +162,14 @@ struct HighlightView: View {
     var infoTypeTitle: some View {
         Text("\(infoType)".capitalized)
             .fontWeight(.semibold)
+    }
+    
+    var breakview: some View {
+        Image(systemName: "hourglass")
+            .resizable()
+            .scaledToFit()
+            .opacity(0.05)
+            .padding()
     }
     
     var chooseInfoType: some View {

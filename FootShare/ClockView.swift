@@ -56,7 +56,7 @@ struct ClockView: View {
 //            .frame(width: 70, height: 60)
 //            .foregroundStyle(Color.secondary.opacity(0.5))
         
-        Text("😴Break")
+        Text("Break")
             .font(.largeTitle)
             .fontWeight(.semibold)
             .tracking(2)
