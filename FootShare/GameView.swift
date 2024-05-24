@@ -155,8 +155,7 @@ struct GameView: View {
                     } else {
 
                         VStack {
-                                if !game.participations.teamsSelected {
-                                } else {
+                                if game.participations.teamsSelected {
                                     HighlightView(clock: $game.clock, points: game.points)
                                         .padding(.bottom, 6)
                                         .ignoresSafeArea(.all, edges: .bottom)
