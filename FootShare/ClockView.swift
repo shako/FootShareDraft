@@ -66,6 +66,7 @@ struct ClockView: View {
         let endColor = Color(#colorLiteral(red: 0.9529411793, green: 0, blue: 0.02332801142, alpha: 1))
         
         return ColoredButton(color: endColor, image: Image(systemName: "flag.checkered.circle.fill"), action: clock.end)
+            .buttonStyle(ScaleButtonStyle())
     }
     
     var startOrBreakButton: some View {
@@ -74,14 +75,29 @@ struct ClockView: View {
 
         switch clock.status {
             case .not_started:
-            return AnyView(ColoredButton(color: startColor, image: Image(systemName: "play.circle"), action: resumeClock))
+            return AnyView(ColoredButton(color: startColor, image: Image(systemName: "play.circle"), action: resumeClock)
+                .buttonStyle(ScaleButtonStyle())
+            )
             case .playing:
-            return AnyView(ColoredButton(color: breakColor, image: Image(systemName: "pause.circle"), action: clock.startBreak))
+            return AnyView(ColoredButton(color: breakColor, image: Image(systemName: "pause.circle"), action: clock.startBreak)
+                .buttonStyle(ScaleButtonStyle())
+            )
             case .in_break:
-            return AnyView(ColoredButton(color: startColor, image: Image(systemName: "play.circle"), action: resumeClock))
+            return AnyView(ColoredButton(color: startColor, image: Image(systemName: "play.circle"), action: resumeClock)
+                .buttonStyle(ScaleButtonStyle())
+            )
+                
             case .ended:
             return AnyView(Group {})
 
+        }
+    }
+    
+    struct ScaleButtonStyle: ButtonStyle {
+        func makeBody(configuration: Configuration) -> some View {
+            configuration.label
+                .scaleEffect(configuration.isPressed ? 1.2 : 1.0)
+                .animation(.easeInOut(duration: 0.2), value: configuration.isPressed)
         }
     }
     
