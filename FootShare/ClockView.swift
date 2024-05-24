@@ -65,12 +65,12 @@ struct ClockView: View {
     var endGameButton: some View {
         let endColor = Color(#colorLiteral(red: 0.9529411793, green: 0, blue: 0.02332801142, alpha: 1))
         
-        return ColoredButton(color: endColor, image: Image(systemName: "stop.circle"), action: clock.end)
+        return ColoredButton(color: endColor, image: Image(systemName: "flag.checkered.circle.fill"), action: clock.end)
     }
     
     var startOrBreakButton: some View {
         let startColor = Color(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1))
-        let breakColor = Color(#colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1))
+        let breakColor = Color(#colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1))
 
         switch clock.status {
             case .not_started:
@@ -120,11 +120,12 @@ struct ColoredButton: View {
                 .scaledToFit()
 //                .padding(.vertical, 10)
 //                .padding(.horizontal, 15)
-                .frame(width: 70, height: 60)
+                .frame(width: 70, height: 70)
                 .foregroundStyle(color)
-//                .fontWeight(.semibold)
-//                .background(color) RoundedRectangle(cornerRadius: 10).fill(color)
-                .shadow(color: color.opacity(0.3), radius: 5, x: 2, y: 2)
+                .fontWeight(.semibold)
+                .padding(6)
+                .background(Circle().fill(color.opacity(0.3)))
+//                .shadow(color: color.opacity(0.3), radius: 5, x: 2, y: 2)
         })
     }
 }
