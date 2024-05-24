@@ -40,9 +40,9 @@ struct BallView: View {
                         else {
                             if (goalMarkerOffset.height >= -50) {
                                 scoringTarget = .none
-                                withAnimation {
+//                                withAnimation {
                                     movingGoalMarker = false
-                                }
+//                                }
                             }
                             
                             if isPreparingToScoreFor(0) {
