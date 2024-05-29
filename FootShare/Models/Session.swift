@@ -13,6 +13,8 @@ class Session {
     var startTime: Date
     var endTime: Date?
     @Relationship(deleteRule: .cascade, inverse: \Point.session) var points: [Point]
+    var clock: Clock?
+    var creationDate: Date = Date.now
     
     init(startTime: Date, endTime: Date? = nil, points: [Point] = [Point]()) {
         self.startTime = startTime
@@ -31,6 +33,13 @@ extension Array where Element : Session {
         debugPrint("\(Date.now.formatted(date: .complete, time: .complete)) Reading all sessions - firstToLast")
         return self.sorted(by: { sessionl, sessionr in
             sessionl.startTime < sessionr.startTime
+        })
+    }
+    
+    var byCreationDateAsc: [Session] {
+        debugPrint("\(Date.now.formatted(date: .complete, time: .complete)) Reading all sessions - byCreationDateAsc")
+        return self.sorted(by: { sessionl, sessionr in
+            sessionl.creationDate < sessionr.creationDate
         })
     }
     
@@ -54,7 +63,7 @@ extension Array where Element : Session {
             debugPrint("Found last session with starttime \(lastSession.startTime.formatted()) and endtime \(lastSession.endTime?.formatted() ?? "NONE")")
             return lastSession
         } else {
-            debugPrint("Didn't find a last session")
+            debugPrint("Last session is not open, or no session found")
             return nil
         }
     }
@@ -86,6 +95,12 @@ extension Session {
     
     var duration: TimeInterval {
         (self.endTime ?? Date.now) - self.startTime
+    }
+    
+    var number: Int {
+        guard let clock = clock else {return 0}
+        let sortedSessions = clock.sessions.sorted(by: { $0.creationDate < $1.creationDate })
+        return sortedSessions.firstIndex(of: self)! + 1
     }
     
 }

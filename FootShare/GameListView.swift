@@ -25,6 +25,7 @@ struct GameListView: View {
                 .onDelete(perform: deleteGames)
             }
             .navigationTitle("Games")
+            .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: Game.self) { game in
                 GameView(game: game)//game: game
             }

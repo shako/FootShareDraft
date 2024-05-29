@@ -54,10 +54,13 @@ import Foundation
     let participations = [participationWesterlo, participationGeel]
 
     let sessionClosed1 = Session(startTime: gameStartDate + 1, endTime: gameStartDate + 2)
+    sessionClosed1.creationDate = Date.now
     container.mainContext.insert(sessionClosed1)
     let sessionClosed2 = Session(startTime: gameStartDate + 2, endTime: gameStartDate + 5)
+    sessionClosed2.creationDate = sessionClosed1.creationDate + 1
     container.mainContext.insert(sessionClosed2)
     let sessionOngoing = Session(startTime: gameStartDate + 5)
+    sessionOngoing.creationDate = sessionClosed2.creationDate + 1
     container.mainContext.insert(sessionOngoing)
     
     sessionClosed2.points.append(contentsOf: pointsWesterloSesssion2)

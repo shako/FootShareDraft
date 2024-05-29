@@ -11,7 +11,7 @@ import Foundation
 @Model
 class Clock {
     
-    @Relationship(deleteRule: .cascade) var sessions: [Session] = []
+    @Relationship(deleteRule: .cascade, inverse: \Session.clock) var sessions: [Session] = []
     var status: Status = Status.not_started
 
     init() {
@@ -96,6 +96,10 @@ extension Clock {
         } else {
             return false
         }
+    }
+    
+    var yetToStart : Bool {
+        sessions.count == 0
     }
     
     var inBreak : Bool {

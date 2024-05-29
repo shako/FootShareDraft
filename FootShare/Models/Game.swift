@@ -46,4 +46,8 @@ extension Game {
         return game
     }
     
+    var readyToStart: Bool {
+        return participations.teamsSelected
+    }
+    
 }

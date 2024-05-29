@@ -11,12 +11,14 @@ import SwiftData
 struct SessionSummaryView: View {
     
     @Binding var session: Session
-    
     var body: some View {
 
         Section {
             Label {
-                Text("\(formatDuration(session.duration))")
+                TimelineView(.periodic(from: .now, by: 1)) { context in
+                    Text("\(formatDuration(session.duration))")
+                }
+                
             } icon: {
                 Image(systemName: "timer")
             }
@@ -32,10 +34,7 @@ struct SessionSummaryView: View {
             
 
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-//        .padding(.leading)
-            
-            
+        .frame(maxWidth: .infinity, alignment: .leading)  
 
     }
     
