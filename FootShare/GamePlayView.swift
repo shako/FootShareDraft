@@ -121,7 +121,7 @@ struct GamePlayView: View {
                                 }.listStyle(.grouped)
 
                             } else {
-                                quote
+//                                quote // disabled for now. Liam doesn't like quotes in a score keeping app
                             }
                         }.zIndex(1)
 
