@@ -50,4 +50,12 @@ extension Game {
         return participations.teamsSelected
     }
     
+    var isOngoing: Bool {
+        if let lastSession = clock.lastSession, !clock.hasEnded {
+            return true
+        } else {
+            return false
+        }
+    }
+    
 }

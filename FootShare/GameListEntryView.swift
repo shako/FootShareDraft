@@ -9,6 +9,7 @@ import SwiftData
 import SwiftUI
 
 struct GameListEntryView: View {
+    var isOngoingGame: Bool
     var participations: [Participation]
     
     var body: some View {
@@ -38,7 +39,13 @@ struct GameListEntryView: View {
             
             HStack {
                 Text("\(String(homeParticipation?.score ?? 0))").font(.title)
-                Text("-").font(.title)
+                if (isOngoingGame) {
+                    PlayingIndicatorView()
+                        .frame(width: 23, height: 23)
+                } else {
+                    Text("-").font(.title)
+                }
+                
                 Text("\(String(outParticipation?.score ?? 0))").font(.title)
             }
             
@@ -65,17 +72,41 @@ struct GameListEntryView: View {
     }
 }
 
-#Preview {
+#Preview("Ongoing") {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Game.self, configurations: config)
     
     let games = makeFakeData(container: container)
-        return NavigationStack {
-            GameListEntryView(participations: games.first!.participations).modelContainer(container)
-                .padding().background(Color.gray.opacity(0.2))
-
-
+    return NavigationStack {
+        ZStack {
+            Color.gray.opacity(0.2)
+                .ignoresSafeArea()
+            
+            GameListEntryView(isOngoingGame: true, participations: games.first!.participations)
+                .modelContainer(container)
+                .padding()
+                .background(.white)
+        }
     }
+}
+
+#Preview("Not ongoing") {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: Game.self, configurations: config)
+    
+    let games = makeFakeData(container: container)
+    return NavigationStack {
+        ZStack {
+            Color.gray.opacity(0.2)
+                .ignoresSafeArea()
+            
+            GameListEntryView(isOngoingGame: false, participations: games.first!.participations)
+                .modelContainer(container)
+                .padding()
+                .background(.white)
+        }
+    }
+    
 }
 
 //                        .overlay(

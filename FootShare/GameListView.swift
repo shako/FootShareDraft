@@ -86,7 +86,7 @@ struct GameEntry: View {
     var cloneGameFunction: () -> Void
     
     var body: some View {
-        GameListEntryView(participations: game.participations)
+        GameListEntryView(isOngoingGame: game.isOngoing, participations: game.participations)
             .swipeActions(edge: .leading, allowsFullSwipe: false) {
                 Button(action: {cloneGameFunction()}, label: {
                     HStack {
